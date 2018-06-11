@@ -1,7 +1,12 @@
 /*
 ** EPITECH PROJECT, 2018
-** student
+** zappy_tmp
 ** File description:
-** 11/06/18
+** server
 */
+
 #pragma once
+
+typedef struct s_server {
+	int i;
+} t_server;

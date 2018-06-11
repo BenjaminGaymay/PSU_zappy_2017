@@ -1,11 +1,19 @@
 /*
 ** EPITECH PROJECT, 2018
-** student
+** zappy_tmp
 ** File description:
-** 11/06/18
+** main
 */
 
-int main()
+#include "macro.h"
+#include "server.h"
+#include "arguments.h"
+
+int main(int ac, char **av)
 {
-	return (0);
+	t_opts opts;
+
+	manage_command(ac, av, &opts);
+	printf("port : %d\nwidth : %d\nheight : %d\nclients : %d\nfreq : %d\n", opts.port, opts.x, opts.y, opts.max_clients, opts.freq);
+	return 0;
 }

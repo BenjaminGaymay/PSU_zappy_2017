@@ -7,7 +7,7 @@
 
 #include "map.h"
 #include "macro.h"
-#include "arguments.h"
+#include "arguments_server.h"
 
 int **create_map(size_t y, size_t x)
 {

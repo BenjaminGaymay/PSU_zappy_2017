@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "macro.h"
-#include "arguments.h"
+#include "arguments_server.h"
 
 int port(char **av, t_opts *opt)
 {
@@ -71,6 +71,6 @@ int usage(char **av, t_opts *opt)
 {
 	(void)av;
 	(void)opt;
-	printf(USAGE);
+	printf(USAGE_SERVER);
 	return (SUCCESS);
 }

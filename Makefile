@@ -1,56 +1,34 @@
+##
+## EPITECH PROJECT, 2018
+## server_zappy ()
+## File description:
+## Makefile
+##
+
 NAME		=	zappy_server
 
-RS		=	Modules/Server
+SERVER		=	Modules/Server
 
 AI		=	Modules/AI
 
 CC		=	gcc
 
-SRCS_SERVER	=	$(RS)/srcs/main.c			\
-			$(RS)/srcs/arguments/args_fct.c		\
-			$(RS)/srcs/arguments/arguments.c	\
-			$(RS)/srcs/tools/array_tools.c		\
-			$(RS)/srcs/tools/string_tools.c		\
-			$(RS)/srcs/tools/count_row.c		\
-			$(RS)/srcs/team.c 			\
-			$(RS)/srcs/map/create_map.c
+all: 		server ai
 
+server:
+		make -sC $(SERVER)
 
-
-SRCS_AI		=	$(AI)/srcs/main.c
-
-OBJS		=	$(SRCS_SERVER:.c=.o)
-
-CFLAGS	=	-I $(RS)/includes		\
-		-I $(RS)/includes/arguments	\
-		-I $(RS)/includes/tools		\
-		-I $(RS)/includes/map
-
-CFLAGS		+=	-W -Wall -Wextra -g3
-
-LDFLAGS =
-
-.c.o:
-		@$(CC) $(CFLAGS) $(LDFLAGS) -c $< -o $@ && \
-		printf "[\033[1;32mcompiled\033[0m] % 29s\n" $< | tr ' ' '.' || \
-		printf "[\033[1;31mfailed\033[0m] % 31s\n" $< | tr ' ' '.'
-
-all: 		$(NAME)
-
-$(NAME):	$(OBJS)
-		@$(CC) $(OBJS) -o $(NAME) $(LDFLAGS) && \
-		printf "[\033[1;36mbuilt\033[0m] % 32s\n" $(NAME) | tr ' ' '.' || \
-		printf "[\033[1;31mfailed\033[0m] % 31s\n" $(NAME) | tr ' ' '.'
+ai:
+		make -sC $(AI)
 
 clean:
-		@$(RM) $(OBJS) && \
-		printf "[\033[1;31mdeleted\033[0m] % 30s\n" $(OBJS) | tr ' ' '.' || \
-		printf "[\033[1;31mdeleted\033[0m] % 30s\n" $(OBJS) | tr ' ' '.'
+		make clean -sC $(AI)
+		make clean -sC $(SERVER)
 
 fclean: 	clean
-		@$(RM) $(NAME) && \
-		printf "[\033[1;31mdeleted\033[0m] % 30s\n" $(NAME) | tr ' ' '.' || \
-		printf "[\033[1;31mdeleted\033[0m] % 30s\n" $(NAME) | tr ' ' '.'
+		make fclean -sC $(AI)
+		make fclean -sC $(SERVER)
+
 re:		fclean all
 
-.PHONY: 	all clean fclean re
+.PHONY: 	all clean fclean re server ai

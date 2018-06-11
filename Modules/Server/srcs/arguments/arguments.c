@@ -9,11 +9,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include "macro.h"
-#include "arguments.h"
+#include "arguments_server.h"
 
 static t_args *populate_args(void)
 {
-	t_args *args = malloc(sizeof(t_args) * (COMMAND_SIZE + 1));
+	t_args *args = malloc(sizeof(t_args) * (COMMAND_SIZE_SERVER + 1));
 
 	if (!args)
 		return (FCT_FAILED("malloc"), NULL);
@@ -35,7 +35,7 @@ int manage_command(int ac, char **av, t_opts *opts)
 	if (!args)
 		return (ERROR);
 	for (int j = 1; j < ac; j++)
-		for (int i = 0; i < COMMAND_SIZE; i++)
+		for (int i = 0; i < COMMAND_SIZE_SERVER; i++)
 			if (strcmp(av[j], args[i].flag) == 0)
 				args[i].function(&av[j + 1], opts);
 	free(args);

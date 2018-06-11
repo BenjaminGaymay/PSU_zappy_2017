@@ -8,7 +8,7 @@
 #pragma once
 
 #include <stdbool.h>
-#include "arguments.h"
+#include "arguments_server.h"
 
 typedef struct s_server {
 	t_opts *opts;

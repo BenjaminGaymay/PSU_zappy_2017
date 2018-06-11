@@ -39,7 +39,7 @@ int height(char **av, t_opts *opt)
 int name(char **av, t_opts *opt)
 {
 	int h = 0;
-	int len = 0;
+	size_t len = 0;
 
 	if (!av[0])
 		return (ERROR);
@@ -69,6 +69,8 @@ int freq(char **av, t_opts *opt)
 
 int usage(char **av, t_opts *opt)
 {
+	(void)av;
+	(void)opt;
 	printf(USAGE);
 	return (SUCCESS);
 }

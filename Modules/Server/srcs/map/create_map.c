@@ -19,7 +19,7 @@ int **create_map(size_t y, size_t x)
 	}
 
 	for (size_t i = 0; i < y; ++i) {
-		printf("%d - ", i);
+		printf("%ld - ", i);
 		for (size_t j = 0; j < x; ++j) {
 			printf("%d", av[i][j]);
 		}

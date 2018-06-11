@@ -4,7 +4,11 @@ RS		=	Modules/Server
 
 CC		=	gcc
 
-RM		=	rm -f
+SRCS	=	$(RS)/srcs/main.c			\
+		$(RS)/arguments/args_fct.c	\
+		$(RS)/arguments.c	\
+		$(RS)/tools/array_tools.c		\
+		$(RS)/tools/string_tools.c
 
 SRCS	=	$(RS)/srcs/main.c					\
 			$(RS)/srcs/team.c					\
@@ -14,8 +18,9 @@ SRCS	=	$(RS)/srcs/main.c					\
 
 OBJS	=	$(SRCS:.c=.o)
 
-CFLAGS	=	-I $(RS)/includes					\
-			-I $(RS)/includes/arguments
+CFLAGS	=	-I $(RS)/includes		\
+		-I $(RS)/includes/arguments	\
+		-I $(RS)/includes/tools
 
 CFLAGS	+=	-W -Wall -Wextra -g3
 

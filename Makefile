@@ -1,20 +1,26 @@
 NAME	=	zappy_server
 
-CC	=	gcc
+RS		=	Modules/Server
 
-RM	=	rm -f
+CC		=	gcc
 
-SRCS	=	Modules/Server/srcs/main.c			\
-		Modules/Server/srcs/arguments/args_fct.c	\
-		Modules/Server/srcs/arguments/arguments.c	\
-		Modules/Server/srcs/tools/array_tools.c		\
-		Modules/Server/srcs/tools/string_tools.c
+SRCS	=	$(RS)/srcs/main.c			\
+		$(RS)/arguments/args_fct.c	\
+		$(RS)/arguments.c	\
+		$(RS)/tools/array_tools.c		\
+		$(RS)/tools/string_tools.c
+
+SRCS	=	$(RS)/srcs/main.c					\
+			$(RS)/srcs/team.c					\
+			$(RS)/srcs/tools/count_row.c		\
+			$(RS)/srcs/arguments/args_fct.c		\
+			$(RS)/srcs/arguments/arguments.c
 
 OBJS	=	$(SRCS:.c=.o)
 
-CFLAGS	=	-I Modules/Server/includes		\
-		-I Modules/Server/includes/arguments	\
-		-I Modules/Server/includes/tools
+CFLAGS	=	-I $(RS)/includes		\
+		-I $(RS)/includes/arguments	\
+		-I $(RS)/includes/tools
 
 CFLAGS	+=	-W -Wall -Wextra -g3
 

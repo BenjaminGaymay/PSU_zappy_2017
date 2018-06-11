@@ -9,7 +9,7 @@
 
 #include <stdbool.h>
 #include "macro.h"
-#include "arguments.h"
+#include "arguments_server.h"
 #include "sockets.h"
 #include "client.h"
 #include "map.h"

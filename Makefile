@@ -13,7 +13,10 @@ SRCS_SERVER	=	$(RS)/srcs/main.c			\
 			$(RS)/srcs/tools/string_tools.c		\
 			$(RS)/srcs/tools/count_row.c		\
 			$(RS)/srcs/team.c 			\
-			$(RS)/srcs/map/create_map.c
+			$(RS)/srcs/map/create_map.c		\
+			$(RS)/srcs/connection/sockets.c		\
+			$(RS)/srcs/connection/socket_infos.c	\
+			$(RS)/srcs/game/game_loop.c
 
 
 
@@ -24,7 +27,9 @@ OBJS		=	$(SRCS_SERVER:.c=.o)
 CFLAGS	=	-I $(RS)/includes		\
 		-I $(RS)/includes/arguments	\
 		-I $(RS)/includes/tools		\
-		-I $(RS)/includes/map
+		-I $(RS)/includes/map		\
+		-I $(RS)/includes/connection	\
+		-I $(RS)/includes/game
 
 CFLAGS		+=	-W -Wall -Wextra -g3
 

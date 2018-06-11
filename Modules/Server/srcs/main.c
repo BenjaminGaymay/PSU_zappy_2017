@@ -6,10 +6,8 @@
 */
 
 #include <malloc.h>
-#include "macro.h"
 #include "server.h"
-#include "arguments.h"
-#include "map.h"
+#include "game.h"
 
 t_opts *init_opts()
 {
@@ -37,6 +35,8 @@ int main(int ac, char **av)
 	printf("port : %d\nwidth : %d\nheight : %d\nclients : %d\nfreq : %d\n", server.opts->port, server.opts->x, server.opts->y, server.opts->max_clients, server.opts->freq);
 	init_team(&server);
 	create_map(10, 10);
+	server.socket = create_socket(server.opts->port, INADDR_ANY, SERVER);
+	game_loop(&server);
 	free(opts);
 	return 0;
 }

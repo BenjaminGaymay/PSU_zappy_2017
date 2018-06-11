@@ -8,6 +8,7 @@
 #pragma once
 
 #include <stdio.h>
+#include <stdbool.h>
 
 #define SUCCESS 0
 #define ERROR 84
@@ -15,6 +16,7 @@
 #define COMMAND_SIZE 7
 #define DEFAULT_VALUE -1
 #define ERR_FC -1
+#define FD_ERROR -1
 
 #define FCT_FAILED(s) fprintf(stderr, "Error: %s failed.\n", s)
 

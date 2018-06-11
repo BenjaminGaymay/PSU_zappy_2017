@@ -1,6 +1,6 @@
 ##
 ## EPITECH PROJECT, 2018
-## server_zappy (Espace de travail)
+## server_zappy ()
 ## File description:
 ## Makefile
 ##

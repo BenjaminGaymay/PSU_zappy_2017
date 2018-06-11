@@ -13,9 +13,10 @@ AI	= Modules/AI
 
 RM	= rm -f
 
-SRCS	= ./srcs/main.c			\
-	  ./srcs/arguments/arguments.c	\
-	  ./srcs/arguments/args_fct.c
+SRCS	= ./srcs/main.c				\
+	  ./srcs/arguments/arguments.c		\
+	  ./srcs/arguments/args_fct.c		\
+	  ./srcs/server/connect.c
 
 OBJS	= $(SRCS:.c=.o)
 

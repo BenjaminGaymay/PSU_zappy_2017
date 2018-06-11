@@ -15,7 +15,8 @@ int main(int ac, char **av)
 
 	manage_commands(av, &opt);
 	if (check_commands(&opt) == false)
-		return (ERROR);
+		return (printf("Bad parameters.\n"), ERROR);
+	connect_to_server(&opt);
 	printf("port : %d\nname : %s\nmachine : %s\n", opt.port, opt.name, opt.machine);
 	return (0);
 }

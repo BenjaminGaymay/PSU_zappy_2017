@@ -28,20 +28,9 @@ static t_args *populate_args(void)
 	return args;
 }
 
-static void populate_opt(t_opts *opt)
-{
-	opt->port = DEFAULT_VALUE;
-	opt->x = DEFAULT_VALUE;
-	opt->y = DEFAULT_VALUE;
-	opt->teams = NULL;
-	opt->max_clients = DEFAULT_VALUE;
-	opt->freq = 100;
-}
-
 int manage_command(int ac, char **av, t_opts *opts)
 {
 	t_args *args = populate_args();
-	populate_opt(opts);
 
 	if (!args)
 		return (ERROR);

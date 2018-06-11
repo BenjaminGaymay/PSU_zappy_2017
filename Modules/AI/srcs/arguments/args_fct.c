@@ -13,7 +13,7 @@ int help(char **av, t_opts *opt)
 {
 	(void)opt;
 	(void)av;
-	printf(USAGE);
+	printf(USAGE_AI);
 	return (SUCCESS);
 }
 

@@ -9,6 +9,8 @@ NAME	= 	zappy_ai
 
 CC	= 	gcc
 
+SHARED	=	../Shared
+
 AI	= 	Modules/AI
 
 RM	= 	rm -f
@@ -16,13 +18,17 @@ RM	= 	rm -f
 SRCS	= 	./srcs/main.c				\
 	  	./srcs/arguments/arguments.c		\
 	  	./srcs/arguments/args_fct.c		\
-	  	./srcs/server/connect.c
+	  	./srcs/server/connect.c			\
+		$(SHARED)/srcs/tools/array_tools.c	\
+		$(SHARED)/srcs/tools/count_row.c	\
+		$(SHARED)/srcs/tools/string_tools.c
 
 OBJS	= 	$(SRCS:.c=.o)
 
 CFLAGS = 	-I./includes/			\
 	 	-I./includes/arguments/		\
-		-I./includes/server
+		-I./includes/server		\
+		-I$(SHARED)/includes
 
 CFLAGS += 	-W -Wall -Wextra
 

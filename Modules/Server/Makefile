@@ -9,23 +9,24 @@ NAME		=	zappy_server
 
 CC		=	gcc
 
-SRCS		=	./srcs/main.c			\
-			./srcs/arguments/args_fct.c		\
-			./srcs/arguments/arguments.c	\
-			./srcs/tools/array_tools.c		\
-			./srcs/tools/string_tools.c		\
-			./srcs/tools/count_row.c		\
-			./srcs/team.c 			\
-			./srcs/map/create_map.c
+SHARED		=	../Shared
 
+SRCS		=	./srcs/main.c				\
+			./srcs/arguments/args_fct.c		\
+			./srcs/arguments/arguments.c		\
+			./srcs/team.c 				\
+			./srcs/map/create_map.c			\
+			$(SHARED)/srcs/tools/array_tools.c	\
+			$(SHARED)/srcs/tools/count_row.c	\
+			$(SHARED)/srcs/tools/string_tools.c
 
 OBJS		=	$(SRCS:.c=.o)
 
 
-CFLAGS		=	-I ./includes		\
-			-I ./includes/arguments	\
-			-I ./includes/tools		\
-			-I ./includes/map
+CFLAGS		=	-I./includes			\
+			-I./includes/arguments		\
+			-I./includes/map		\
+			-I$(SHARED)/includes
 
 CFLAGS		+=	-W -Wall -Wextra -g3
 

@@ -71,6 +71,6 @@ int usage(char **av, t_opts *opt)
 {
 	(void)av;
 	(void)opt;
-	printf(USAGE);
+	printf(USAGE_SERVER);
 	return (SUCCESS);
 }

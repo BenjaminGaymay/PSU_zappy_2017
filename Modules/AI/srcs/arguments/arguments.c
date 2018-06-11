@@ -17,7 +17,7 @@ bool check_commands(t_opts *opt)
 
 static t_args *populate_args(void)
 {
-	t_args *args = malloc(sizeof(t_args) * (COMMAND_SIZE + 1));
+	t_args *args = malloc(sizeof(t_args) * (COMMAND_SIZE_AI + 1));
 
 	if (!args)
 		return (FCT_FAILED("malloc"), NULL);
@@ -44,7 +44,7 @@ int manage_commands(char **av, t_opts *opt)
 	if (!args)
 		return (ERROR);
 	for (int i = 1; av[i]; i++)
-		for (int j = 0; j < COMMAND_SIZE; j++)
+		for (int j = 0; j < COMMAND_SIZE_AI; j++)
 			if (strcmp(av[i], args[j].flag) == 0)
 				args[j].function(&av[i+1], opt);
 	free(args);

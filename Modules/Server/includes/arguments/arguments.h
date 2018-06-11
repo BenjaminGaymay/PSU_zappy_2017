@@ -29,3 +29,4 @@ int height(char **, t_opts *);
 int name(char **, t_opts *);
 int clients(char **, t_opts *);
 int freq(char **, t_opts *);
+int usage(char **, t_opts *);

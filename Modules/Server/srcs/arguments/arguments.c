@@ -23,7 +23,8 @@ static t_args *populate_args(void)
 	args[3] = (t_args){"-n", &name};
 	args[4] = (t_args){"-c", &clients};
 	args[5] = (t_args){"-f", &freq};
-	args[6] = (t_args){NULL};
+	args[6] = (t_args){"-help", &usage};
+	args[7] = (t_args){NULL};
 	return args;
 }
 

@@ -12,7 +12,7 @@
 #define SUCCESS 0
 #define ERROR 84
 #define FAILED 1
-#define COMMAND_SIZE 6
+#define COMMAND_SIZE 7
 #define DEFAULT_VALUE -1
 
 #define FCT_FAILED(s) fprintf(stderr, "Error: %s failed.\n", s)

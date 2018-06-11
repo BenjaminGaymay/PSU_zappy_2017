@@ -7,17 +7,19 @@
 
 #include <string.h>
 #include <glob.h>
+#include <malloc.h>
 #include "server.h"
 
 bool init_team(t_server *server)
 {
 	size_t lenght = count_row(server->opts->teams);
-	int team[lenght];
+	int *team = malloc(sizeof(int));
 
-	if (lenght == 0)
+	if (team == NULL || lenght == 0)
 		return (false);
 	for (size_t i = 0 ; i < lenght ; ++i)
 		team[i] = 0;
+	server->team = team;
 	return (true);
 }
 

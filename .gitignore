@@ -5,7 +5,6 @@ games/game*
 CMakeCache.txt
 cmake_install.cmake
 CMakeCache.txt
-CMakeLists.txt
 CMakeFiles/
 bomberman
 bomberman.cbp

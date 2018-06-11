@@ -5,21 +5,17 @@ RS		=	Modules/Server
 CC		=	gcc
 
 SRCS	=	$(RS)/srcs/main.c			\
-		$(RS)/arguments/args_fct.c	\
-		$(RS)/arguments.c	\
-		$(RS)/tools/array_tools.c		\
-		$(RS)/tools/string_tools.c
-
-SRCS	=	$(RS)/srcs/main.c					\
-			$(RS)/srcs/team.c					\
-			$(RS)/srcs/tools/count_row.c		\
-			$(RS)/srcs/arguments/args_fct.c		\
-			$(RS)/srcs/arguments/arguments.c
+		$(RS)/srcs/team.c			\
+		$(RS)/srcs/tools/count_row.c		\
+		$(RS)/srcs/arguments/args_fct.c		\
+		$(RS)/srcs/arguments/arguments.c	\
+		$(RS)/srcs/map/create_map.c		\
 
 OBJS	=	$(SRCS:.c=.o)
 
 CFLAGS	=	-I $(RS)/includes		\
 		-I $(RS)/includes/arguments	\
+		-I $(RS)/includes/map		\
 		-I $(RS)/includes/tools
 
 CFLAGS	+=	-W -Wall -Wextra -g3

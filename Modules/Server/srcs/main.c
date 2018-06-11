@@ -9,6 +9,7 @@
 #include "macro.h"
 #include "server.h"
 #include "arguments.h"
+#include "map.h"
 
 t_opts *init_opts()
 {
@@ -35,5 +36,6 @@ int main(int ac, char **av)
 	manage_command(ac, av, server.opts);
 	printf("port : %d\nwidth : %d\nheight : %d\nclients : %d\nfreq : %d\n", server.opts->port, server.opts->x, server.opts->y, server.opts->max_clients, server.opts->freq);
 	init_team(&server);
+	create_map(10, 10);
 	return 0;
 }

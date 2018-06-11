@@ -11,8 +11,14 @@
 #include "macro.h"
 #include "arguments_server.h"
 #include "sockets.h"
-#include "client.h"
 #include "map.h"
+
+typedef struct s_client {
+	int socket;
+	size_t team_id;
+	size_t player_id;
+	struct s_client *next;
+} t_client;
 
 typedef struct s_message {
 	t_client *owner;
@@ -29,6 +35,3 @@ typedef struct s_server {
 } t_server;
 
 size_t count_row(char **);
-bool add_team_member(t_server *, char *);
-bool remove_team_member(t_server *, char *);
-bool init_team(t_server *);

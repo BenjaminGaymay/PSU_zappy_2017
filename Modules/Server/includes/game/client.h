@@ -7,11 +7,8 @@
 
 #pragma once
 
-#include <stddef.h>
+#include "server.h"
 
-typedef struct s_client {
-	int socket;
-	size_t team_id;
-	size_t player_id;
-	struct s_client *next;
-} t_client;
+int add_client(t_server *);
+void remove_client(t_server *, t_client *);
+void remove_all_clients(t_client *);

@@ -8,8 +8,9 @@
 #include <malloc.h>
 #include "communication.h"
 #include "game.h"
+#include "client.h"
 
-t_opts *init_opts(void)
+static t_opts *init_opts(void)
 {
 	t_opts *elem = malloc(sizeof(t_opts));
 
@@ -24,18 +25,7 @@ t_opts *init_opts(void)
 	return (elem);
 }
 
-void remove_all_clients(t_client *clients)
-{
-	t_client *client = clients;
-
-	while (clients) {
-		client = clients->next;
-		free(clients);
-		clients = client;
-	}
-}
-
-void clear_server(t_server *server)
+static void clear_server(t_server *server)
 {
 	free(server->opts);
 	remove_all_clients(server->clients);

@@ -17,6 +17,7 @@ SRCS	=	./srcs/main.c				\
 		./srcs/arguments/args_fct.c		\
 		./srcs/arguments/arguments.c		\
 		./srcs/map/create_map.c			\
+		./srcs/clients/manage_clients.c		\
 		./srcs/communication/socket_infos.c	\
 		./srcs/communication/manage_messages.c	\
 		./srcs/game/game_loop.c			\

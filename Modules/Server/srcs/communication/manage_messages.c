@@ -43,9 +43,8 @@ void remove_all_messages(t_server *server)
 
 	while (server->messages) {
 		message = server->messages->next;
-		if (server->messages->request)
-			free(server->messages->request);
-		if (server->messages->response)
+		free(server->messages->request);
+		if (server->messages->response) // a remove plus tard
 			free(server->messages->response);
 		free(server->messages);
 		server->messages = message;

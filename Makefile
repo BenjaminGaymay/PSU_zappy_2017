@@ -12,7 +12,6 @@ SRCS_SERVER	=	$(RS)/srcs/main.c			\
 			$(RS)/srcs/tools/array_tools.c		\
 			$(RS)/srcs/tools/string_tools.c		\
 			$(RS)/srcs/tools/count_row.c		\
-			$(RS)/srcs/team.c 			\
 			$(RS)/srcs/map/create_map.c		\
 			$(RS)/srcs/connection/sockets.c		\
 			$(RS)/srcs/connection/socket_infos.c	\

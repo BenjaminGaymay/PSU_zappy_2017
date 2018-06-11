@@ -11,7 +11,8 @@
 int game_loop(t_server *server)
 {
 	while (1) {
-		manage_sockets(server);
+		if (manage_sockets(server) == ERROR)
+			return (ERROR);
 	}
-	return (1);
+	return (SUCCESS);
 }

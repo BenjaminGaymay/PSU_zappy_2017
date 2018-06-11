@@ -10,7 +10,7 @@
 #include <stddef.h>
 
 typedef struct s_client {
-	int fd;
+	int socket;
 	size_t team_id;
 	size_t player_id;
 	struct s_client *next;

@@ -17,7 +17,6 @@
 typedef struct s_server {
 	t_opts *opts;
 	t_client *clients;
-	int *team;
 	int socket;
 } t_server;
 

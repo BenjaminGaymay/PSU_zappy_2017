@@ -24,19 +24,29 @@ t_opts *init_opts()
 	return (elem);
 }
 
+void clear_server(t_server *server)
+{
+	t_client *tmp = server->clients;
+
+	free(server->opts);
+	while (server->clients) {
+		tmp = server->clients->next;
+		free(server->clients);
+		server->clients = tmp;
+	}
+}
+
 int main(int ac, char **av)
 {
 	t_server server;
 	t_opts *opts = init_opts();
 
-	server.team = NULL;
 	server.opts = opts;
+	server.clients = NULL;
 	manage_command(ac, av, server.opts);
 	printf("port : %d\nwidth : %d\nheight : %d\nclients : %d\nfreq : %d\n", server.opts->port, server.opts->x, server.opts->y, server.opts->max_clients, server.opts->freq);
-	init_team(&server);
-	create_map(10, 10);
 	server.socket = create_socket(server.opts->port, INADDR_ANY, SERVER);
 	game_loop(&server);
-	free(opts);
-	return 0;
+	clear_server(&server);
+	return (SUCCESS);
 }

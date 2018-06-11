@@ -1,24 +1,32 @@
-NAME	=	zappy_server
+NAME		=	zappy_server
 
 RS		=	Modules/Server
 
+AI		=	Modules/AI
+
 CC		=	gcc
 
-SRCS	=	$(RS)/srcs/main.c			\
-		$(RS)/srcs/team.c			\
-		$(RS)/srcs/tools/count_row.c		\
-		$(RS)/srcs/arguments/args_fct.c		\
-		$(RS)/srcs/arguments/arguments.c	\
-		$(RS)/srcs/map/create_map.c		\
+SRCS_SERVER	=	$(RS)/srcs/main.c			\
+			$(RS)/srcs/arguments/args_fct.c		\
+			$(RS)/srcs/arguments/arguments.c	\
+			$(RS)/srcs/tools/array_tools.c		\
+			$(RS)/srcs/tools/string_tools.c		\
+			$(RS)/srcs/tools/count_row.c		\
+			$(RS)/srcs/team.c 			\
+			$(RS)/srcs/map/create_map.c
 
-OBJS	=	$(SRCS:.c=.o)
+
+
+SRCS_AI		=	$(AI)/srcs/main.c
+
+OBJS		=	$(SRCS_SERVER:.c=.o)
 
 CFLAGS	=	-I $(RS)/includes		\
 		-I $(RS)/includes/arguments	\
-		-I $(RS)/includes/map		\
-		-I $(RS)/includes/tools
+		-I $(RS)/includes/tools		\
+		-I $(RS)/includes/map
 
-CFLAGS	+=	-W -Wall -Wextra -g3
+CFLAGS		+=	-W -Wall -Wextra -g3
 
 LDFLAGS =
 

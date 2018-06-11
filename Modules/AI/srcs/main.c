@@ -8,11 +8,13 @@
 #include <stdio.h>
 #include "macro.h"
 #include "arguments.h"
+#include "server.h"
 
 int main(int ac, char **av)
 {
 	t_opts opt;
 
+	(void)ac;
 	manage_commands(av, &opt);
 	if (check_commands(&opt) == false)
 		return (printf("Bad parameters.\n"), ERROR);

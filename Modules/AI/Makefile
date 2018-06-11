@@ -5,35 +5,45 @@
 ## Makefile
 ##
 
-NAME	= zappy_ai
+NAME	= 	zappy_ai
 
-CC	= gcc
+CC	= 	gcc
 
-AI	= Modules/AI
+AI	= 	Modules/AI
 
-RM	= rm -f
+RM	= 	rm -f
 
-SRCS	= ./srcs/main.c				\
-	  ./srcs/arguments/arguments.c		\
-	  ./srcs/arguments/args_fct.c		\
-	  ./srcs/server/connect.c
+SRCS	= 	./srcs/main.c				\
+	  	./srcs/arguments/arguments.c		\
+	  	./srcs/arguments/args_fct.c		\
+	  	./srcs/server/connect.c
 
-OBJS	= $(SRCS:.c=.o)
+OBJS	= 	$(SRCS:.c=.o)
 
-CFLAGS = -I./includes/			\
-	 -I./includes/arguments/
-CFLAGS += -W -Wall -Wextra
+CFLAGS = 	-I./includes/			\
+	 	-I./includes/arguments/		\
+		-I./includes/server
 
-all: $(NAME)
-	cp $(NAME) ../..
-$(NAME): $(OBJS)
-	 $(CC) $(OBJS) -o $(NAME) $(LDFLAGS)
+CFLAGS += 	-W -Wall -Wextra
+
+all: 		$(NAME)
+		cp $(NAME) ../..
+
+$(NAME):	$(OBJS)
+		@$(CC) $(OBJS) -o $(NAME) $(LDFLAGS) && \
+		printf "[\033[1;36mbuilt\033[0m] % 32s\n" $(NAME) | tr ' ' '.' || \
+		printf "[\033[1;31mfailed\033[0m] % 31s\n" $(NAME) | tr ' ' '.'
 
 clean:
-	$(RM) $(OBJS)
+		@$(RM) $(OBJS) && \
+		printf "[\033[1;31mdeleted\033[0m] % 30s\n" $(OBJS) | tr ' ' '.' || \
+		printf "[\033[1;31mdeleted\033[0m] % 30s\n" $(OBJS) | tr ' ' '.'
 
-fclean: clean
-	$(RM) ../../$(NAME)
+fclean: 	clean
+		@$(RM) $(NAME) && \
+		printf "[\033[1;31mdeleted\033[0m] % 30s\n" $(NAME) | tr ' ' '.' || \
+		printf "[\033[1;31mdeleted\033[0m] % 30s\n" $(NAME) | tr ' ' '.'
+		$(RM) ../../$(NAME)
 
 re: fclean all
 

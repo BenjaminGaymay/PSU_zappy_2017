@@ -11,6 +11,8 @@
 
 int help(char **av, t_opts *opt)
 {
+	(void)opt;
+	(void)av;
 	printf(USAGE);
 	return (SUCCESS);
 }

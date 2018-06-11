@@ -86,7 +86,6 @@ static int read_on_client(t_server *server, t_client *client)
 	return (SUCCESS);
 }
 
-
 static int are_clients_written(t_server *server, fd_set *fd_read)
 {
 	t_client *tmp = server->clients;
@@ -99,7 +98,6 @@ static int are_clients_written(t_server *server, fd_set *fd_read)
 	}
 	return (SUCCESS);
 }
-
 
 int manage_sockets(t_server *server)
 {

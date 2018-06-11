@@ -11,6 +11,8 @@ CC	=	gcc
 
 SHARED	=	../Shared
 
+RM	= 	rm -f
+
 SRCS	=	./srcs/main.c				\
 		./srcs/arguments/args_fct.c		\
 		./srcs/arguments/arguments.c		\
@@ -26,11 +28,11 @@ OBJS	=	$(SRCS:.c=.o)
 
 
 CFLAGS	=	-I./includes			\
-			-I./includes/arguments		\
-			-I./includes/map		\
-			-I./includes/game		\
-			-I./includes/connection		\
-			-I$(SHARED)/includes
+		-I./includes/arguments		\
+		-I./includes/map		\
+		-I./includes/game		\
+		-I./includes/connection		\
+		-I$(SHARED)/includes
 
 CFLAGS	+=	-W -Wall -Wextra -g3
 

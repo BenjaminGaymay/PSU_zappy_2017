@@ -15,9 +15,6 @@ static int safe_close(const int fd, const int ret)
 	return (ret);
 }
 
-/*
-** Socket serveur
-*/
 static int client(int fd, struct sockaddr_in *s_in)
 {
 	if (bind(fd, (const struct sockaddr *)s_in, sizeof(*s_in)) == -1) {
@@ -29,9 +26,6 @@ static int client(int fd, struct sockaddr_in *s_in)
 	return (fd);
 }
 
-/*
-** Socket client
-*/
 static int server(int fd, struct sockaddr_in *s_in)
 {
 	if (connect(fd, (struct sockaddr *)s_in, sizeof(*s_in)) == -1)
@@ -39,9 +33,6 @@ static int server(int fd, struct sockaddr_in *s_in)
 	return (fd);
 }
 
-/*
-** Base commune de création des sockets
-*/
 int create_socket(const int port, const in_addr_t addr,
 			const e_socket_type socket_type)
 {

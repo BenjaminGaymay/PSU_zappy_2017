@@ -20,7 +20,7 @@ typedef struct s_server {
 	int socket;
 } t_server;
 
-size_t count_row(char **array);
-bool add_team_member(t_server *server, char *team_name);
-bool remove_team_member(t_server *server, char *team_name);
-bool init_team(t_server *server);
+size_t count_row(char **);
+bool add_team_member(t_server *, char *);
+bool remove_team_member(t_server *, char *);
+bool init_team(t_server *);

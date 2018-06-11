@@ -11,7 +11,7 @@
 #include "arguments_ai.h"
 #include "macro.h"
 
-bool check_commands(t_opts *opt)
+bool check_commands(t_opts_ai *opt)
 {
 	return (!(opt->port <= 0 || !opt->name || !opt->machine));
 }
@@ -30,14 +30,14 @@ static t_args *populate_args(void)
 	return (args);
 }
 
-static void populate_options(t_opts *opt)
+static void populate_options(t_opts_ai *opt)
 {
 	opt->port = DEFAULT_VALUE;
 	opt->name = NULL;
 	opt->machine = NULL;
 }
 
-int manage_commands(char **av, t_opts *opt)
+int manage_commands(char **av, t_opts_ai *opt)
 {
 	t_args *args = populate_args();
 

@@ -12,7 +12,7 @@
 
 int main(int ac, char **av)
 {
-	t_opts opt;
+	t_opts_ai opt;
 
 	(void)ac;
 	manage_commands(av, &opt);

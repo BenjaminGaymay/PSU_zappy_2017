@@ -9,7 +9,7 @@
 #include "communication.h"
 #include "game.h"
 
-t_opts *init_opts()
+t_opts *init_opts(void)
 {
 	t_opts *elem = malloc(sizeof(t_opts));
 

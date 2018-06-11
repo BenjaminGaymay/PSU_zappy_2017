@@ -34,7 +34,7 @@ static void populate_opt(t_opts *opt)
 	opt->y = DEFAULT_VALUE;
 	opt->teams = NULL;
 	opt->max_clients = DEFAULT_VALUE;
-	opt->freq = 60;
+	opt->freq = 100;
 }
 
 int manage_command(int ac, char **av, t_opts *opts)
@@ -44,12 +44,10 @@ int manage_command(int ac, char **av, t_opts *opts)
 
 	if (!args)
 		return (ERROR);
-	for (int j = 1; j < ac; j++) {
-		for (int i = 0; i < COMMAND_SIZE; i++) {
-			if (strcmp(av[j], args[i].flag) == 0) {
+	for (int j = 1; j < ac; j++)
+		for (int i = 0; i < COMMAND_SIZE; i++)
+			if (strcmp(av[j], args[i].flag) == 0)
 				args[i].function(&av[j + 1], opts);
-			}
-		}
-	}
+	free(args);
 	return (SUCCESS);
 }

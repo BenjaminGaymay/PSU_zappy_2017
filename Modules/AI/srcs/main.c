@@ -7,7 +7,7 @@
 
 #include <stdio.h>
 #include "macro.h"
-#include "arguments.h"
+#include "arguments_ai.h"
 #include "server.h"
 
 int main(int ac, char **av)

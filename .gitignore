@@ -12,7 +12,6 @@ bomberman
 bomberman.cbp
 *.o
 .vscode/
-server
 peda-session*
 peda/
 fontconfig/

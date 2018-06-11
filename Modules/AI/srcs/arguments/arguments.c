@@ -7,7 +7,8 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include "arguments.h"
+#include <stdbool.h>
+#include "arguments_ai.h"
 #include "macro.h"
 
 bool check_commands(t_opts *opt)

@@ -8,7 +8,7 @@
 #include <malloc.h>
 #include "macro.h"
 #include "server.h"
-#include "arguments.h"
+#include "arguments_server.h"
 #include "map.h"
 
 t_opts *init_opts()

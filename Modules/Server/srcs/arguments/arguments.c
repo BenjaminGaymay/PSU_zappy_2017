@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "macro.h"
-#include "arguments.h"
+#include "arguments_server.h"
 
 static t_args *populate_args(void)
 {

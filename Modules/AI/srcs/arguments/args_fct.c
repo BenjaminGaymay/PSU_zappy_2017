@@ -7,7 +7,7 @@
 
 #include <stdlib.h>
 #include "macro.h"
-#include "arguments.h"
+#include "arguments_ai.h"
 
 int help(char **av, t_opts *opt)
 {

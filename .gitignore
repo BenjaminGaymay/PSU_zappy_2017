@@ -1,3 +1,4 @@
+zappy_server
 .idea/
 build/*
 !build/.gitignore

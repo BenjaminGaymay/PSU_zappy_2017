@@ -6,6 +6,7 @@
 */
 #pragma once
 
+#include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics.hpp>
 #include "Tools.hpp"
 
@@ -18,7 +19,7 @@ namespace Graphical {
 		};
 		Sfml()
 		{
-			createBlocks();
+			addFont("birdy", _fontPath + "birdy.ttf");
 		};
 
 		~Sfml()
@@ -35,7 +36,7 @@ namespace Graphical {
 					_window.create(sf::VideoMode(1080, 720), "ZAPPY", sf::Style::Close | sf::Style::Resize);
 				_window.setFramerateLimit(30);
 			}
-			_type = type;
+			_screen = type;
 		};
 
 		void close()
@@ -45,10 +46,8 @@ namespace Graphical {
 		};
 		sf::RenderWindow &getWindow() { return _window; };
 		bool isOpen() { return _window.isOpen(); };
-		int manageEvent();
 		void clear() { _window.clear(); };
 		void display() { _window.display(); };
-		int keyManager(sf::Event &event);
 		void print_map(std::vector<std::vector<char>> &map);
 		void createBlocks();
 		bool createTexture(const int &index, const std::string &path,
@@ -56,14 +55,24 @@ namespace Graphical {
 		bool createSprite(const int &index, const std::string &path,
 						  std::map<const int, std::unique_ptr<sf::Sprite>> &sprites,
 						  std::map<const int, std::unique_ptr<sf::Texture>> &textures);
-		float findScale(std::vector<std::vector<char>> &map);
+		float findMapScale(std::vector<std::vector<char>> &map);
 		Pos getEntityPos(const char &block);
-		void dropStone(const char &id, const float &scale, const size_t &x, const size_t &y);
+		void dropStone(const char &id, const float &scale, const std::size_t &x, const std::size_t &y);
+		std::unique_ptr<sf::Font> &getFont(const std::string &name);
+		void addFont(const std::string &key, const std::string &maccro);
+		void addFont(const std::string &key, std::unique_ptr<sf::Font> &font);
+		std::unique_ptr<sf::Sprite> &getBlock(const int &id) { return _blocks[id]; };
+		void text(const std::string &font_name, const std::string &line, const std::size_t &size, const sf::Color &textColor,  const sf::Vector2f &position);
+		std::unique_ptr<sf::Text> getText(const std::string &font_name, const std::string &line, const std::size_t &size, const sf::Color &textColor, const sf::Vector2f &position);
+		const mod &getScreen() const { return _screen; };
 	private:
 		std::map<const int, std::unique_ptr<sf::Sprite>> _blocks;
 		std::map<const int, std::unique_ptr<sf::Texture>> _textures;
+		std::map<const std::string, std::unique_ptr<sf::Font>> _fonts;
+		std::map<const int, std::unique_ptr<sf::Sprite>> _buttons;
 		sf::RenderWindow _window;
-		mod _type;
-		const std::string _picturePath = "assets/picture/";
+		mod _screen;
+		const std::string _picturePath = "assets/pictures/";
+		const std::string _fontPath = "assets/fonts/";
 	};
 }

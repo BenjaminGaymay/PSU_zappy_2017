@@ -53,5 +53,5 @@ void Graphical::Sfml::createBlocks()
 	this->createSprite(6, _picturePath + "saphir.png", _blocks, _textures);
 	this->createSprite(7, _picturePath + "food.png", _blocks, _textures);
 	this->createSprite(8, _picturePath + "player.png", _blocks, _textures);
-
+	this->createSprite(9, _picturePath + "button.png", _blocks, _textures);
 }

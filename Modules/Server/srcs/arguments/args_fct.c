@@ -6,6 +6,7 @@
 */
 
 #include <stdlib.h>
+#include <string.h>
 #include "macro.h"
 #include "arguments.h"
 
@@ -37,9 +38,16 @@ int height(char **av, t_opts *opt)
 
 int name(char **av, t_opts *opt)
 {
+	int h = 0;
+	int len = 0;
+
 	if (!av[0])
 		return (ERROR);
-	opt->teams = NULL;
+	for (; av[len]; len++);
+	opt->teams = calloc(len + 1, sizeof(char*));
+	for (int i = 0; av[i] && av[i][0] != '-'; i++, h++)
+		opt->teams[h] = av[i];
+	opt->teams[h] = NULL;
 	return SUCCESS;
 }
 

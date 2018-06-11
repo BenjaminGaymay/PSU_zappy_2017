@@ -12,18 +12,19 @@ SRCS_SERVER	=	$(RS)/srcs/main.c			\
 			$(RS)/srcs/tools/array_tools.c		\
 			$(RS)/srcs/tools/string_tools.c		\
 			$(RS)/srcs/tools/count_row.c		\
-			$(RS)/srcs/team.c
+			$(RS)/srcs/team.c 			\
+			$(RS)/srcs/map/create_map.c
 
 
 
 SRCS_AI		=	$(AI)/srcs/main.c
 
-
 OBJS		=	$(SRCS_SERVER:.c=.o)
 
-CFLAGS		=	-I $(RS)/includes		\
-			-I $(RS)/includes/arguments	\
-			-I $(RS)/includes/tools
+CFLAGS	=	-I $(RS)/includes		\
+		-I $(RS)/includes/arguments	\
+		-I $(RS)/includes/tools		\
+		-I $(RS)/includes/map
 
 CFLAGS		+=	-W -Wall -Wextra -g3
 

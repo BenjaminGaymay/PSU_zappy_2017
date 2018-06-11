@@ -5,8 +5,7 @@
 ** socket_infos
 */
 
-#include "server.h"
-#include "client.h"
+#include "communication.h"
 
 static int add_client(t_server *server)
 {
@@ -77,7 +76,8 @@ static int read_on_client(t_server *server, t_client *client)
 		buffer[size] = '\0';
 		tmp = strtok(buffer, "\n");
 		while (tmp) {
-			printf("MESSAGE - '%s'\n", tmp);
+			if (add_message_in_list(server, client, tmp) == ERROR)
+				return (ERROR);
 			tmp = strtok(NULL, "\n");
 		}
 	}

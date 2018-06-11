@@ -14,9 +14,17 @@
 #include "client.h"
 #include "map.h"
 
+typedef struct s_message {
+	t_client *owner;
+	char *request;
+	char *response;
+	struct s_message *next;
+} t_message;
+
 typedef struct s_server {
 	t_opts *opts;
 	t_client *clients;
+	t_message *messages;
 	int socket;
 } t_server;
 

@@ -17,9 +17,10 @@ SRCS	=	./srcs/main.c				\
 		./srcs/arguments/args_fct.c		\
 		./srcs/arguments/arguments.c		\
 		./srcs/map/create_map.c			\
-		./srcs/connection/socket_infos.c	\
-		./srcs/connection/sockets.c		\
+		./srcs/communication/socket_infos.c	\
+		./srcs/communication/manage_messages.c	\
 		./srcs/game/game_loop.c			\
+		$(SHARED)/srcs/connection/sockets.c	\
 		$(SHARED)/srcs/tools/array_tools.c	\
 		$(SHARED)/srcs/tools/count_row.c	\
 		$(SHARED)/srcs/tools/string_tools.c
@@ -31,7 +32,7 @@ CFLAGS	=	-I./includes			\
 		-I./includes/arguments		\
 		-I./includes/map		\
 		-I./includes/game		\
-		-I./includes/connection		\
+		-I./includes/communication	\
 		-I$(SHARED)/includes
 
 CFLAGS	+=	-W -Wall -Wextra -g3

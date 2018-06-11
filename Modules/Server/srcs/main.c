@@ -6,7 +6,7 @@
 */
 
 #include <malloc.h>
-#include "server.h"
+#include "communication.h"
 #include "game.h"
 
 t_opts *init_opts()
@@ -24,16 +24,22 @@ t_opts *init_opts()
 	return (elem);
 }
 
+void remove_all_clients(t_client *clients)
+{
+	t_client *client = clients;
+
+	while (clients) {
+		client = clients->next;
+		free(clients);
+		clients = client;
+	}
+}
+
 void clear_server(t_server *server)
 {
-	t_client *tmp = server->clients;
-
 	free(server->opts);
-	while (server->clients) {
-		tmp = server->clients->next;
-		free(server->clients);
-		server->clients = tmp;
-	}
+	remove_all_clients(server->clients);
+	remove_all_messages(server);
 }
 
 int main(int ac, char **av)
@@ -43,8 +49,8 @@ int main(int ac, char **av)
 
 	server.opts = opts;
 	server.clients = NULL;
+	server.messages = NULL;
 	manage_command(ac, av, server.opts);
-	printf("port : %d\nwidth : %d\nheight : %d\nclients : %d\nfreq : %d\n", server.opts->port, server.opts->x, server.opts->y, server.opts->max_clients, server.opts->freq);
 	server.socket = create_socket(server.opts->port, INADDR_ANY, SERVER);
 	game_loop(&server);
 	clear_server(&server);

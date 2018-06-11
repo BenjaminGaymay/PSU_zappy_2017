@@ -6,12 +6,15 @@ RM	=	rm -f
 
 SRCS	=	Modules/Server/srcs/main.c			\
 		Modules/Server/srcs/arguments/args_fct.c	\
-		Modules/Server/srcs/arguments/arguments.c
+		Modules/Server/srcs/arguments/arguments.c	\
+		Modules/Server/srcs/tools/array_tools.c		\
+		Modules/Server/srcs/tools/string_tools.c
 
 OBJS	=	$(SRCS:.c=.o)
 
 CFLAGS	=	-I Modules/Server/includes		\
-		-I Modules/Server/includes/arguments
+		-I Modules/Server/includes/arguments	\
+		-I Modules/Server/includes/tools
 
 CFLAGS	+=	-W -Wall -Wextra -g3
 

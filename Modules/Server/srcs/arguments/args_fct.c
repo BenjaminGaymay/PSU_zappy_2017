@@ -69,6 +69,8 @@ int freq(char **av, t_opts *opt)
 
 int usage(char **av, t_opts *opt)
 {
+	(void)av;
+	(void)opt;
 	printf(USAGE);
 	return (SUCCESS);
 }

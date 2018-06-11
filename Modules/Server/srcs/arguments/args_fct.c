@@ -17,7 +17,7 @@ int port(char **av, t_opts *opt)
 	opt->port = atoi(av[0]);
 	if (opt->port <= 0)
 		return (fprintf(stderr, "Error: port must be positif.\n"), ERROR);
-	return SUCCESS;
+	return (SUCCESS);
 }
 
 int width(char **av, t_opts *opt)
@@ -25,7 +25,7 @@ int width(char **av, t_opts *opt)
 	if (!av[0])
 		return (ERROR);
 	opt->x = atoi(av[0]);
-	return SUCCESS;
+	return (SUCCESS);
 }
 
 int height(char **av, t_opts *opt)
@@ -33,7 +33,7 @@ int height(char **av, t_opts *opt)
 	if (!av[0])
 		return (ERROR);
 	opt->y = atoi(av[0]);
-	return SUCCESS;
+	return (SUCCESS);
 }
 
 int name(char **av, t_opts *opt)
@@ -48,7 +48,7 @@ int name(char **av, t_opts *opt)
 	for (int i = 0; av[i] && av[i][0] != '-'; i++, h++)
 		opt->teams[h] = av[i];
 	opt->teams[h] = NULL;
-	return SUCCESS;
+	return (SUCCESS);
 }
 
 int clients(char **av, t_opts *opt)
@@ -56,7 +56,7 @@ int clients(char **av, t_opts *opt)
 	if (!av[0])
 		return (ERROR);
 	opt->max_clients = atoi(av[0]);
-	return SUCCESS;
+	return (SUCCESS);
 }
 
 int freq(char **av, t_opts *opt)
@@ -64,5 +64,11 @@ int freq(char **av, t_opts *opt)
 	if (!av[0])
 		return (ERROR);
 	opt->freq = atoi(av[0]);
-	return SUCCESS;
+	return (SUCCESS);
+}
+
+int usage(char **av, t_opts *opt)
+{
+	printf(USAGE);
+	return (SUCCESS);
 }

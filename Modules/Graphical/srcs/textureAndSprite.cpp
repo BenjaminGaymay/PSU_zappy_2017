@@ -35,9 +35,10 @@ Graphical::Pos Graphical::Sfml::getEntityPos(const char &block)
 			{2, {1, 0}},
 			{3, {2, 0}},
 			{4, {0, 1}},
-			{5, {1, 1}},
+			{5, {2, 2}},
 			{6, {2, 1}},
 			{7, {0, 2}},
+			{8, {1, 2}},
 	};
 	return map[block];
 };
@@ -52,6 +53,7 @@ void Graphical::Sfml::createBlocks()
 	this->createSprite(5, _picturePath + "citrine.png", _blocks, _textures);
 	this->createSprite(6, _picturePath + "saphir.png", _blocks, _textures);
 	this->createSprite(7, _picturePath + "food.png", _blocks, _textures);
-	this->createSprite(8, _picturePath + "player.png", _blocks, _textures);
-	this->createSprite(9, _picturePath + "button.png", _blocks, _textures);
+	this->createSprite(8, _picturePath + "egg.png", _blocks, _textures);
+	this->createSprite(9, _picturePath + "player.png", _blocks, _textures);
+	this->createSprite(10, _picturePath + "button.png", _blocks, _textures);
 }

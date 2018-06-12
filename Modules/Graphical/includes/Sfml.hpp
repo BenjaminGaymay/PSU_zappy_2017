@@ -35,8 +35,9 @@ namespace Graphical {
 				else if (type == WINDOW)
 					_window.create(sf::VideoMode(1080, 720), "ZAPPY", sf::Style::Close | sf::Style::Resize);
 				_window.setFramerateLimit(30);
+				_screen.create(_window.getSize().x, _window.getSize().y);
 			}
-			_screen = type;
+			_windowType = type;
 		};
 
 		void close()
@@ -45,9 +46,19 @@ namespace Graphical {
 				_window.close();
 		};
 		sf::RenderWindow &getWindow() { return _window; };
+		sf::RenderTexture &getScreen() { return _screen; };
 		bool isOpen() { return _window.isOpen(); };
-		void clear() { _window.clear(); };
-		void display() { _window.display(); };
+		void clear()
+		{
+			_window.clear();
+			_screen.clear();
+		};
+		void display()
+		{
+			_window.draw(sf::Sprite(_screen.getTexture()));
+			_window.display();
+			_screen.display();
+		};
 		void print_map(std::vector<std::vector<char>> &map);
 		void createBlocks();
 		bool createTexture(const int &index, const std::string &path,
@@ -64,14 +75,18 @@ namespace Graphical {
 		std::unique_ptr<sf::Sprite> &getBlock(const int &id) { return _blocks[id]; };
 		void text(const std::string &font_name, const std::string &line, const std::size_t &size, const sf::Color &textColor,  const sf::Vector2f &position);
 		std::unique_ptr<sf::Text> getText(const std::string &font_name, const std::string &line, const std::size_t &size, const sf::Color &textColor, const sf::Vector2f &position);
-		const mod &getScreen() const { return _screen; };
+		const mod &getWindowType() const { return _windowType; };
+		void mouseScrollEvent(sf::Event &event);
+		void mouseEvent(sf::Event &event);
 	private:
 		std::map<const int, std::unique_ptr<sf::Sprite>> _blocks;
 		std::map<const int, std::unique_ptr<sf::Texture>> _textures;
 		std::map<const std::string, std::unique_ptr<sf::Font>> _fonts;
 		std::map<const int, std::unique_ptr<sf::Sprite>> _buttons;
 		sf::RenderWindow _window;
-		mod _screen;
+		sf::RenderTexture _screen;
+		float zoom = 1;
+		mod _windowType;
 		const std::string _picturePath = "assets/pictures/";
 		const std::string _fontPath = "assets/fonts/";
 	};

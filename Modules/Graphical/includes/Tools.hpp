@@ -7,8 +7,26 @@
 #pragma once
 
 namespace Graphical {
-	typedef struct s_pos {
+	typedef struct {
 		int x;
 		int y;
 	} Pos;
+
+	static std::vector<std::string> explode(const std::string &str, char separator)
+	{
+		std::string tmp;
+		std::vector<std::string> splited;
+
+		for (auto &c: str) {
+			if (c != separator)
+				tmp += c;
+			else if (c == separator && !tmp.empty()) {
+				splited.push_back(tmp);
+				tmp.clear();
+			}
+		}
+		if (!tmp.empty())
+			splited.push_back(tmp);
+		return splited;
+	}
 }

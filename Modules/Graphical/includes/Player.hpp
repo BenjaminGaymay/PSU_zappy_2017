@@ -11,8 +11,13 @@
 namespace Graphical {
 	class Player {
 	public:
-		explicit Player(const Graphical::Pos &pos): _pos(pos), _rotation(0) {};
+		Player(const Graphical::Pos &pos, const int &rota, const int &id)
+				: _pos(pos), _rotation(rota), _id(id)
+		{
+		};
+
 		~Player() = default;
+
 		void setPosition(const Graphical::Pos &pos)
 		{
 			if (_pos.x == pos.x && _pos.y != pos.y)
@@ -21,10 +26,13 @@ namespace Graphical {
 				_rotation = pos.x > _pos.x ? 90 : 270;
 			_pos = pos;
 		};
-		const int &getRotation() const { return _rotation; };
+		void setRotation(const int &rotation) { _rotation = rotation; };
 		const Pos &getPosition() const { return _pos; };
+		const int &getRotation() const { return _rotation; };
+		const int &getId() const { return _id; };
 	private:
 		Pos _pos;
 		int _rotation;
+		int _id;
 	};
 }

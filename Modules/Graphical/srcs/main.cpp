@@ -73,8 +73,9 @@ int Graphical::Game::loop()
 	map.push_back({0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
 	_sfml->open(Graphical::Sfml::WINDOW);
 	_sfml->createBlocks();
-	while (_sfml->isOpen()) {
+	while (_sfml->isOpen() && _com->isValidFd(_com->getSocket())) {
 		manageEvent();
+		this->manageFd();
 		_sfml->clear();
 		switch (_type) {
 			case MENU: printMenu(); break;
@@ -95,6 +96,7 @@ int main(int ac, char **av)
 
 	game.setCommunication(std::make_unique<Graphical::Communication>(std::stoi(av[1])));
 	game.setDisplayer(std::make_unique<Graphical::Sfml>());
+	game.setMap(std::make_unique<Graphical::Map>());
 	game.loop();
 	return (0);
 }

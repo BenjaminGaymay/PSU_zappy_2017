@@ -27,9 +27,19 @@ static t_opts *init_opts(void)
 
 static void clear_server(t_server *server)
 {
-	free(server->opts);
 	remove_all_clients(server->clients);
 	remove_all_messages(server);
+	remove_map(server->map, server->opts->y);
+	free(server->opts);
+}
+
+static bool check_valid_options(t_opts *opt)
+{
+	return (!(opt->port <= 0 ||
+		opt->x == DEFAULT_VALUE ||
+		opt->y == DEFAULT_VALUE ||
+		opt->teams == NULL ||
+		opt->max_clients == DEFAULT_VALUE));
 }
 
 int main(int ac, char **av)
@@ -40,8 +50,12 @@ int main(int ac, char **av)
 	server.opts = opts;
 	server.clients = NULL;
 	server.messages = NULL;
-	manage_command(ac, av, server.opts);
+	if (manage_command(ac, av, server.opts) == ERROR ||
+		!check_valid_options(server.opts))
+		return (free(opts), fprintf(stderr, "Bad arguments.\n"),  ERROR);
 	server.socket = create_socket(server.opts->port, INADDR_ANY, SERVER);
+	server.map = create_map(server.opts->y, server.opts->x);
+	look(&server);
 	game_loop(&server);
 	clear_server(&server);
 	return (SUCCESS);

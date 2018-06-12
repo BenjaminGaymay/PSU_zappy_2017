@@ -5,30 +5,38 @@
 ## Makefile
 ##
 
-NAME		=	zappy_server
+NAME	=	zappy_server
 
-CC		=	gcc
+CC	=	gcc
 
-SHARED		=	../Shared
+SHARED	=	../Shared
 
-SRCS		=	./srcs/main.c				\
-			./srcs/arguments/args_fct.c		\
-			./srcs/arguments/arguments.c		\
-			./srcs/team.c 				\
-			./srcs/map/create_map.c			\
-			$(SHARED)/srcs/tools/array_tools.c	\
-			$(SHARED)/srcs/tools/count_row.c	\
-			$(SHARED)/srcs/tools/string_tools.c
+RM	= 	rm -f
 
-OBJS		=	$(SRCS:.c=.o)
+SRCS	=	./srcs/main.c				\
+		./srcs/arguments/args_fct.c		\
+		./srcs/arguments/arguments.c		\
+		./srcs/map/create_map.c			\
+		./srcs/clients/manage_clients.c		\
+		./srcs/communication/socket_infos.c	\
+		./srcs/communication/manage_messages.c	\
+		./srcs/game/game_loop.c			\
+		$(SHARED)/srcs/connection/sockets.c	\
+		$(SHARED)/srcs/tools/array_tools.c	\
+		$(SHARED)/srcs/tools/count_row.c	\
+		$(SHARED)/srcs/tools/string_tools.c
+
+OBJS	=	$(SRCS:.c=.o)
 
 
-CFLAGS		=	-I./includes			\
-			-I./includes/arguments		\
-			-I./includes/map		\
-			-I$(SHARED)/includes
+CFLAGS	=	-I./includes			\
+		-I./includes/arguments		\
+		-I./includes/map		\
+		-I./includes/game		\
+		-I./includes/communication	\
+		-I$(SHARED)/includes
 
-CFLAGS		+=	-W -Wall -Wextra -g3
+CFLAGS	+=	-W -Wall -Wextra -g3
 
 LDFLAGS =
 
@@ -38,6 +46,7 @@ LDFLAGS =
 		printf "[\033[1;31mfailed\033[0m] % 31s\n" $< | tr ' ' '.'
 
 all: 		$(NAME) $(NAME)
+		cp $(NAME) ../..
 
 
 $(NAME):	$(OBJS)
@@ -54,6 +63,8 @@ fclean: 	clean
 		@$(RM) $(NAME) && \
 		printf "[\033[1;31mdeleted\033[0m] % 30s\n" $(NAME) | tr ' ' '.' || \
 		printf "[\033[1;31mdeleted\033[0m] % 30s\n" $(NAME) | tr ' ' '.'
+		$(RM) ../../$(NAME)
+
 re:		fclean all
 
 .PHONY: 	all clean fclean re

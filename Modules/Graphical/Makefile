@@ -5,41 +5,33 @@
 ## Makefile
 ##
 
-NAME	= 	zappy_ai
+NAME		= 	zappy_graphical
 
-CC	= 	gcc
+CC			= 	g++
 
-SHARED	=	../Shared
+SHARED		=	../Shared
 
-AI	= 	Modules/AI
+GRAPHICAL	= 	Modules/GRAPHICAL
 
-RM	= 	rm -f
+RM			= 	rm -f
 
-SRCS	= 	./srcs/main.c				\
-	  	./srcs/arguments/arguments.c		\
-	  	./srcs/arguments/args_fct.c		\
-	  	./srcs/server/connect.c			\
-		$(SHARED)/srcs/connection/sockets.c	\
-		$(SHARED)/srcs/tools/array_tools.c	\
-		$(SHARED)/srcs/tools/count_row.c	\
-		$(SHARED)/srcs/tools/string_tools.c
+SRCS		= 	srcs/main.cpp				\
+	  			srcs/font.cpp				\
+	  			srcs/mouse.cpp				\
+	  			srcs/text.cpp				\
+	  			srcs/textureAndSprite.cpp	\
 
-OBJS	= 	$(SRCS:.c=.o)
+OBJS		= 	$(SRCS:.cpp=.o)
 
-CFLAGS = 	-I./includes/			\
-	 	-I./includes/arguments/		\
-		-I./includes/server		\
-		-I$(SHARED)/includes
+CPPFLAGS = 	-I includes/				\
+			-I $(SHARED)/includes
 
-CFLAGS += 	-W -Wall -Wextra
+CPPFLAGS += 	-W -Wall -Wextra
 
-.c.o:
-		@$(CC) $(CFLAGS) $(LDFLAGS) -c $< -o $@ && \
-		printf "[\033[1;32mcompiled\033[0m] % 29s\n" $< | tr ' ' '.' || \
-		printf "[\033[1;31mfailed\033[0m] % 31s\n" $< | tr ' ' '.'
+LDFLAGS	= -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system
 
 all: 		$(NAME)
-		cp $(NAME) ../..
+		mv $(NAME) ../..
 
 $(NAME):	$(OBJS)
 		@$(CC) $(OBJS) -o $(NAME) $(LDFLAGS) && \

@@ -32,10 +32,10 @@ void u_sfml::createBackgrounds(std::map<std::string, void *> &lib_name)
 {
 	std::string str;
 
-	if (!this->createSprite(DEFAULT, "./picture/background.png",
+	if (!this->createSprite(DEFAULT, "./pictures/background.png",
 							this->backgrounds, this->textures))
 		throw arcade::Exception("SFML LIB",
-								"Menu picture/background.png was missing");
+								"Menu pictures/background.png was missing");
 	for (auto game_name = lib_name.begin();
 		 game_name != lib_name.end(); ++game_name) {
 		str = this->my_substr(game_name->first, GAMES_LIB_PATH, GAMES_LIB_EXT);

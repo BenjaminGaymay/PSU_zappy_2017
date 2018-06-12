@@ -14,6 +14,7 @@
 # include <SFML/Window.hpp>
 # include <SFML/Window/Mouse.hpp>
 # include <SFML/System.hpp>
+#include <SFML/Graphics/Font.hpp>
 # include <SFML/Graphics.hpp>
 # include <iostream>
 # include "IGraphics.hpp"

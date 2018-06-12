@@ -9,4 +9,4 @@
 
 #include "arguments_ai.h"
 
-int connect_to_server(t_opts *);
+int connect_to_server(t_opts_ai *);

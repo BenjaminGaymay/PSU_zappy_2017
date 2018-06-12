@@ -8,7 +8,7 @@
 #include "macro.h"
 #include "arguments_ai.h"
 
-int connect_to_server(t_opts *opt)
+int connect_to_server(t_opts_ai *opt)
 {
 	(void)opt;
 	return (SUCCESS);

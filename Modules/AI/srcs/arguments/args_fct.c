@@ -9,7 +9,7 @@
 #include "macro.h"
 #include "arguments_ai.h"
 
-int help(char **av, t_opts *opt)
+int help(char **av, t_opts_ai *opt)
 {
 	(void)opt;
 	(void)av;
@@ -17,7 +17,7 @@ int help(char **av, t_opts *opt)
 	return (SUCCESS);
 }
 
-int port(char **av, t_opts *opt)
+int port(char **av, t_opts_ai *opt)
 {
 	if (!av[0])
 		return (ERROR);
@@ -25,7 +25,7 @@ int port(char **av, t_opts *opt)
 	return (SUCCESS);
 }
 
-int name(char **av, t_opts *opt)
+int name(char **av, t_opts_ai *opt)
 {
 	if (!av[0])
 		return (ERROR);
@@ -33,7 +33,7 @@ int name(char **av, t_opts *opt)
 	return (SUCCESS);
 }
 
-int machine(char **av, t_opts *opt)
+int machine(char **av, t_opts_ai *opt)
 {
 	if (!av[0])
 		return (ERROR);

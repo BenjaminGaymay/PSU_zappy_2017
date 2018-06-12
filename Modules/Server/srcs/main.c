@@ -32,6 +32,15 @@ static void clear_server(t_server *server)
 	remove_all_messages(server);
 }
 
+static bool check_valid_options(t_opts *opt)
+{
+	return (!(opt->port <= 0 ||
+		opt->x == DEFAULT_VALUE ||
+		opt->y == DEFAULT_VALUE ||
+		opt->teams == NULL ||
+		opt->max_clients == DEFAULT_VALUE));
+}
+
 int main(int ac, char **av)
 {
 	t_server server;
@@ -40,7 +49,9 @@ int main(int ac, char **av)
 	server.opts = opts;
 	server.clients = NULL;
 	server.messages = NULL;
-	manage_command(ac, av, server.opts);
+	if (manage_command(ac, av, server.opts) == ERROR ||
+		!check_valid_options(server.opts))
+		return (free(opts), fprintf(stderr, "Bad arguments.\n"),  ERROR);
 	server.socket = create_socket(server.opts->port, INADDR_ANY, SERVER);
 	server.map = create_map(server.opts->y, server.opts->x);
 	look(&server);

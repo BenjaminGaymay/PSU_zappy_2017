@@ -31,3 +31,4 @@ typedef struct s_pos {
 } t_pos;
 
 t_map **create_map(int, int);
+void remove_map(t_map **, int);

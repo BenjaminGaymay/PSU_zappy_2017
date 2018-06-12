@@ -32,3 +32,10 @@ t_map **create_map(int y, int x)
 	}
 	return (map);
 }
+
+void remove_map(t_map **map, int y)
+{
+	for (int i = 0; i < y; ++i)
+		free(map[i]);
+	free(map);
+}

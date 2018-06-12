@@ -8,7 +8,9 @@
 
 #pragma once
 
+#ifndef _GNU_SOURCE /* default defined on c++ */
 #define _GNU_SOURCE
+#endif
 
 #include <stdio.h>
 #include <stdbool.h>
@@ -23,6 +25,7 @@
 #define FD_ERROR -1
 
 #define FCT_FAILED(s) fprintf(stderr, "Error: %s failed.\n", s)
+#define NOT_NUMBER(n) fprintf(stderr, "Error: %s must be a valid number.\n", n)
 
 #define USAGE_SERVER "USAGE: ./zappy_server -p port -x width -y height -n name1 name2 ... -c clientsNb -f freq\
 	\n\tport\tis the port number\

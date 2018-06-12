@@ -32,6 +32,11 @@ CFLAGS = 	-I./includes/			\
 
 CFLAGS += 	-W -Wall -Wextra
 
+.c.o:
+		@$(CC) $(CFLAGS) $(LDFLAGS) -c $< -o $@ && \
+		printf "[\033[1;32mcompiled\033[0m] % 29s\n" $< | tr ' ' '.' || \
+		printf "[\033[1;31mfailed\033[0m] % 31s\n" $< | tr ' ' '.'
+
 all: 		$(NAME)
 		cp $(NAME) ../..
 

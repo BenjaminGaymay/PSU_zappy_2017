@@ -8,7 +8,7 @@
 #include <time.h>
 #include "map.h"
 #include "macro.h"
-#include "arguments.h"
+#include "arguments_server.h"
 
 t_map **create_map(int y, int x)
 {

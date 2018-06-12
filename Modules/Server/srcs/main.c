@@ -6,12 +6,11 @@
 */
 
 #include <malloc.h>
-#include "macro.h"
-#include "server.h"
-#include "arguments.h"
-#include "map.h"
+#include "communication.h"
+#include "game.h"
+#include "client.h"
 
-t_opts *init_opts()
+static t_opts *init_opts(void)
 {
 	t_opts *elem = malloc(sizeof(t_opts));
 
@@ -26,18 +25,31 @@ t_opts *init_opts()
 	return (elem);
 }
 
+static void clear_server(t_server *server)
+{
+	free(server->opts);
+	remove_all_clients(server->clients);
+	remove_all_messages(server);
+}
+
 int main(int ac, char **av)
 {
 	t_server server;
 	t_opts *opts = init_opts();
 
-	server.team = NULL;
 	server.opts = opts;
+	server.clients = NULL;
+	server.messages = NULL;
 	manage_command(ac, av, server.opts);
-	printf("port : %d\nwidth : %d\nheight : %d\nclients : %d\nfreq : %d\n", server.opts->port, server.opts->x, server.opts->y, server.opts->max_clients, server.opts->freq);
-	init_team(&server);
+	printf("qsdqsd\n");
+	server.socket = create_socket(server.opts->port, INADDR_ANY, SERVER);
+	printf("qsdqsd\n");
 	server.map = create_map(server.opts->y, server.opts->x);
+	printf("qsdqsd\n");
 	look(server);
-	free(opts);
-	return 0;
+	printf("qsdqsd\n");
+	game_loop(&server);
+	printf("qsdqsd\n");
+	clear_server(&server);
+	return (SUCCESS);
 }

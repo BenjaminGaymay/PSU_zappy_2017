@@ -16,9 +16,9 @@ namespace Graphical {
 		void setPosition(const Graphical::Pos &pos)
 		{
 			if (_pos.x == pos.x && _pos.y != pos.y)
-				_rotation = _pos.y > _pos.y ? 180 : 0;
+				_rotation = pos.y > _pos.y ? 180 : 0;
 			else if (_pos.y == pos.y && _pos.x != pos.x)
-				_rotation = _pos.x > _pos.x ? 90 : 270;
+				_rotation = pos.x > _pos.x ? 90 : 270;
 			_pos = pos;
 		};
 		const int &getRotation() const { return _rotation; };

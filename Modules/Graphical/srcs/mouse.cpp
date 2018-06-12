@@ -21,14 +21,15 @@ void Graphical::Sfml::mouseScrollEvent(sf::Event &event)
 
 void Graphical::Sfml::mouseEvent(sf::Event &event)
 {
+	(void) event;
 	sf::View view = _screen.getView();
 	sf::Vector2i mousePos = sf::Mouse::getPosition(_window);
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 
 		if (!(mousePos.x > 0 &&
 			  mousePos.y > 0 &&
-			  mousePos.x < _window.getSize().x &&
-			  mousePos.y < _window.getSize().y))
+			  mousePos.x < static_cast<int>(_window.getSize().x) &&
+			  mousePos.y < static_cast<int>(_window.getSize().y)))
 			return;
 		mousePos.x = static_cast<int>(
 				(mousePos.x / static_cast<float>(_screen.getSize().x)) *

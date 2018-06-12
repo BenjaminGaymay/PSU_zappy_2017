@@ -6,7 +6,7 @@
 */
 
 #include <iostream>
-#include <Game.hpp>
+#include "Game.hpp"
 
 int Graphical::Game::keyManager(sf::Event &event)
 {

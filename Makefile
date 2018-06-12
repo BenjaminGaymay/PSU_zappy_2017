@@ -11,6 +11,8 @@ SERVER		=	Modules/Server
 
 AI		=	Modules/AI
 
+GRAPHICAL	= Modules/Graphical
+
 CC		=	gcc
 
 all: 		server ai
@@ -21,13 +23,18 @@ server:
 ai:
 		make -sC $(AI)
 
+graphical:
+		make -sC $(GRAPHICAL)
+
 clean:
 		make clean -sC $(AI)
 		make clean -sC $(SERVER)
+		make clean -sC $(GRAPHICAL)
 
 fclean: 	clean
 		make fclean -sC $(AI)
 		make fclean -sC $(SERVER)
+		make fclean -sC $(GRAPHICAL)
 
 re:		fclean all
 

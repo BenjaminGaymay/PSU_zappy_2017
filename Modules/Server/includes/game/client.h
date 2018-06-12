@@ -12,3 +12,4 @@
 int add_client(t_server *);
 void remove_client(t_server *, t_client *);
 void remove_all_clients(t_client *);
+char *get_client_inventory(t_client *);

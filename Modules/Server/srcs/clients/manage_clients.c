@@ -20,9 +20,14 @@ int add_client(t_server *server)
 	new->player_id = id++;
 	new->socket = accept(server->socket, (struct sockaddr *)&client_sin,
 		&client_sin_len);
+	new->inventory = (t_inventory){0, 0, 0, 0, 0, 0, 0};
+	new->level = 1;
+	new->pos = (t_pos){0, 0};
+	new->look = 0;
 	printf("New client - %ld\n", id - 1);
 	new->next = server->clients;
 	server->clients = new;
+	get_client_inventory(server->clients);
 	return (SUCCESS);
 }
 

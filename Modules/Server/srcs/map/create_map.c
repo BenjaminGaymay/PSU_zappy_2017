@@ -10,14 +10,14 @@
 #include "macro.h"
 #include "arguments_server.h"
 
-t_map **create_map(int y, int x)
+t_inventory **create_map(int y, int x)
 {
 	srand(time(NULL));
-	t_map **map;
+	t_inventory **map;
 
-	map = calloc(y + 1, sizeof(t_map *));
+	map = calloc(y + 1, sizeof(t_inventory *));
 	for (int i = 0; i < y; ++i) {
-		map[i] = calloc(x + 1, sizeof(t_map));
+		map[i] = calloc(x + 1, sizeof(t_inventory));
 		for (int j = 0; j < x; ++j) {
 			map[i][j].linemate = rand() % 2;
 			map[i][j].sibur = rand() % 2;
@@ -33,7 +33,7 @@ t_map **create_map(int y, int x)
 	return (map);
 }
 
-void remove_map(t_map **map, int y)
+void remove_map(t_inventory **map, int y)
 {
 	for (int i = 0; i < y; ++i)
 		free(map[i]);

@@ -23,6 +23,7 @@ SRCS	=	./srcs/main.c				\
 		./srcs/game/game_loop.c			\
 		./srcs/map/look.c			\
 		./srcs/map/get_map_look.c		\
+		./srcs/clients/get_client_inventory.c	\
 		$(SHARED)/srcs/connection/sockets.c	\
 		$(SHARED)/srcs/tools/array_tools.c	\
 		$(SHARED)/srcs/tools/count_row.c	\

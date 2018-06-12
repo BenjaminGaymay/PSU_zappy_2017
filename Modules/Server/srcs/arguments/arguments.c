@@ -36,8 +36,9 @@ int manage_command(int ac, char **av, t_opts *opts)
 		return (ERROR);
 	for (int j = 1; j < ac; j++)
 		for (int i = 0; i < COMMAND_SIZE_SERVER; i++)
-			if (strcmp(av[j], args[i].flag) == 0)
-				args[i].function(&av[j + 1], opts);
+			if (strcmp(av[j], args[i].flag) == 0 &&
+				args[i].function(&av[j + 1], opts) == ERROR)
+				return (free(args), ERROR);
 	free(args);
 	return (SUCCESS);
 }

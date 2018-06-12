@@ -5,25 +5,30 @@
 ** args_fct
 */
 
+#include <time.h>
 #include "map.h"
 #include "macro.h"
 #include "arguments.h"
 
-int **create_map(size_t y, size_t x)
+t_map **create_map(int y, int x)
 {
-	int **av;
+	srand(time(NULL));
+	t_map **map;
 
-	av = calloc(y + 1, sizeof(int *));
-	for (size_t i = 0; i < y; ++i) {
-		av[i] = calloc(x + 1, sizeof(int));
+	map = calloc(y + 1, sizeof(t_map *));
+	for (int i = 0; i < y; ++i) {
+		map[i] = calloc(x + 1, sizeof(t_map));
+		for (int j = 0; j < x; ++j) {
+			map[i][j].linemate = rand() % 2;
+			map[i][j].sibur = rand() % 2;
+		}
 	}
-
-	for (size_t i = 0; i < y; ++i) {
-		printf("%ld - ", i);
-		for (size_t j = 0; j < x; ++j) {
-			printf("%d", av[i][j]);
+	for (int i = 0; i < y; ++i) {
+		printf("%d - ", i);
+		for (int j = 0; j < x; ++j) {
+			printf("%ld ", map[i][j].linemate);
 		}
 		printf("\n");
 	}
-	return (av);
+	return (map);
 }

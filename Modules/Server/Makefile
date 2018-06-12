@@ -21,6 +21,8 @@ SRCS	=	./srcs/main.c				\
 		./srcs/communication/socket_infos.c	\
 		./srcs/communication/manage_messages.c	\
 		./srcs/game/game_loop.c			\
+		./srcs/map/look.c			\
+		./srcs/map/get_map_look.c		\
 		$(SHARED)/srcs/connection/sockets.c	\
 		$(SHARED)/srcs/tools/array_tools.c	\
 		$(SHARED)/srcs/tools/count_row.c	\

@@ -15,7 +15,7 @@ GRAPHICAL	= Modules/Graphical
 
 CC		=	gcc
 
-all: 		server ai
+all: 		server ai graphical
 
 server:
 		make -sC $(SERVER)

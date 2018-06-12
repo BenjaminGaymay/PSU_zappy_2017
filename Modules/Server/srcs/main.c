@@ -27,9 +27,10 @@ static t_opts *init_opts(void)
 
 static void clear_server(t_server *server)
 {
-	free(server->opts);
 	remove_all_clients(server->clients);
 	remove_all_messages(server);
+	remove_map(server->map, server->opts->y);
+	free(server->opts);
 }
 
 int main(int ac, char **av)

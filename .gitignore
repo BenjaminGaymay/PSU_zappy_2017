@@ -1,5 +1,6 @@
 zappy_server
 zappy_ai
+zappy_graphical
 .idea/
 build/*
 !build/.gitignore

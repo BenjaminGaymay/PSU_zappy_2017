@@ -46,13 +46,18 @@ LDFLAGS		= 	-lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system
 			printf "[\033[1;31mfailed\033[0m] % 31s\n" $< | tr ' ' '.'
 
 
-all: 			$(NAME)
+cclean:
+			rm -f $(OBJS_C)
+
+all: 		cclean $(NAME)
 			mv $(NAME) ../..
+			rm -f $(OBJS_C)
 
 $(NAME):		$(OBJS_C) $(OBJS_CPP)
 			@$(CC) $(OBJS_C) $(OBJS_CPP) $(CXXFLAGS) -o $(NAME) $(LDFLAGS) && \
 			printf "[\033[1;36mbuilt\033[0m] % 32s\n" $(NAME) | tr ' ' '.' || \
 			printf "[\033[1;31mfailed\033[0m] % 31s\n" $(NAME) | tr ' ' '.'
+
 
 clean:
 			@$(RM) $(OBJS_C) && \
@@ -70,4 +75,4 @@ fclean: 		clean
 
 re:			 fclean all
 
-.PHONY: 		all clean fclean re
+.PHONY: 		all cclean clean fclean re

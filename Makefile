@@ -11,7 +11,7 @@ SERVER		=	Modules/Server
 
 AI		=	Modules/AI
 
-GRAPHICAL	= Modules/Graphical
+GRAPHICAL	=	Modules/Graphical
 
 CC		=	gcc
 

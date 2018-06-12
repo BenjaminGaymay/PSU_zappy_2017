@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct s_map {
+typedef struct s_inventory {
 	size_t linemate;
 	size_t deraumere;
 	size_t sibur;
@@ -18,7 +18,7 @@ typedef struct s_map {
 	size_t phiras;
 	size_t thystame;
 	size_t food;
-} t_map;
+} t_inventory;
 
 typedef struct s_get_type {
 	size_t x;
@@ -30,5 +30,5 @@ typedef struct s_pos {
 	int y;
 } t_pos;
 
-t_map **create_map(int, int);
-void remove_map(t_map **, int);
+t_inventory **create_map(int, int);
+void remove_map(t_inventory **, int);

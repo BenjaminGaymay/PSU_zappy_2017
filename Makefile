@@ -13,9 +13,7 @@ AI		=	Modules/AI
 
 GRAPHICAL	= Modules/Graphical
 
-CC		=	gcc
-
-all: 		server ai graphical
+all: 		graphical server ai
 
 server:
 		make -sC $(SERVER)
@@ -27,15 +25,15 @@ graphical:
 		make -sC $(GRAPHICAL)
 
 clean:
+		make clean -sC $(GRAPHICAL)
 		make clean -sC $(AI)
 		make clean -sC $(SERVER)
-		make clean -sC $(GRAPHICAL)
 
 fclean: 	clean
+		make fclean -sC $(GRAPHICAL)
 		make fclean -sC $(AI)
 		make fclean -sC $(SERVER)
-		make fclean -sC $(GRAPHICAL)
 
 re:		fclean all
 
-.PHONY: 	all clean fclean re server ai
+.PHONY: 	all clean fclean re graphical server ai

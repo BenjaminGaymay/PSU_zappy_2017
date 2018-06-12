@@ -7,48 +7,67 @@
 
 NAME		= 	zappy_graphical
 
-CC			= 	g++
+CC		= 	g++
 
 SHARED		=	../Shared
 
 GRAPHICAL	= 	Modules/GRAPHICAL
 
-RM			= 	rm -f
+RM		= 	rm -f
 
-SRCS		= 	srcs/main.cpp				\
-	  			srcs/font.cpp				\
-	  			srcs/mouse.cpp				\
-	  			srcs/text.cpp				\
-	  			srcs/textureAndSprite.cpp	\
+SRCS_C		=	$(SHARED)/srcs/connection/sockets.c
 
-OBJS		= 	$(SRCS:.cpp=.o)
+OBJS_C		=	$(SRCS_C:.c=.o)
 
-CPPFLAGS = 	-I includes/				\
-			-I $(SHARED)/includes
+SRCS_CPP	= 	srcs/main.cpp				\
+			srcs/font.cpp				\
+			srcs/mouse.cpp				\
+			srcs/map.cpp				\
+	  		srcs/menu.cpp				\
+	  		srcs/text.cpp				\
+	  		srcs/textureAndSprite.cpp		\
 
-CPPFLAGS += 	-W -Wall -Wextra
+OBJS_CPP	= 	$(SRCS_CPP:.cpp=.o)
 
-LDFLAGS	= -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system
+CXXFLAGS 	= 	-I./includes/		\
+			-I$(SHARED)/includes	\
+			-W -Wextra -g3
 
-all: 		$(NAME)
-		mv $(NAME) ../..
+LDFLAGS		= 	-lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system
 
-$(NAME):	$(OBJS)
-		@$(CC) $(OBJS) -o $(NAME) $(LDFLAGS) && \
-		printf "[\033[1;36mbuilt\033[0m] % 32s\n" $(NAME) | tr ' ' '.' || \
-		printf "[\033[1;31mfailed\033[0m] % 31s\n" $(NAME) | tr ' ' '.'
+.c.o:
+			@$(CC) $(CXXFLAGS) $(LDFLAGS) -c $< -o $@ && \
+			printf "[\033[1;32mcompiled\033[0m] % 29s\n" $< | tr ' ' '.' || \
+			printf "[\033[1;31mfailed\033[0m] % 31s\n" $< | tr ' ' '.'
+
+.cpp.o:
+			@$(CC) $(CXXFLAGS) $(LDFLAGS) -c $< -o $@ && \
+			printf "[\033[1;32mcompiled\033[0m] % 29s\n" $< | tr ' ' '.' || \
+			printf "[\033[1;31mfailed\033[0m] % 31s\n" $< | tr ' ' '.'
+
+
+all: 			$(NAME)
+			mv $(NAME) ../..
+
+$(NAME):		$(OBJS_C) $(OBJS_CPP)
+			@$(CC) $(OBJS_C) $(OBJS_CPP) $(CXXFLAGS) -o $(NAME) $(LDFLAGS) && \
+			printf "[\033[1;36mbuilt\033[0m] % 32s\n" $(NAME) | tr ' ' '.' || \
+			printf "[\033[1;31mfailed\033[0m] % 31s\n" $(NAME) | tr ' ' '.'
 
 clean:
-		@$(RM) $(OBJS) && \
-		printf "[\033[1;31mdeleted\033[0m] % 30s\n" $(OBJS) | tr ' ' '.' || \
-		printf "[\033[1;31mdeleted\033[0m] % 30s\n" $(OBJS) | tr ' ' '.'
+			@$(RM) $(OBJS_C) && \
+			printf "[\033[1;31mdeleted\033[0m] % 30s\n" $(OBJS_C) | tr ' ' '.' || \
+			printf "[\033[1;31mdeleted\033[0m] % 30s\n" $(OBJS_C) | tr ' ' '.' && \
+			$(RM) $(OBJS_CPP) && \
+			printf "[\033[1;31mdeleted\033[0m] % 30s\n" $(OBJS_CPP) | tr ' ' '.' || \
+			printf "[\033[1;31mdeleted\033[0m] % 30s\n" $(OBJS_CPP) | tr ' ' '.'
 
-fclean: 	clean
-		@$(RM) $(NAME) && \
-		printf "[\033[1;31mdeleted\033[0m] % 30s\n" $(NAME) | tr ' ' '.' || \
-		printf "[\033[1;31mdeleted\033[0m] % 30s\n" $(NAME) | tr ' ' '.'
-		$(RM) ../../$(NAME)
+fclean: 		clean
+			@$(RM) $(NAME) && \
+			printf "[\033[1;31mdeleted\033[0m] % 30s\n" $(NAME) | tr ' ' '.' || \
+			printf "[\033[1;31mdeleted\033[0m] % 30s\n" $(NAME) | tr ' ' '.'
+			$(RM) ../../$(NAME)
 
-re: fclean all
+re:			 fclean all
 
-.PHONY: all clean fclean re
+.PHONY: 		all clean fclean re

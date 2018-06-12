@@ -17,6 +17,7 @@ typedef struct s_client {
 	int socket;
 	size_t team_id;
 	size_t player_id;
+	size_t request_number;
 	struct s_client *next;
 } t_client;
 
@@ -32,6 +33,7 @@ typedef struct s_server {
 	t_client *clients;
 	t_message *messages;
 	int socket;
+	clock_t cycle;
 } t_server;
 
 size_t count_row(char **);

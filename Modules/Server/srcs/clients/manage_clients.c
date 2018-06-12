@@ -17,6 +17,7 @@ int add_client(t_server *server)
 	if (!new)
 		return (FCT_FAILED("malloc"), ERROR);
 	client_sin_len = sizeof(client_sin);
+	new->request_number = 0;
 	new->player_id = id++;
 	new->socket = accept(server->socket, (struct sockaddr *)&client_sin,
 		&client_sin_len);
@@ -50,4 +51,17 @@ void remove_all_clients(t_client *clients)
 		free(clients);
 		clients = client;
 	}
+}
+
+size_t get_clients_number(t_client *clients)
+{
+	t_client *client = clients;
+	size_t i = 0;
+
+
+	while (client) {
+		i += 1;
+		client = clients->next;
+	}
+	return (i);
 }

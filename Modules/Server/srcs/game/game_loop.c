@@ -6,6 +6,8 @@
 */
 
 #include "communication.h"
+#include "manage_time.h"
+#include "client.h"
 #include "game.h"
 
 int game_loop(t_server *server)
@@ -14,6 +16,7 @@ int game_loop(t_server *server)
 		if (manage_sockets(server) == ERROR)
 			return (ERROR);
 		read_all_messages(server->messages);
+		send_responses(server->messages);
 		remove_all_messages(server);
 	}
 	return (SUCCESS);

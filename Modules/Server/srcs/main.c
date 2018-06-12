@@ -30,16 +30,14 @@ static void clear_server(t_server *server)
 	free(server->opts);
 	remove_all_clients(server->clients);
 	remove_all_messages(server);
+	close(server->socket);
 }
 
 int main(int ac, char **av)
 {
-	t_server server;
 	t_opts *opts = init_opts();
+	t_server server = {opts, NULL, NULL, -1, 0.0f};
 
-	server.opts = opts;
-	server.clients = NULL;
-	server.messages = NULL;
 	manage_command(ac, av, server.opts);
 	server.socket = create_socket(server.opts->port, INADDR_ANY, SERVER);
 	game_loop(&server);

@@ -37,12 +37,24 @@ void read_all_messages(t_message *messages)
 	}
 }
 
+void send_responses(t_message *responses)
+{
+	t_message *tmp = responses;
+
+	while (tmp) {
+		if (tmp->response)
+			printf("Response from '%s': '%s'\n", tmp->request, tmp->response);
+		tmp = tmp->next;
+	}
+}
+
 void remove_all_messages(t_server *server)
 {
 	t_message *message = server->messages;
 
 	while (server->messages) {
 		message = server->messages->next;
+		server->messages->owner->request_number -= 1;
 		free(server->messages->request);
 		if (server->messages->response) // a remove plus tard
 			free(server->messages->response);

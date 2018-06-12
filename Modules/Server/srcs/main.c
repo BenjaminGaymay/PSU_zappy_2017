@@ -41,15 +41,10 @@ int main(int ac, char **av)
 	server.clients = NULL;
 	server.messages = NULL;
 	manage_command(ac, av, server.opts);
-	printf("qsdqsd\n");
 	server.socket = create_socket(server.opts->port, INADDR_ANY, SERVER);
-	printf("qsdqsd\n");
 	server.map = create_map(server.opts->y, server.opts->x);
-	printf("qsdqsd\n");
 	look(server);
-	printf("qsdqsd\n");
 	game_loop(&server);
-	printf("qsdqsd\n");
 	clear_server(&server);
 	return (SUCCESS);
 }

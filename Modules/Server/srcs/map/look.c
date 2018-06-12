@@ -23,7 +23,6 @@ char *look_top(t_server server, char *str, t_pos pos)
 		for (int j = 0; j < (2 * i + 1); ++j) {
 			str = get_map_objects_top_bot(server, str, (t_pos){j - 2 * i / 2 + pos.x, -i + pos.y});
 		}
-		printf("\n");
 	}
 	return (str);
 }

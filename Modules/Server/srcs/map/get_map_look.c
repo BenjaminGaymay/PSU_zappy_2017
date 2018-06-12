@@ -19,16 +19,16 @@ char *comma(const t_get_type tab[7], char *str, int nb)
 	return (str);
 }
 
-char *push_str(t_server server, char *str, t_pos pos)
+char *push_str(t_server *server, char *str, t_pos pos)
 {
 	static int x = 0;
-	const t_get_type tab[7] = {{server.map[pos.y][pos.x].linemate, "linemate"},
-	{server.map[pos.y][pos.x].deraumere, "deraumere"},
-	{server.map[pos.y][pos.x].sibur, "sibur"},
-	{server.map[pos.y][pos.x].mendiane, "mendiane"},
-	{server.map[pos.y][pos.x].phiras, "phiras"},
-	{server.map[pos.y][pos.x].thystame, "thystame"},
-	{server.map[pos.y][pos.x].food, "food"}};
+	const t_get_type tab[7] = {{server->map[pos.y][pos.x].linemate, "linemate"},
+	{server->map[pos.y][pos.x].deraumere, "deraumere"},
+	{server->map[pos.y][pos.x].sibur, "sibur"},
+	{server->map[pos.y][pos.x].mendiane, "mendiane"},
+	{server->map[pos.y][pos.x].phiras, "phiras"},
+	{server->map[pos.y][pos.x].thystame, "thystame"},
+	{server->map[pos.y][pos.x].food, "food"}};
 
 	str = comma(tab, str, 0);
 	for (int i = 0; i < 7;++i)
@@ -44,18 +44,18 @@ char *push_str(t_server server, char *str, t_pos pos)
 	return (str);
 }
 
-char *get_map_objects_top_bot(t_server server, char *str, t_pos pos)
+char *get_map_objects_top_bot(t_server *server, char *str, t_pos pos)
 {
 	int x;
 	int y;
 
 	if (pos.x < 0) {
 		y = pos.y;
-		x = server.opts->x + pos.x;
+		x = server->opts->x + pos.x;
 	}
-	else if (pos.x > server.opts->x - 1) {
+	else if (pos.x > server->opts->x - 1) {
 		y = pos.y;
-		x = pos.x - server.opts->x;
+		x = pos.x - server->opts->x;
 	}
 	else {
 		y = pos.y;
@@ -65,17 +65,17 @@ char *get_map_objects_top_bot(t_server server, char *str, t_pos pos)
 	return (str);
 }
 
-char *get_map_objects_left_right(t_server server, char *str, t_pos pos)
+char *get_map_objects_left_right(t_server *server, char *str, t_pos pos)
 {
 	int x;
 	int y;
 
 	if (pos.y < 0) {
-		y = server.opts->y + pos.y;
+		y = server->opts->y + pos.y;
 		x = pos.x;
 	}
-	else if (pos.y > server.opts->y - 1) {
-		y = pos.y - server.opts->y;
+	else if (pos.y > server->opts->y - 1) {
+		y = pos.y - server->opts->y;
 		x = pos.x;
 	}
 	else {

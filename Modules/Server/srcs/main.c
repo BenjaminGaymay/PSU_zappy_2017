@@ -43,7 +43,7 @@ int main(int ac, char **av)
 	manage_command(ac, av, server.opts);
 	server.socket = create_socket(server.opts->port, INADDR_ANY, SERVER);
 	server.map = create_map(server.opts->y, server.opts->x);
-	look(server);
+	look(&server);
 	game_loop(&server);
 	clear_server(&server);
 	return (SUCCESS);

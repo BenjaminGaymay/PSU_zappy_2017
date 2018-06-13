@@ -10,20 +10,21 @@
 #include <map>
 #include <vector>
 #include "Tools.hpp"
+#include "Execption.hpp"
 
 namespace Graphical {
 	class Case {
 	public:
 		explicit Case(const Pos &pos) : _pos(pos)
 		{
-			for (std::size_t i = 0 ; i < _size ; ++i)
-				_resources[i] = 0;
+			for (std::size_t i = 0 ; i < _size ; ++i) _resources[i] = 0;
 		};
 
 		~Case() = default;
 
-		void addResource(int id, std::size_t nb) { _resources[id] += nb; };
-		const std::size_t &getResource(int id) { return _resources[id]; };
+		inline void removeResource(int id, std::size_t nb) { if (_resources[id] > 0) _resources[id] -= nb;	};
+		inline void addResource(int id, std::size_t nb) { _resources[id] += nb; };
+		inline const std::size_t &getResource(int id) { return _resources[id]; };
 
 	private:
 		Pos _pos;
@@ -40,20 +41,26 @@ namespace Graphical {
 		{
 			for (int y = 0 ; y < _size.y ; ++y) {
 				for (int x = 0 ; x < _size.x; ++x) {
-					Pos pos = {x, y};
-					//_map[pos] = std::make_unique<Case>(pos);
+					Pos pos;
+					pos.x = x;
+					pos.y = y;
+					//_map.insert(std::pair<Pos, std::unique_ptr<Case>>(pos, std::make_unique<Case>(pos)));
+					_map[pos] = std::make_unique<Case>(pos);
 				}
 			}
 		};
 
 		void setSize(const Pos &size) { _size = size; };
 		const Pos &getSize() const { return _size; };
-		const std::map<Pos, std::unique_ptr<Case>> &getMap() const { _map; };
+		const std::map<Pos, std::unique_ptr<Case>> &getMap() const { return _map; };
 		const std::unique_ptr<Case> &getCase(const Pos &pos) const
 		{
+			static std::unique_ptr<Case> notFound = nullptr;
+
 			for (auto &elem : _map)
 				if (elem.first.x == pos.x && elem.first.y == pos.y)
 					return elem.second;
+			return notFound;
 		};
 	private:
 		Pos _size;

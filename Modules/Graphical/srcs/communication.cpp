@@ -72,7 +72,7 @@ int Graphical::Game::setPlayerPosition(const std::vector<std::string> &array)
 	pos.y = std::stoi(array[2]);
 	int rotation = std::stoi(array[3]);
 
-	std::unique_ptr<Player> &player = isPlayerExist(id);
+	const std::unique_ptr<Player> &player = isPlayerExist(id);
 	if (!player) {
 		std::cerr << "Player not found" << std::endl;
 		return 1;
@@ -86,7 +86,7 @@ int Graphical::Game::setPlayerLevel(const std::vector<std::string> &array)
 {
 	int id = std::stoi(array[0]);
 	std::size_t level = std::stoul(array[1]);
-	std::unique_ptr<Player> &player = isPlayerExist(id);
+	const std::unique_ptr<Player> &player = isPlayerExist(id);
 
 	if (!player) {
 		std::cerr << "Player not found" << std::endl;
@@ -99,7 +99,7 @@ int Graphical::Game::setPlayerLevel(const std::vector<std::string> &array)
 int Graphical::Game::setPlayerInventory(const std::vector<std::string> &array)
 {
 	int id = std::stoi(array[0]);
-	std::unique_ptr<Player> &player = isPlayerExist(id);
+	const std::unique_ptr<Player> &player = isPlayerExist(id);
 	Pos pos;
 
 	pos.x = std::stoi(array[1]);
@@ -135,7 +135,7 @@ int Graphical::Game::manageFd()
 int Graphical::Game::setPlayerExpulsion(const std::vector<std::string> &array)
 {
 	int id = std::stoi(array[0]);
-	std::unique_ptr<Player> &player = isPlayerExist(id);
+	const std::unique_ptr<Player> &player = isPlayerExist(id);
 
 	if (!player) {
 		std::cerr << "Player not found" << std::endl;
@@ -149,13 +149,75 @@ int Graphical::Game::setPlayerBroadcast(const std::vector<std::string> &array)
 	int id = std::stoi(array[0]);
 	std::vector<std::string> copy(array.begin() + 1, array.end());
 	std::string msg = Graphical::fusion(copy, ' ');
-	std::unique_ptr<Player> &player = isPlayerExist(id);
+	const std::unique_ptr<Player> &player = isPlayerExist(id);
 
 	if (!player) {
 		std::cerr << "Player not found" << std::endl;
 		return 1;
 	}
 	std::cerr << "Player " << player->getId() << ": send:" << msg << std::endl;
+	return 0;
+}
+
+int Graphical::Game::setPlayerStartIncantation(const std::vector<std::string> &array)
+{
+	Pos pos;
+
+	pos.x = std::stoi(array[0]);
+	pos.y = std::stoi(array[1]);
+	std::size_t level = std::stoul(array[2]);
+	std::vector<int> playersId;
+	for (auto elem = array.begin() + 3 ; elem != array.end() ; ++elem) {
+		int id = std::stoi(*elem);
+		playersId.push_back(id);
+	}
+	(void) level;
+	(void) pos;
+	return 0;
+}
+
+int Graphical::Game::setPlayerEndIncantation(const std::vector<std::string> &array)
+{
+	Pos pos;
+
+	pos.x = std::stoi(array[0]);
+	pos.y = std::stoi(array[1]);
+	auto result = static_cast<bool>(std::stoi(array[2]));
+	(void) pos;
+	(void) result;
+	return 0;
+}
+
+int Graphical::Game::setPlayerDropping(const std::vector<std::string> &array)
+{
+	int id = std::stoi(array[0]);
+	int resourceId = std::stoi(array[1]);
+	const std::unique_ptr<Player> &player = isPlayerExist(id);
+
+	if (!player) {
+		std::cerr << "Player not found" << std::endl;
+		return 1;
+	}
+	auto &aCase = getMap()->getCase(player->getPosition());
+	aCase->addResource(resourceId, 1);
+	return 0;
+}
+
+int Graphical::Game::setPlayerCollecting(const std::vector<std::string> &array)
+{
+	int id = std::stoi(array[0]);
+	int resourceId = std::stoi(array[1]);
+	const std::unique_ptr<Player> &player = isPlayerExist(id);
+
+	if (!player) {
+		std::cerr << "Player not found" << std::endl;
+		return 1;
+	}
+	player->addResource(resourceId, 1);
+	const std::unique_ptr<Case> &aCase = getMap()->getCase(player->getPosition());
+	if (aCase) {
+		aCase->removeResource(resourceId, 1);
+	}
 	return 0;
 }
 
@@ -170,4 +232,8 @@ void Graphical::Game::initPtrFunction()
 	_ptr_function["pin"] = std::bind(&Graphical::Game::setPlayerInventory, this, std::placeholders::_1);
 	_ptr_function["pex"] = std::bind(&Graphical::Game::setPlayerExpulsion, this, std::placeholders::_1);
 	_ptr_function["pbc"] = std::bind(&Graphical::Game::setPlayerBroadcast, this, std::placeholders::_1);
+	_ptr_function["pic"] = std::bind(&Graphical::Game::setPlayerStartIncantation, this, std::placeholders::_1);
+	_ptr_function["pie"] = std::bind(&Graphical::Game::setPlayerEndIncantation, this, std::placeholders::_1);
+	_ptr_function["pdr"] = std::bind(&Graphical::Game::setPlayerDropping, this, std::placeholders::_1);
+	_ptr_function["pgt"] = std::bind(&Graphical::Game::setPlayerCollecting, this, std::placeholders::_1);
 }

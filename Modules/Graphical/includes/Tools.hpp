@@ -15,7 +15,10 @@ namespace Graphical {
 		int y;
 	} Pos;
 
-	static std::vector<std::string> explode(const std::string &str, char separator)
+	inline bool operator<(const Pos &one, const Pos &two) { return one.x < two.x || one.y < two.y; };
+
+	__attribute__((unused)) static std::vector<std::string>
+	explode(const std::string &str, char separator)
 	{
 		std::string tmp;
 		std::vector<std::string> splited;
@@ -33,7 +36,8 @@ namespace Graphical {
 		return splited;
 	}
 
-	static std::string fusion(std::vector<std::string> &array, const char &sepChar)
+	__attribute__((unused)) static std::string
+	fusion(std::vector<std::string> &array, const char &sepChar)
 	{
 		bool sep = false;
 		std::string result;

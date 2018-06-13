@@ -9,9 +9,9 @@
 
 static t_ptr_action *get_ptr_actions(void){
 	static t_ptr_action ptr[] = {
-		// {forward, "Forward"},
-		// {right, "Right"},
-		// {left, "Left"},
+		{forward, "Forward"},
+		{right, "Right"},
+		{left, "Left"},
 		{look, "Look"},
 		// {inventory, "Inventory"},
 		// {broadcast, "Broadcast text"},

@@ -41,3 +41,6 @@
 	\n\tmachine\tis the name of the machine; localhost by default\n"
 
 #define LOOK_TIME 7
+#define FORWARD_TIME 7
+#define RIGHT_TIME 7
+#define LEFT_TIME 7

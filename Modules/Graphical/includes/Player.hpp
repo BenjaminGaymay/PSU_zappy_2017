@@ -11,8 +11,8 @@
 namespace Graphical {
 	class Player {
 	public:
-		Player(const Graphical::Pos &pos, const int &rota, const int &id)
-				: _pos(pos), _rotation(rota), _id(id)
+		Player(const int &id, const Graphical::Pos &pos, const int &rota, const std::size_t &level, const std::string &team)
+				: _id(id), _pos(pos), _rotation(rota), _level(level), _team(team)
 		{
 		};
 
@@ -27,12 +27,17 @@ namespace Graphical {
 			_pos = pos;
 		};
 		void setRotation(const int &rotation) { _rotation = rotation; };
+		void setLevel(const std::size_t &level) { _level = level; };
+		const int &getId() const { return _id; };
 		const Pos &getPosition() const { return _pos; };
 		const int &getRotation() const { return _rotation; };
-		const int &getId() const { return _id; };
+		const std::size_t &getLevel() const { return _level; };
+		const std::string &getTeam() const { return _team; };
 	private:
+		const int _id;
 		Pos _pos;
 		int _rotation;
-		int _id;
+		std::size_t _level;
+		const std::string _team;
 	};
 }

@@ -6,6 +6,9 @@
 */
 #pragma once
 
+#include <iostream>
+#include <vector>
+
 namespace Graphical {
 	typedef struct {
 		int x;

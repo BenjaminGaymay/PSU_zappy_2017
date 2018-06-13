@@ -27,6 +27,5 @@ char *inventory(t_server *server, t_message *cmd)
 			asprintf(&str, "%s, ", str);
 	}
 	asprintf(&str, "%s]", str);
-	printf("%s\n", str);
 	return (str);
 }

@@ -132,6 +132,33 @@ int Graphical::Game::manageFd()
 	return 0;
 }
 
+int Graphical::Game::setPlayerExpulsion(const std::vector<std::string> &array)
+{
+	int id = std::stoi(array[0]);
+	std::unique_ptr<Player> &player = isPlayerExist(id);
+
+	if (!player) {
+		std::cerr << "Player not found" << std::endl;
+		return 1;
+	}
+	return 0;
+}
+
+int Graphical::Game::setPlayerBroadcast(const std::vector<std::string> &array)
+{
+	int id = std::stoi(array[0]);
+	std::vector<std::string> copy(array.begin() + 1, array.end());
+	std::string msg = Graphical::fusion(copy, ' ');
+	std::unique_ptr<Player> &player = isPlayerExist(id);
+
+	if (!player) {
+		std::cerr << "Player not found" << std::endl;
+		return 1;
+	}
+	std::cerr << "Player " << player->getId() << ": send:" << msg << std::endl;
+	return 0;
+}
+
 void Graphical::Game::initPtrFunction()
 {
 	_ptr_function["msz"] = std::bind(&Graphical::Game::setSize, this, std::placeholders::_1);
@@ -141,4 +168,6 @@ void Graphical::Game::initPtrFunction()
 	_ptr_function["ppo"] = std::bind(&Graphical::Game::setPlayerPosition, this, std::placeholders::_1);
 	_ptr_function["plv"] = std::bind(&Graphical::Game::setPlayerLevel, this, std::placeholders::_1);
 	_ptr_function["pin"] = std::bind(&Graphical::Game::setPlayerInventory, this, std::placeholders::_1);
+	_ptr_function["pex"] = std::bind(&Graphical::Game::setPlayerExpulsion, this, std::placeholders::_1);
+	_ptr_function["pbc"] = std::bind(&Graphical::Game::setPlayerBroadcast, this, std::placeholders::_1);
 }

@@ -32,4 +32,18 @@ namespace Graphical {
 			splited.push_back(tmp);
 		return splited;
 	}
+
+	static std::string fusion(std::vector<std::string> &array, const char &sepChar)
+	{
+		bool sep = false;
+		std::string result;
+
+		for (auto &line : array) {
+			if (sep)
+				result += sepChar;
+			result += line;
+			sep = true;
+		}
+		return result;
+	}
 }

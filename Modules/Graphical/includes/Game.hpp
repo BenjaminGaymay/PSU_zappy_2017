@@ -49,6 +49,8 @@ namespace Graphical {
 		int setPlayerPosition(const std::vector<std::string> &array);
 		int setPlayerLevel(const std::vector<std::string> &array);
 		int setPlayerInventory(const std::vector<std::string> &array);
+		int setPlayerExpulsion(const std::vector<std::string> &array);
+		int setPlayerBroadcast(const std::vector<std::string> &array);
 		/* TOOLS */
 		void addPlayerToTeam(const std::string &team, const int &playerId)
 		{

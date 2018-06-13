@@ -8,7 +8,9 @@
 
 #pragma once
 
+#ifndef _GNU_SOURCE /* default defined on c++ */
 #define _GNU_SOURCE
+#endif
 
 #include <stdio.h>
 #include <stdbool.h>

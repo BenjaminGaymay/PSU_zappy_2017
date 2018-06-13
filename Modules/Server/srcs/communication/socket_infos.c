@@ -42,11 +42,14 @@ static int read_on_client(t_server *server, t_client *client)
 	if (size > 0) {
 		buffer[size] = '\0';
 		tmp = strtok(buffer, "\n");
-		while (tmp) {
+		while (tmp && client->request_number < 10) {
 			if (add_message_in_list(server, client, tmp) == ERROR)
 				return (ERROR);
+			client->request_number += 1;
 			tmp = strtok(NULL, "\n");
 		}
+		if (client->request_number >= 10)
+			printf("MAX REQUEST NUMBER FOR PLAYER '%ld'\n", client->player_id);
 	}
 	else
 		return (remove_client(server, client), ERROR);

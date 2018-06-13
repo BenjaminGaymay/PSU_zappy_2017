@@ -19,6 +19,7 @@ SRCS	=	./srcs/main.c				\
 		./srcs/map/create_map.c			\
 		./srcs/clients/manage_clients.c		\
 		./srcs/clients/get_client_inventory.c	\
+		./srcs/clients/manage_team.c		\
 		./srcs/communication/socket_infos.c	\
 		./srcs/communication/manage_messages.c	\
 		./srcs/game/game_loop.c			\
@@ -27,8 +28,6 @@ SRCS	=	./srcs/main.c				\
 		./srcs/game/move.c			\
 		./srcs/map/look.c			\
 		./srcs/map/get_map_look.c		\
-		./srcs/clients/get_client_inventory.c	\
-		./srcs/clients/manage_team.c		\
 		./srcs/graphics/graphics.c		\
 		$(SHARED)/srcs/connection/sockets.c	\
 		$(SHARED)/srcs/tools/array_tools.c	\

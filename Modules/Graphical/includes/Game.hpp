@@ -70,7 +70,15 @@ namespace Graphical {
 				_teams[team] = std::vector<int>();
 
 		};
-		inline void removeATeam(const std::string &team) {	if (isTeamExist(team)) _teams.erase(_teams.find(team)); }
+		void removeATeam(const std::string &team)
+		{
+			if (isTeamExist(team)) {
+				auto &aTeam = _teams[team];
+				for (auto &player : aTeam)
+					removePlayer(player);
+				_teams.erase(_teams.find(team));
+			}
+		}
 		inline const std::vector<int> &getATeam(const std::string &team) { return _teams[team]; };
 		inline const std::map<std::string, std::vector<int>> &getTeams() const { return _teams; };
 		inline bool isTeamExist(const std::string &team) { return _teams.find(team) != _teams.end(); };

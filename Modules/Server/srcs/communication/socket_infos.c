@@ -42,11 +42,14 @@ static int read_on_client(t_server *server, t_client *client)
 	if (size > 0) {
 		buffer[size] = '\0';
 		tmp = strtok(buffer, "\n");
-		while (tmp) {
+		while (tmp && client->request_number < 10) {
 			if (add_message_in_list(server, client, tmp) == ERROR)
 				return (ERROR);
+			client->request_number += 1;
 			tmp = strtok(NULL, "\n");
 		}
+		if (client->request_number >= 10)
+			printf("MAX REQUEST NUMBER FOR PLAYER '%ld'\n", client->player_id);
 	}
 	else
 		return (remove_client(server, client), ERROR);
@@ -69,7 +72,7 @@ static int are_clients_written(t_server *server, fd_set *fd_read)
 int manage_sockets(t_server *server)
 {
 	static fd_set fd_read;
-	struct timeval tv = {1, 0};
+	struct timeval tv = {0, 50};
 
 	reset_all_sockets(server, &fd_read);
 	if (select(get_max_fd(server) + 1, &fd_read, NULL, NULL, &tv) == -1)

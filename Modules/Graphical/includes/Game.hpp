@@ -10,6 +10,7 @@
 #include <vector>
 #include "Player.hpp"
 #include "Sfml.hpp"
+#include "Communication.hpp"
 
 namespace Graphical {
 	class Game {
@@ -23,8 +24,8 @@ namespace Graphical {
 		~Game() = default;
 		void addPlayer(std::unique_ptr<Player> player) { _players.emplace_back(std::move(player)); };
 		void setDisplayer(std::unique_ptr<Sfml> sfml) { _sfml = std::move(sfml); };
-		void setCommunication() {};
-		//const std::unique_ptr<> &getCommunication() const { return _com; };
+		void setCommunication(std::unique_ptr<Communication> com) { _com = std::move(com); };
+		const std::unique_ptr<Communication> &getCommunication() const { return _com; };
 		const std::unique_ptr<Sfml> &getDisplayer() const { return _sfml; };
 		void printGame(std::vector<std::vector<char>> map);
 		std::map<GAME_MOD, sf::FloatRect> createButtons();
@@ -35,7 +36,7 @@ namespace Graphical {
 	private:
 		std::vector<std::unique_ptr<Player>> _players;
 		std::unique_ptr<Sfml> _sfml;
-		//std::unique_ptr<> _com;
+		std::unique_ptr<Communication> _com;
 		GAME_MOD _type;
 	};
 }

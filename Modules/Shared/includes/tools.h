@@ -18,3 +18,4 @@ char *rstrip(char *, char *);
 char char_to_upper(char);
 void str_to_upper(char *);
 int count_words(char *, char *);
+bool is_number(char *);

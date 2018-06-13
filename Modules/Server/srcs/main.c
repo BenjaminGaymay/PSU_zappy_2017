@@ -31,6 +31,7 @@ static void clear_server(t_server *server)
 	remove_all_messages(server);
 	remove_map(server->map, server->opts->y);
 	free(server->opts);
+	close(server->socket);
 }
 
 static bool check_valid_options(t_opts *opt)
@@ -44,18 +45,15 @@ static bool check_valid_options(t_opts *opt)
 
 int main(int ac, char **av)
 {
-	t_server server;
 	t_opts *opts = init_opts();
+	t_server server = {opts, NULL, NULL, NULL, DEFAULT_VALUE};
 
-	server.opts = opts;
-	server.clients = NULL;
-	server.messages = NULL;
+
 	if (manage_command(ac, av, server.opts) == ERROR ||
 		!check_valid_options(server.opts))
 		return (free(opts), fprintf(stderr, "Bad arguments.\n"),  ERROR);
 	server.socket = create_socket(server.opts->port, INADDR_ANY, SERVER);
 	server.map = create_map(server.opts->y, server.opts->x);
-	look(&server);
 	game_loop(&server);
 	clear_server(&server);
 	return (SUCCESS);

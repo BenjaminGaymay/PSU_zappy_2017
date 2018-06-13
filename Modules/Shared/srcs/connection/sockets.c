@@ -36,6 +36,7 @@ static int server(int fd, struct sockaddr_in *s_in)
 int create_socket(const int port, const in_addr_t addr,
 			const e_socket_type socket_type)
 {
+	int i = 1;
 	int fd;
 	struct protoent *pe;
 	struct sockaddr_in s_in;
@@ -44,7 +45,7 @@ int create_socket(const int port, const in_addr_t addr,
 	if (!pe)
 		return (FCT_FAILED("getprotobyname"), FD_ERROR);
 	fd = socket(PF_INET, SOCK_STREAM, pe->p_proto);
-	if (setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, &(int){1},
+	if (setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, &i,
 		sizeof(int)) < 0)
 		return (FCT_FAILED("setsockopt"), FD_ERROR);
 	if (fd == -1)

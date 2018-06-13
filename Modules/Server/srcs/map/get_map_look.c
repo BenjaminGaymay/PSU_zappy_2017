@@ -22,13 +22,13 @@ char *comma(const t_get_type tab[7], char *str, int nb)
 char *push_str(t_server *server, char *str, t_pos pos)
 {
 	static int x = 0;
-	const t_get_type tab[7] = {{server->map[pos.y][pos.x].linemate, "linemate"},
+	const t_get_type tab[7] = {{server->map[pos.y][pos.x].food, "food"},
+	{server->map[pos.y][pos.x].linemate, "linemate"},
 	{server->map[pos.y][pos.x].deraumere, "deraumere"},
 	{server->map[pos.y][pos.x].sibur, "sibur"},
 	{server->map[pos.y][pos.x].mendiane, "mendiane"},
 	{server->map[pos.y][pos.x].phiras, "phiras"},
-	{server->map[pos.y][pos.x].thystame, "thystame"},
-	{server->map[pos.y][pos.x].food, "food"}};
+	{server->map[pos.y][pos.x].thystame, "thystame"}};
 
 	str = comma(tab, str, 0);
 	for (int i = 0; i < 7;++i)

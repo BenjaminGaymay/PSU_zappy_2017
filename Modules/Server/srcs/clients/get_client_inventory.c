@@ -10,13 +10,13 @@
 char *get_client_inventory(t_client *client)
 {
 	char *str;
-	const t_get_type tab[7] = {{client->inventory.linemate, "linemate"},
+	const t_get_type tab[7] = {{client->inventory.food, "food"},
+	{client->inventory.linemate, "linemate"},
 	{client->inventory.deraumere, "deraumere"},
 	{client->inventory.sibur, "sibur"},
 	{client->inventory.mendiane, "mendiane"},
 	{client->inventory.phiras, "phiras"},
-	{client->inventory.thystame, "thystame"},
-	{client->inventory.food, "food"}};
+	{client->inventory.thystame, "thystame"}};
 
 	asprintf(&str, "[");
 	for (int i = 0; i < 7;++i) {

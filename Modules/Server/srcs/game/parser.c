@@ -13,7 +13,7 @@ static t_ptr_action *get_ptr_actions(void){
 		{right, "Right"},
 		{left, "Left"},
 		{look, "Look"},
-		// {inventory, "Inventory"},
+		{inventory, "Inventory"},
 		// {broadcast, "Broadcast text"},
 		// {connect_number, "Connect_nbr"},
 		// {fork_cmd, "Fork"},

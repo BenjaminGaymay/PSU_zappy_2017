@@ -46,7 +46,7 @@ static bool check_valid_options(t_opts *opt)
 int main(int ac, char **av)
 {
 	t_opts *opts = init_opts();
-	t_server server = {opts, NULL, NULL, NULL, DEFAULT_VALUE};
+	t_server server = {opts, NULL, NULL, NULL, NULL, DEFAULT_VALUE};
 
 
 	if (manage_command(ac, av, server.opts) == ERROR ||

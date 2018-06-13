@@ -199,6 +199,10 @@ int Graphical::Game::setPlayerDropping(const std::vector<std::string> &array)
 		return 1;
 	}
 	auto &aCase = getMap()->getCase(player->getPosition());
+	if (!aCase) {
+		std::cerr << "Case not found" << std::endl;
+		return 1;
+	}
 	aCase->addResource(resourceId, 1);
 	return 0;
 }
@@ -215,9 +219,29 @@ int Graphical::Game::setPlayerCollecting(const std::vector<std::string> &array)
 	}
 	player->addResource(resourceId, 1);
 	const std::unique_ptr<Case> &aCase = getMap()->getCase(player->getPosition());
-	if (aCase) {
-		aCase->removeResource(resourceId, 1);
+	if (!aCase) {
+		std::cerr << "Case not found" << std::endl;
+		return 1;
 	}
+	aCase->removeResource(resourceId, 1);
+	return 0;
+}
+
+int Graphical::Game::setPlayerEgg(const std::vector<std::string> &array)
+{
+	int id = std::stoi(array[0]);
+	const std::unique_ptr<Player> &player = isPlayerExist(id);
+
+	if (!player) {
+		std::cerr << "Player not found" << std::endl;
+		return 1;
+	}
+	const std::unique_ptr<Case> &aCase = getMap()->getCase(player->getPosition());
+	if (!aCase) {
+		std::cerr << "Case not found" << std::endl;
+		return 1;
+	}
+	aCase->addEgg(player->getId());
 	return 0;
 }
 
@@ -234,6 +258,7 @@ void Graphical::Game::initPtrFunction()
 	_ptr_function["pbc"] = std::bind(&Graphical::Game::setPlayerBroadcast, this, std::placeholders::_1);
 	_ptr_function["pic"] = std::bind(&Graphical::Game::setPlayerStartIncantation, this, std::placeholders::_1);
 	_ptr_function["pie"] = std::bind(&Graphical::Game::setPlayerEndIncantation, this, std::placeholders::_1);
+	_ptr_function["pfk"] = std::bind(&Graphical::Game::setPlayerEgg, this, std::placeholders::_1);
 	_ptr_function["pdr"] = std::bind(&Graphical::Game::setPlayerDropping, this, std::placeholders::_1);
 	_ptr_function["pgt"] = std::bind(&Graphical::Game::setPlayerCollecting, this, std::placeholders::_1);
 }

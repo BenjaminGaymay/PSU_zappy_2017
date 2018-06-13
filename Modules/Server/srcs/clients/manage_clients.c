@@ -6,6 +6,7 @@
 */
 
 #include "client.h"
+#include "communication.h"
 
 int add_client(t_server *server)
 {
@@ -30,6 +31,17 @@ int add_client(t_server *server)
 	new->next = server->clients;
 	server->clients = new;
 	return (SUCCESS);
+}
+
+void unlink_client_messages(t_server *server, t_client *client)
+{
+	t_message *tmp = server->messages;
+
+	while (tmp) {
+		if (tmp->owner->player_id == client->player_id)
+			tmp->owner = NULL;
+		tmp = tmp->next;
+	}
 }
 
 void remove_client(t_server *server, t_client *client)

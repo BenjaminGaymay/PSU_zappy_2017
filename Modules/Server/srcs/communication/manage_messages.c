@@ -40,13 +40,15 @@ void read_all_messages(t_server *server, t_message *messages)
 	}
 }
 
-static void remove_messages(t_server *server, t_message *message)
+void remove_messages(t_server *server, t_message *message)
 {
 	printf("Remove - Request '%s' / Response '%s'\n", message->request, message->response);
 	if (message == server->messages)
 		server->messages = message->next;
-	message->owner->request_number -= 1;
-	message->owner->occupied = false;
+	if (message->owner) {
+		message->owner->request_number -= 1;
+		message->owner->occupied = false;
+	}
 	free(message->request);
 	free(message->response);
 	free(message);

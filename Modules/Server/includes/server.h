@@ -13,6 +13,12 @@
 #include "sockets.h"
 #include "map.h"
 
+typedef struct s_graphical_client {
+	int socket;
+	size_t id;
+	struct s_graphical_client *next;
+} t_graphical_client;
+
 typedef struct s_client {
 	int socket;
 	size_t team_id;
@@ -39,6 +45,7 @@ typedef struct s_server {
 	t_opts *opts;
 	t_inventory **map;
 	t_client *clients;
+	t_graphical_client *graphical_client;
 	t_message *messages;
 	int socket;
 } t_server;

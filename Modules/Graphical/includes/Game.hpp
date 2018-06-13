@@ -46,6 +46,9 @@ namespace Graphical {
 		int setCase(const std::vector<std::string> &array);
 		int setTeam(const std::vector<std::string> &array);
 		int setPlayer(const std::vector<std::string> &array);
+		int setPlayerPosition(const std::vector<std::string> &array);
+		int setPlayerLevel(const std::vector<std::string> &array);
+		int setPlayerInventory(const std::vector<std::string> &array);
 		/* TOOLS */
 		void addPlayerToTeam(const std::string &team, const int &playerId)
 		{
@@ -61,12 +64,11 @@ namespace Graphical {
 		const std::vector<int> &getATeam(const std::string &team) { return _teams[team]; };
 		const std::map<std::string, std::vector<int>> &getTeams() const { return _teams; };
 		bool isTeamExist(const std::string &team) { return _teams.find(team) != _teams.end(); };
-		bool isPlayerExist(const int &id)
+		std::unique_ptr<Player> &isPlayerExist(const int &id)
 		{
 			for (auto &player : _players)
 				if (player->getId() == id)
-					return true;
-			return false;
+					return player;
 		}
 		bool isPlayerInTeam(const std::string &team, const int &id) { return std::find(_teams[team].begin(), _teams[team].end(), id) != _teams[team].end(); };
 	private:

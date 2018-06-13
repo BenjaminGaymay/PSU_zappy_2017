@@ -51,7 +51,7 @@ namespace Graphical {
 		int setPlayerBroadcast(const std::vector<std::string> &array);
 		int setPlayerStartIncantation(const std::vector<std::string> &array);
 		int setPlayerEndIncantation(const std::vector<std::string> &array);
-		//int setPlayerEgg(const std::vector<std::string> &array);
+		int setPlayerLaying(const std::vector<std::string> &array);
 		int setPlayerDropping(const std::vector<std::string> &array);
 		int setPlayerCollecting(const std::vector<std::string> &array);
 		int setPlayerDeath(const std::vector<std::string> &array);

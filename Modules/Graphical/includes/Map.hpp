@@ -45,10 +45,7 @@ namespace Graphical {
 		{
 			for (int y = 0 ; y < _size.y ; ++y) {
 				for (int x = 0 ; x < _size.x; ++x) {
-					Pos pos;
-					pos.x = x;
-					pos.y = y;
-					//_map.insert(std::pair<Pos, std::unique_ptr<Case>>(pos, std::make_unique<Case>(pos)));
+					Pos pos(x, y);
 					_map[pos] = std::make_unique<Case>(pos);
 				}
 			}

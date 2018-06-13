@@ -8,12 +8,24 @@
 #include <Tools.hpp>
 #include "Game.hpp"
 
+int Graphical::Game::manageFd()
+{
+	auto array = _com->readFd(_com->getSocket());
+	for (auto &line : array) {
+		auto command = Graphical::explode(line, ' ');
+		auto aFunction = _ptr_function[command[0]];
+		if (aFunction) {
+			command.erase(command.begin());
+			aFunction(command);
+		}
+	}
+	return 0;
+}
+
 int Graphical::Game::setSize(const std::vector<std::string> &array)
 {
-	Pos pos;
+	Pos pos(std::stoi(array[0]), std::stoi(array[1]));
 
-	pos.x = std::stoi(array[0]);
-	pos.y = std::stoi(array[1]);
 	_map->setSize(pos);
 	_map->initMap();
 	return 0;
@@ -21,10 +33,8 @@ int Graphical::Game::setSize(const std::vector<std::string> &array)
 
 int Graphical::Game::setCase(const std::vector<std::string> &array)
 {
-	Pos pos;
+	Pos pos(std::stoi(array[0]), std::stoi(array[1]));
 
-	pos.x = std::stoi(array[0]);
-	pos.y = std::stoi(array[1]);
 	auto &aCase = _map->getCase(pos);
 	if (!aCase)
 		return 1;
@@ -47,14 +57,12 @@ int Graphical::Game::setTeam(const std::vector<std::string> &array)
 
 int Graphical::Game::setPlayer(const std::vector<std::string> &array)
 {
-	Pos pos;
-
 	int id = std::stoi(array[0]);
-	pos.x = std::stoi(array[1]);
-	pos.y = std::stoi(array[2]);
+	Pos pos(std::stoi(array[1]), std::stoi(array[2]));
 	int rotation = std::stoi(array[3]);
 	std::size_t level = std::stoul(array[4]);
 	const std::string team = array[5];
+
 	if (!isTeamExist(team) || isPlayerExist(id)) {
 		std::cerr << "Player or team not found" << std::endl;
 		return 1;
@@ -65,11 +73,8 @@ int Graphical::Game::setPlayer(const std::vector<std::string> &array)
 
 int Graphical::Game::setPlayerPosition(const std::vector<std::string> &array)
 {
-	Pos pos;
-
 	int id = std::stoi(array[0]);
-	pos.x = std::stoi(array[1]);
-	pos.y = std::stoi(array[2]);
+	Pos pos(std::stoi(array[1]), std::stoi(array[2]));
 	int rotation = std::stoi(array[3]);
 
 	const std::unique_ptr<Player> &player = isPlayerExist(id);
@@ -100,10 +105,8 @@ int Graphical::Game::setPlayerInventory(const std::vector<std::string> &array)
 {
 	int id = std::stoi(array[0]);
 	const std::unique_ptr<Player> &player = isPlayerExist(id);
-	Pos pos;
+	Pos pos(std::stoi(array[1]), std::stoi(array[2]));
 
-	pos.x = std::stoi(array[1]);
-	pos.y = std::stoi(array[2]);
 	if (!player) {
 		std::cerr << "Player not found" << std::endl;
 		return 1;
@@ -114,20 +117,6 @@ int Graphical::Game::setPlayerInventory(const std::vector<std::string> &array)
 		auto str = *elem;
 		player->addResource(index, std::stoul(str));
 		++index;
-	}
-	return 0;
-}
-
-int Graphical::Game::manageFd()
-{
-	auto array = _com->readFd(_com->getSocket());
-	for (auto &line : array) {
-		auto command = Graphical::explode(line, ' ');
-		auto aFunction = _ptr_function[command[0]];
-		if (aFunction) {
-			command.erase(command.begin());
-			aFunction(command);
-		}
 	}
 	return 0;
 }
@@ -161,12 +150,10 @@ int Graphical::Game::setPlayerBroadcast(const std::vector<std::string> &array)
 
 int Graphical::Game::setPlayerStartIncantation(const std::vector<std::string> &array)
 {
-	Pos pos;
-
-	pos.x = std::stoi(array[0]);
-	pos.y = std::stoi(array[1]);
+	Pos pos(std::stoi(array[0]), std::stoi(array[1]));
 	std::size_t level = std::stoul(array[2]);
 	std::vector<int> playersId;
+
 	for (auto elem = array.begin() + 3 ; elem != array.end() ; ++elem) {
 		int id = std::stoi(*elem);
 		playersId.push_back(id);
@@ -178,11 +165,9 @@ int Graphical::Game::setPlayerStartIncantation(const std::vector<std::string> &a
 
 int Graphical::Game::setPlayerEndIncantation(const std::vector<std::string> &array)
 {
-	Pos pos;
-
-	pos.x = std::stoi(array[0]);
-	pos.y = std::stoi(array[1]);
+	Pos pos(std::stoi(array[0]), std::stoi(array[1]));
 	auto result = static_cast<bool>(std::stoi(array[2]));
+
 	(void) pos;
 	(void) result;
 	return 0;
@@ -227,23 +212,12 @@ int Graphical::Game::setPlayerCollecting(const std::vector<std::string> &array)
 	return 0;
 }
 
-/*int Graphical::Game::setPlayerEgg(const std::vector<std::string> &array)
+int Graphical::Game::setPlayerLaying(const std::vector<std::string> &array)
 {
-	int id = std::stoi(array[0]);
-	const std::unique_ptr<Player> &player = isPlayerExist(id);
-
-	if (!player) {
-		std::cerr << "Player not found" << std::endl;
-		return 1;
-	}
-	const std::unique_ptr<Case> &aCase = getMap()->getCase(player->getPosition());
-	if (!aCase) {
-		std::cerr << "Case not found" << std::endl;
-		return 1;
-	}
-	aCase->addEgg(player->getId());
+	(void) array;
+	/* player is working so, nothing need to be displayed */
 	return 0;
-}*/
+}
 
 int Graphical::Game::setPlayerDeath(const std::vector<std::string> &array)
 {
@@ -257,9 +231,7 @@ int Graphical::Game::setEgg(const std::vector<std::string> &array)
 {
 	int eggId = std::stoi(array[0]);
 	int playerId = std::stoi(array[1]);
-	Pos pos;
-	pos.x = std::stoi(array[2]);
-	pos.y = std::stoi(array[3]);
+	Pos pos(std::stoi(array[2]), std::stoi(array[3]));
 
 	auto &player = isPlayerExist(playerId);
 	if (!player) {
@@ -304,7 +276,7 @@ void Graphical::Game::initPtrFunction()
 	_ptr_function["pbc"] = std::bind(&Graphical::Game::setPlayerBroadcast, this, std::placeholders::_1);
 	_ptr_function["pic"] = std::bind(&Graphical::Game::setPlayerStartIncantation, this, std::placeholders::_1);
 	_ptr_function["pie"] = std::bind(&Graphical::Game::setPlayerEndIncantation, this, std::placeholders::_1);
-	//_ptr_function["pfk"] = std::bind(&Graphical::Game::setPlayerEgg, this, std::placeholders::_1);
+	_ptr_function["pfk"] = std::bind(&Graphical::Game::setPlayerLaying, this, std::placeholders::_1);
 	_ptr_function["pdr"] = std::bind(&Graphical::Game::setPlayerDropping, this, std::placeholders::_1);
 	_ptr_function["pgt"] = std::bind(&Graphical::Game::setPlayerCollecting, this, std::placeholders::_1);
 	_ptr_function["pdi"] = std::bind(&Graphical::Game::setPlayerDeath, this, std::placeholders::_1);

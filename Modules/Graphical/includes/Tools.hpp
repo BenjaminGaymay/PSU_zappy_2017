@@ -10,10 +10,13 @@
 #include <vector>
 
 namespace Graphical {
-	typedef struct {
+	struct Pos {
 		int x;
 		int y;
-	} Pos;
+		Pos() = default;
+		Pos(int X, int Y) : x(X), y(Y) {};
+		~Pos() = default;
+	};
 
 	inline bool operator<(const Pos &one, const Pos &two) { return one.x < two.x || one.y < two.y; };
 

@@ -6,6 +6,7 @@
 */
 #pragma once
 
+#include <vector>
 #include <stdexcept>
 #include "macro.h"
 #include "sockets.h"
@@ -57,7 +58,16 @@ namespace Graphical {
 				closeFd(_socket);
 			return array;
 		}
-
+		bool sendToFd(const int &fd, const std::string &str, bool endl = true)
+		{
+			std::string msg = str;
+			if (!isValidFd(fd))
+				return false;
+			if (endl)
+				msg += "\n";
+			dprintf(fd, "%s", msg.c_str());
+			return true;
+		}
 		const int &getSocket() const { return _socket; };
 	private:
 		int _socket;

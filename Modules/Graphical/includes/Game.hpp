@@ -27,6 +27,7 @@ namespace Graphical {
 		inline void addPlayer(std::unique_ptr<Player> player) { _players.emplace_back(std::move(player)); };
 		inline void setDisplayer(std::unique_ptr<Sfml> sfml) { _sfml = std::move(sfml); };
 		inline void setCommunication(std::unique_ptr<Communication> com) { _com = std::move(com); };
+		void initCommunication();
 		inline void setMap(std::unique_ptr<Map> map) { _map = std::move(map); };
 		inline const std::unique_ptr<Communication> &getCommunication() const { return _com; };
 		inline const std::unique_ptr<Sfml> &getDisplayer() const { return _sfml; };

@@ -46,7 +46,7 @@ static bool check_valid_options(t_opts *opt)
 int main(int ac, char **av)
 {
 	t_opts *opts = init_opts();
-	t_server server = {opts, NULL, NULL, NULL, -1, 0.0f};
+	t_server server = {opts, NULL, NULL, NULL, DEFAULT_VALUE};
 
 
 	if (manage_command(ac, av, server.opts) == ERROR ||
@@ -54,7 +54,6 @@ int main(int ac, char **av)
 		return (free(opts), fprintf(stderr, "Bad arguments.\n"),  ERROR);
 	server.socket = create_socket(server.opts->port, INADDR_ANY, SERVER);
 	server.map = create_map(server.opts->y, server.opts->x);
-	look(&server);
 	game_loop(&server);
 	clear_server(&server);
 	return (SUCCESS);

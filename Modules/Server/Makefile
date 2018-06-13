@@ -21,7 +21,8 @@ SRCS	=	./srcs/main.c				\
 		./srcs/communication/socket_infos.c	\
 		./srcs/communication/manage_messages.c	\
 		./srcs/game/game_loop.c			\
-		./srcs/game/manage_time.c			\
+		./srcs/game/manage_time.c		\
+		./srcs/game/parser.c			\
 		./srcs/map/look.c			\
 		./srcs/map/get_map_look.c		\
 		./srcs/clients/get_client_inventory.c	\

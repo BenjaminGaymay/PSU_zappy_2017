@@ -39,3 +39,5 @@
 	\n\tport\tis the port number\
 	\n\tname\tis the name of the team\
 	\n\tmachine\tis the name of the machine; localhost by default\n"
+
+#define LOOK_TIME 7

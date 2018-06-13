@@ -15,9 +15,9 @@ int game_loop(t_server *server)
 	while (1) {
 		if (manage_sockets(server) == ERROR)
 			return (ERROR);
-		read_all_messages(server->messages);
+		read_all_messages(server, server->messages);
 		send_responses(server->messages);
-		remove_all_messages(server);
+		remove_finished_actions(server);
 	}
 	return (SUCCESS);
 }

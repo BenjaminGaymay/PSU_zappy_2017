@@ -8,7 +8,6 @@
 #include <sys/time.h>
 #include <stdbool.h>
 
-#include <stdio.h>
 long long time_until_finish(int nb_cycles, int frequence)
 {
 	struct timeval tv;

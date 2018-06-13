@@ -227,7 +227,7 @@ int Graphical::Game::setPlayerCollecting(const std::vector<std::string> &array)
 	return 0;
 }
 
-int Graphical::Game::setPlayerEgg(const std::vector<std::string> &array)
+/*int Graphical::Game::setPlayerEgg(const std::vector<std::string> &array)
 {
 	int id = std::stoi(array[0]);
 	const std::unique_ptr<Player> &player = isPlayerExist(id);
@@ -242,6 +242,52 @@ int Graphical::Game::setPlayerEgg(const std::vector<std::string> &array)
 		return 1;
 	}
 	aCase->addEgg(player->getId());
+	return 0;
+}*/
+
+int Graphical::Game::setPlayerDeath(const std::vector<std::string> &array)
+{
+	int id = std::stoi(array[0]);
+
+	removePlayer(id);
+	return (0);
+}
+
+int Graphical::Game::setEgg(const std::vector<std::string> &array)
+{
+	int eggId = std::stoi(array[0]);
+	int playerId = std::stoi(array[1]);
+	Pos pos;
+	pos.x = std::stoi(array[2]);
+	pos.y = std::stoi(array[3]);
+
+	auto &player = isPlayerExist(playerId);
+	if (!player) {
+		std::cerr << "Player not found" << std::endl;
+		return 1;
+	}
+	const std::unique_ptr<Case> &aCase = getMap()->getCase(pos);
+	if (!aCase) {
+		std::cerr << "Case not found" << std::endl;
+		return 1;
+	}
+	addEgg(eggId, playerId);
+	aCase->addEgg(eggId);
+	return 0;
+}
+
+int Graphical::Game::setEggHatching(const std::vector<std::string> &array)
+{
+	int id = std::stoi(array[0]);
+	removeEgg(id);
+	return 0;
+}
+
+int Graphical::Game::setEndGame(const std::vector<std::string> &array)
+{
+	std::string team = array[0];
+
+	removeATeam(team);
 	return 0;
 }
 
@@ -258,7 +304,11 @@ void Graphical::Game::initPtrFunction()
 	_ptr_function["pbc"] = std::bind(&Graphical::Game::setPlayerBroadcast, this, std::placeholders::_1);
 	_ptr_function["pic"] = std::bind(&Graphical::Game::setPlayerStartIncantation, this, std::placeholders::_1);
 	_ptr_function["pie"] = std::bind(&Graphical::Game::setPlayerEndIncantation, this, std::placeholders::_1);
-	_ptr_function["pfk"] = std::bind(&Graphical::Game::setPlayerEgg, this, std::placeholders::_1);
+	//_ptr_function["pfk"] = std::bind(&Graphical::Game::setPlayerEgg, this, std::placeholders::_1);
 	_ptr_function["pdr"] = std::bind(&Graphical::Game::setPlayerDropping, this, std::placeholders::_1);
 	_ptr_function["pgt"] = std::bind(&Graphical::Game::setPlayerCollecting, this, std::placeholders::_1);
+	_ptr_function["pdi"] = std::bind(&Graphical::Game::setPlayerDeath, this, std::placeholders::_1);
+	_ptr_function["enw"] = std::bind(&Graphical::Game::setEgg, this, std::placeholders::_1);
+	_ptr_function["eht"] = std::bind(&Graphical::Game::setEggHatching, this, std::placeholders::_1);
+	_ptr_function["seg"] = std::bind(&Graphical::Game::setEndGame, this, std::placeholders::_1);
 }

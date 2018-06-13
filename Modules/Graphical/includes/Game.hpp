@@ -12,6 +12,7 @@
 #include "Sfml.hpp"
 #include "Communication.hpp"
 #include "Map.hpp"
+#include "Egg.hpp"
 
 namespace Graphical {
 	class Game {
@@ -50,9 +51,13 @@ namespace Graphical {
 		int setPlayerBroadcast(const std::vector<std::string> &array);
 		int setPlayerStartIncantation(const std::vector<std::string> &array);
 		int setPlayerEndIncantation(const std::vector<std::string> &array);
-		int setPlayerEgg(const std::vector<std::string> &array);
+		//int setPlayerEgg(const std::vector<std::string> &array);
 		int setPlayerDropping(const std::vector<std::string> &array);
 		int setPlayerCollecting(const std::vector<std::string> &array);
+		int setPlayerDeath(const std::vector<std::string> &array);
+		int setEgg(const std::vector<std::string> &array);
+		int setEggHatching(const std::vector<std::string> &array);
+		int setEndGame(const std::vector<std::string> &array);
 		/* TOOLS */
 		void addPlayerToTeam(const std::string &team, const int &playerId)
 		{
@@ -65,6 +70,7 @@ namespace Graphical {
 				_teams[team] = std::vector<int>();
 
 		};
+		inline void removeATeam(const std::string &team) {	if (isTeamExist(team)) _teams.erase(_teams.find(team)); }
 		inline const std::vector<int> &getATeam(const std::string &team) { return _teams[team]; };
 		inline const std::map<std::string, std::vector<int>> &getTeams() const { return _teams; };
 		inline bool isTeamExist(const std::string &team) { return _teams.find(team) != _teams.end(); };
@@ -78,6 +84,29 @@ namespace Graphical {
 			return notFound;
 		}
 		inline bool isPlayerInTeam(const std::string &team, const int &id) { return std::find(_teams[team].begin(), _teams[team].end(), id) != _teams[team].end(); };
+		void removePlayer(const int &id)
+		{
+			for (auto elem = _players.begin() ; elem != _players.end() ; ++elem) {
+				auto &player = *elem;
+				if (player->getId() == id) {
+					_players.erase(elem);
+					return ;
+				}
+			}
+
+		}
+		inline void addEgg(int id, int ownerId) { _eggs.push_back(std::make_unique<Egg>(id, ownerId)); };
+		void removeEgg(const int &id)
+		{
+			for (auto elem = _eggs.begin() ; elem != _eggs.end() ; ++elem) {
+				auto &egg = *elem;
+				if (egg->getId() == id) {
+					_eggs.erase(elem);
+					return ;
+				}
+			}
+
+		}
 	private:
 		std::vector<std::unique_ptr<Player>> _players;
 		std::unique_ptr<Sfml> _sfml;
@@ -86,5 +115,6 @@ namespace Graphical {
 		GAME_MOD _type;
 		std::map<std::string, std::function<int(const std::vector<std::string> &)>> _ptr_function;
 		std::map<std::string, std::vector<int>> _teams; /* team name, player id*/
+		std::vector<std::unique_ptr<Egg>> _eggs;
 	};
 }

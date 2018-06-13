@@ -11,6 +11,7 @@
 #include <vector>
 #include "Tools.hpp"
 #include "Execption.hpp"
+#include "Egg.hpp"
 
 namespace Graphical {
 	class Case {
@@ -25,21 +26,14 @@ namespace Graphical {
 		inline void removeResource(int id, std::size_t nb) { if (_resources[id] > 0) _resources[id] -= nb;	};
 		inline void addResource(int id, std::size_t nb) { _resources[id] += nb; };
 		inline const std::size_t &getResource(int id) { return _resources[id]; };
-		inline void addEgg(int playerId) { _eggs.push_back(playerId); };
-		const std::vector<int> getEggs(int playerId) const
-		{
-			std::vector<int> result;
-			for (auto &egg : _eggs)
-				if (egg == playerId)
-					result.push_back(egg);
-			return result;
-		};
+		inline void addEgg(int id) { _eggsId.push_back(id); };
+		const std::vector<int> getEggsId() const { return _eggsId; };
 
 	private:
 		Pos _pos;
 		std::map<int, std::size_t> _resources;
 		const std::size_t _size = 7;
-		std::vector<int> _eggs; /* contain id of player */
+		std::vector<int> _eggsId; /* contain id of egg */
 	};
 
 	class Map {

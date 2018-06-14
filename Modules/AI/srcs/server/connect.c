@@ -57,6 +57,7 @@ int connect_to_server(t_opts_ai *opt)
 
 	if (fd == FD_ERROR)
 		return (FCT_FAILED("create_socket"), ERROR);
+	ai.state = AI_LOOK;
 	ai.fd = fd;
 	ai.opts = opt;
 	return (run_ai(&ai));

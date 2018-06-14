@@ -8,10 +8,19 @@
 #include <Tools.hpp>
 #include "Game.hpp"
 
+void Graphical::Game::getSizeServer()
+{
+	if (!_com->sendToFd(_com->getSocket(), "GRAPHIC"))
+		throw std::logic_error("Server is closed.");
+}
+
 int Graphical::Game::manageFd()
 {
+	static std::size_t index = 0;
+
 	auto array = _com->readFd(_com->getSocket());
 	for (auto &line : array) {
+		++index;
 		std::cerr << "Reçu:" << line << std::endl;
 		auto command = Graphical::explode(line, ' ');
 		auto aFunction = _ptr_function[command[0]];
@@ -19,6 +28,8 @@ int Graphical::Game::manageFd()
 			command.erase(command.begin());
 			aFunction(command);
 		}
+		if (index == 3)
+			getSizeServer();
 	}
 	return 0;
 }
@@ -280,8 +291,17 @@ int Graphical::Game::setEndGame(const std::vector<std::string> &array)
 	return 0;
 }
 
+int Graphical::Game::setInitCom(const std::vector<std::string> &array)
+{
+	(void) array;
+	if (!_com->sendToFd(_com->getSocket(), getGraphicTeam()))
+		throw std::logic_error("Server is closed.");
+	return 0;
+}
+
 void Graphical::Game::initPtrFunction()
 {
+	_ptr_function["WELCOME"] = std::bind(&Graphical::Game::setInitCom, this, std::placeholders::_1);
 	_ptr_function["msz"] = std::bind(&Graphical::Game::setSize, this, std::placeholders::_1);
 	_ptr_function["bct"] = std::bind(&Graphical::Game::setCase, this, std::placeholders::_1);
 	_ptr_function["tna"] = std::bind(&Graphical::Game::setTeam, this, std::placeholders::_1);

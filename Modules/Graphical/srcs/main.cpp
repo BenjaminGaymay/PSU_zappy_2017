@@ -200,23 +200,25 @@ int Graphical::Game::loop()
 	return (0);
 }
 
-void Graphical::Game::initCommunication()
+void Graphical::Game::initCommunication(const std::string &team)
 {
-	if (!_com->sendToFd(_com->getSocket(), "msz"))
+	if (!_com->sendToFd(_com->getSocket(), team))
 		throw std::logic_error("Server is closed.");
-	if (!_com->sendToFd(_com->getSocket(), "GRAPHIC"))
+	if (!_com->sendToFd(_com->getSocket(), "msz")) {
 		throw std::logic_error("Server is closed.");
+	}
 };
 
 int main(int ac, char **av)
 {
-	if (ac != 2 || av[1] == nullptr)
-		return (std::cerr << "I need a port argument" << std::endl, 84);
+	if (ac != 3 || av[1] == nullptr || av[2] == nullptr)
+		return (std::cerr << "I need a port and a team argument" << std::endl, 84);
 	Graphical::Game game;
 
 	game.initPtrFunction();
 	game.setCommunication(std::make_unique<Graphical::Communication>(std::stoi(av[1])));
-	game.initCommunication();
+	game.setGraphicTeam(av[2]);
+	//game.initCommunication(av[2]);
 	game.setDisplayer(std::make_unique<Graphical::Sfml>());
 	game.setMap(std::make_unique<Graphical::Map>());
 	game.loop();

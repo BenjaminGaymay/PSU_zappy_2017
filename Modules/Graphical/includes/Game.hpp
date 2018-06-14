@@ -31,7 +31,7 @@ namespace Graphical {
 		inline void addPlayer(std::unique_ptr<Player> player) { _players.emplace_back(std::move(player)); };
 		inline void setDisplayer(std::unique_ptr<Sfml> sfml) { _sfml = std::move(sfml); };
 		inline void setCommunication(std::unique_ptr<Communication> com) { _com = std::move(com); };
-		void initCommunication();
+		void initCommunication(const std::string &team);
 		inline void setMap(std::unique_ptr<Map> map) { _map = std::move(map); };
 		inline const std::unique_ptr<Communication> &getCommunication() const { return _com; };
 		inline const std::unique_ptr<Sfml> &getDisplayer() const { return _sfml; };
@@ -64,6 +64,8 @@ namespace Graphical {
 		int setEgg(const std::vector<std::string> &array);
 		int setEggHatching(const std::vector<std::string> &array);
 		int setEndGame(const std::vector<std::string> &array);
+		int setInitCom(const std::vector<std::string> &array);
+		void getSizeServer();
 		/* TOOLS */
 		void addPlayerToTeam(const std::string &team, const int &playerId)
 		{
@@ -134,6 +136,8 @@ namespace Graphical {
 		const bool &getMovePossibility() { return _move; };
 		void printCaseInventory(const std::unique_ptr<Case> &block);
 		void mouseEvent(const sf::Event &event, const bool &move);
+		void setGraphicTeam(const std::string &team) { _team = team; };
+		const std::string &getGraphicTeam() const { return _team; };
 	private:
 		std::vector<std::unique_ptr<Player>> _players;
 		std::unique_ptr<Sfml> _sfml;
@@ -145,5 +149,6 @@ namespace Graphical {
 		std::vector<std::unique_ptr<Egg>> _eggs;
 		std::map<int, bool> _filters;
 		bool _move;
+		std::string _team;
 	};
 }

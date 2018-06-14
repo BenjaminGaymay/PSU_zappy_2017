@@ -7,7 +7,7 @@
 
 #include "Game.hpp"
 
-Graphical::Pos Graphical::Game::getEntityPos(const char &block)
+Graphical::Pos Graphical::Game::getEntityPos(const int &block)
 {
 	static std::map<char, Graphical::Pos> map = {
 			{1, {0, 0}},
@@ -22,7 +22,7 @@ Graphical::Pos Graphical::Game::getEntityPos(const char &block)
 	return map[block];
 };
 
-void Graphical::Game::dropStone(const char &id, const float &scale, const float &x, const float &y)
+void Graphical::Game::dropStone(const int &id, const float &scale, const float &x, const float &y)
 {
 	float elem = scale / 3.0f;
 	auto &sprite_2 = _sfml->getBlock(id);
@@ -35,13 +35,6 @@ void Graphical::Game::dropStone(const char &id, const float &scale, const float 
 
 float Graphical::Game::findMapScale(const Pos &pos)
 {
-	/*size_t max_y = map.size(), max_x = map[0].size();
-	float height = _window.getSize().y, width = _window.getSize().x;
-	float min_window = height > width ? width : height;
-	float max_map = max_y > max_x ? max_y : max_x;
-	float scale = min_window / max_map;
-
-	return (scale);*/
 	int max_y = pos.y, max_x = pos.x;
 	float height = _sfml->getScreen().getSize().y, width = _sfml->getScreen().getSize().x;
 	float scale = width / max_x;
@@ -51,8 +44,29 @@ float Graphical::Game::findMapScale(const Pos &pos)
 	return (scale);
 }
 
+void Graphical::Game::printCaseInventory(const std::unique_ptr<Case> &block)
+{
+	std::map<int, sf::FloatRect> buttons;
+	const std::size_t filterNb = 10;
+	Pos margin = _sfml->getMargin();
+	float x = _sfml->getWindow().getSize().x - margin.x;
+	margin.x /= 2;
+	float padding = static_cast<float>(_sfml->getWindow().getSize().y) / filterNb;
+	float y = 0;
+
+	createIcon(14, x, y, margin, padding);
+	y +=1;
+	for (int i = 1 ; i <= 7 ; ++i) {
+		if (block->getResource(i)) createIcon(i, x, y, margin, padding);
+			y += 1;
+	}
+	if (!block->getEggsId().empty()) createIcon(8, x, y, margin, padding);
+		y += 1;
+}
+
 void Graphical::Game::printMap(const std::vector<std::unique_ptr<Case>> &map)
 {
+
 	float scale = findMapScale(_map->getSize());
 	float marginX = (_sfml->getScreen().getSize().x / 2.0f) - (_map->getSize().x / 2.0f * scale);
 	float marginY = (_sfml->getScreen().getSize().y / 2.0f) - (_map->getSize().y / 2.0f * scale);
@@ -65,17 +79,22 @@ void Graphical::Game::printMap(const std::vector<std::unique_ptr<Case>> &map)
 		float y = marginY + (block->getPos().y * scale);
 		sprite->setPosition(sf::Vector2f(x, y));
 		_sfml->getScreen().draw(*sprite);
+		if (sprite->getGlobalBounds().contains(_sfml->getMousePosition().x, _sfml->getMousePosition().y))
+			printCaseInventory(block);
 		if (_filters[2]) {
-			dropStone(1, scale, x, y);
+			for (auto &resource : block->getResources())
+				if (resource.second > 0)
+					dropStone(resource.first, scale, x, y);
+			/*dropStone(1, scale, x, y);
 			dropStone(2, scale, x, y);
 			dropStone(3, scale, x, y);
 			dropStone(4, scale, x, y);
 			dropStone(5, scale, x, y);
-			dropStone(6, scale, x, y);
+			dropStone(6, scale, x, y);*/
 		}
-		if (_filters[7])
+		if (_filters[7] && block->getResource(7) > 0)
 			dropStone(7, scale, x, y);
-		if (_filters[8])
+		if (_filters[8] && block->getResource(8) > 0)
 			dropStone(8, scale, x, y);
 	}
 }

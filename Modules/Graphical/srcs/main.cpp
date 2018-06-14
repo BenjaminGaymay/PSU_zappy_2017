@@ -23,10 +23,41 @@ int Graphical::Game::keyManager(sf::Event &event)
 			break;
 		}
 		case sf::Keyboard::Escape : _type = MENU; break;
+		case sf::Keyboard::Space : _move = !_move; break;
 		default: break;
 	}
 	return (0);
 };
+
+void Graphical::Game::mouseEvent(const sf::Event &event, const bool &move)
+{
+	(void) event;
+	sf::View view = _sfml->getScreen().getView();
+	sf::Vector2i mousePos = sf::Mouse::getPosition(_sfml->getWindow());
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+
+		if (!(mousePos.x > 0 &&
+			  mousePos.y > 0 &&
+			  mousePos.x < static_cast<int>(_sfml->getWindow().getSize().x - _sfml->getMargin().x) &&
+			  mousePos.y < static_cast<int>(_sfml->getWindow().getSize().y)))
+			return;
+		sf::Vector2f mouseScreenPos = _sfml->getScreen().mapPixelToCoords(mousePos, _sfml->getScreen().getView());
+		_sfml->setMousePosition({static_cast<int>(mouseScreenPos.x), static_cast<int>(mouseScreenPos.y)});
+		mousePos.x = static_cast<int>(
+				(mousePos.x / static_cast<float>(_sfml->getScreen().getSize().x)) *
+				(view.getSize().x));
+		mousePos.y = static_cast<int>(
+				(mousePos.y / static_cast<float>(_sfml->getScreen().getSize().y)) *
+				(view.getSize().y));
+		mousePos.x = static_cast<int>(mousePos.x - (view.getSize().x / 2));
+		mousePos.y = static_cast<int>(mousePos.y - (view.getSize().y / 2));
+		if (move)
+			view.move(mousePos.x, mousePos.y);
+	} else if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
+		view.setCenter((_sfml->getWindow().getSize().x - _sfml->getMargin().x) / 2.0f, _sfml->getWindow().getSize().y / 2.0f);
+	}
+	_sfml->getScreen().setView(view);
+}
 
 int Graphical::Game::manageEvent()
 {
@@ -44,11 +75,20 @@ int Graphical::Game::manageEvent()
 		} else if (_type == GAME && event.type == sf::Event::MouseWheelScrolled)
 			_sfml->mouseScrollEvent(event);
 		else if (_type == GAME && event.type == sf::Event::MouseButtonPressed)
-			_sfml->mouseEvent(event);
+			mouseEvent(event, _move);
 	}
 	return (0);
 }
 
+
+void Graphical::Game::createIcon(const int &id, const float &x, const float &y, const Pos &margin, const float &padding)
+{
+	auto &player = _sfml->getBlock(id);
+	player->setScale(static_cast<float>(margin.x) / player->getTexture()->getSize().x,
+					 static_cast<float>(margin.x) / player->getTexture()->getSize().y);
+	player->setPosition(x, y * padding);
+	_sfml->getWindow().draw(*player);
+}
 
 sf::FloatRect Graphical::Game::createFilter(const int &id, const float &x, const float &y, const Pos &margin, const float &padding)
 {
@@ -78,8 +118,9 @@ std::map<int, sf::FloatRect> Graphical::Game::printFilters()
 {
 	std::map<int, sf::FloatRect> buttons;
 	const std::size_t filterNb = 6;
-	float x = _sfml->getWindow().getSize().x - _sfml->getMargin().x;
 	Pos margin = _sfml->getMargin();
+	margin.x /= 2;
+	float x = _sfml->getWindow().getSize().x - margin.x;
 	float padding = static_cast<float>(_sfml->getWindow().getSize().y) / filterNb;
 	float y = 0;
 

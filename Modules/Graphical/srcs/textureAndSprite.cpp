@@ -44,4 +44,5 @@ void Graphical::Sfml::createBlocks()
 	createSprite(11, _picturePath + "player_icon.png", _blocks, _textures);
 	createSprite(12, _picturePath + "reset.png", _blocks, _textures);
 	createSprite(13, _picturePath + "close.png", _blocks, _textures);
+	createSprite(14, _picturePath + "backPack.png", _blocks, _textures);
 }

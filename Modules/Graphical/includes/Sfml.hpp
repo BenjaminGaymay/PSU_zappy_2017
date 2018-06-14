@@ -78,9 +78,11 @@ namespace Graphical {
 		std::unique_ptr<sf::Text> getText(const std::string &font_name, const std::string &line, const std::size_t &size, const sf::Color &textColor, const sf::Vector2f &position);
 		const mod &getWindowType() const { return _windowType; };
 		void mouseScrollEvent(sf::Event &event);
-		void mouseEvent(sf::Event &event);
 		void resetView();
 		const Pos &getMargin() const { return _margin; };
+		const Pos &getMousePosition() const { return _mouse; };
+		void setMousePosition(const Pos &pos) { _mouse = pos; };
+		const float &getZoomRank() const { return _zoom; };
 	private:
 		std::map<const int, std::unique_ptr<sf::Sprite>> _blocks;
 		std::map<const int, std::unique_ptr<sf::Texture>> _textures;
@@ -89,7 +91,9 @@ namespace Graphical {
 		sf::RenderWindow _window;
 		sf::RenderTexture _screen;
 		float _zoom = 1;
-		const Pos _margin = {50, 0};
+		float _zoomRank = 1;
+		Pos _mouse;
+		const Pos _margin = {100, 0};
 		mod _windowType;
 		const std::string _picturePath = "assets/pictures/";
 		const std::string _fontPath = "assets/fonts/";

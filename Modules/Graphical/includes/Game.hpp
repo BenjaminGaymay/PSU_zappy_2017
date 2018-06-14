@@ -22,7 +22,11 @@ namespace Graphical {
 			GAME,
 			EXIT
 		};
-		Game() { _type = MENU; };
+		Game()
+		{
+			_type = MENU;
+			_move = true;
+		};
 		~Game() = default;
 		inline void addPlayer(std::unique_ptr<Player> player) { _players.emplace_back(std::move(player)); };
 		inline void setDisplayer(std::unique_ptr<Sfml> sfml) { _sfml = std::move(sfml); };
@@ -117,14 +121,19 @@ namespace Graphical {
 			}
 
 		}
-		void dropStone(const char &id, const float &scale, const float &x, const float &y);
+		void dropStone(const int &id, const float &scale, const float &x, const float &y);
 		float findMapScale(const Pos &pos);
 		void printMap(const std::vector<std::unique_ptr<Case>> &map);
-		Graphical::Pos getEntityPos(const char &block);
+		Graphical::Pos getEntityPos(const int &block);
 		void initFilters();
 		std::map<int, sf::FloatRect> printFilters();
 		sf::FloatRect createFilter(const int &id, const float &x, const float &y, const Pos &margin, const float &padding);
+		void createIcon(const int &id, const float &x, const float &y, const Pos &margin, const float &padding);
 		long eventFilters(const std::map<int, sf::FloatRect> &filters);
+		void setMovePossibility(const bool &move) { _move = move; };
+		const bool &getMovePossibility() { return _move; };
+		void printCaseInventory(const std::unique_ptr<Case> &block);
+		void mouseEvent(const sf::Event &event, const bool &move);
 	private:
 		std::vector<std::unique_ptr<Player>> _players;
 		std::unique_ptr<Sfml> _sfml;
@@ -135,5 +144,6 @@ namespace Graphical {
 		std::map<std::string, std::vector<int>> _teams; /* team name, player id*/
 		std::vector<std::unique_ptr<Egg>> _eggs;
 		std::map<int, bool> _filters;
+		bool _move;
 	};
 }

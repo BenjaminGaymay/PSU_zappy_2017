@@ -104,7 +104,7 @@ long Graphical::Game::eventFilters(const std::map<int, sf::FloatRect> &buttons)
 	for (auto &button : buttons) {
 		if (button.second.contains(position)) {
 			_filters[button.first] = !_filters[button.first] && true;
-			result = 100000000;
+			result = 300000000;
 		}
 	}
 	if (_filters[12]) {

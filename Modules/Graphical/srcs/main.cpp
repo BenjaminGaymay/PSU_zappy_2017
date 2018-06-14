@@ -6,6 +6,7 @@
 */
 
 #include <iostream>
+#include <chrono>
 #include "Game.hpp"
 
 int Graphical::Game::keyManager(sf::Event &event)
@@ -65,6 +66,7 @@ sf::FloatRect Graphical::Game::createFilter(const int &id, const float &x, const
 
 void Graphical::Game::initFilters()
 {
+	_filters[13] = false;
 	_filters[11] = true;
 	_filters[2] = true;
 	_filters[7] = true;
@@ -81,6 +83,8 @@ std::map<int, sf::FloatRect> Graphical::Game::printFilters()
 	float padding = static_cast<float>(_sfml->getWindow().getSize().y) / filterNb;
 	float y = 0;
 
+	buttons[13] = createFilter(13, x, y, margin, padding);
+	y += 1;
 	buttons[11] = createFilter(11, x, y, margin, padding);
 	y += 1;
 	buttons[2] = createFilter(2, x, y, margin, padding);
@@ -93,49 +97,60 @@ std::map<int, sf::FloatRect> Graphical::Game::printFilters()
 	return buttons;
 }
 
-void Graphical::Game::printGame(std::vector<std::vector<char>> map)
+long Graphical::Game::eventFilters(const std::map<int, sf::FloatRect> &buttons)
 {
-	printMap(map);
-	auto buttons = printFilters();
+	long result = 0;
 	sf::Vector2f position(sf::Mouse::getPosition(_sfml->getWindow()));
 
 	if (!sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
-		return ;
+		return 0;
 	for (auto &button : buttons) {
 		if (button.second.contains(position)) {
 			_filters[button.first] = !_filters[button.first] && true;
+			result = 300000000;
 		}
+	}
+	if (_filters[13]) {
+		_type = MENU;
+		_filters[13] = false;
 	}
 	if (_filters[12]) {
 		for (auto &filter : _filters)
 			filter.second = true;
 		_filters[12] = false;
 	}
+	return result;
+}
+
+void Graphical::Game::printGame()
+{
+	printMap(_map->getMap());
+	auto buttons = printFilters();
+	static long last = 0;
+
+
+	std::chrono::system_clock::time_point time = std::chrono::system_clock::now();
+	long now = time.time_since_epoch().count() ;
+
+	if (now > last) {
+		auto antiSpam = eventFilters(buttons);
+		if (antiSpam > 0)
+			last = now + antiSpam;
+	}
 }
 
 int Graphical::Game::loop()
 {
-	std::vector<std::vector<char>> map;
-	map.push_back({0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
-	map.push_back({0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
-	map.push_back({0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
-	map.push_back({0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
-	map.push_back({0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
-	map.push_back({0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
-	map.push_back({0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
-	map.push_back({0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
-	map.push_back({0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
-	map.push_back({0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
 	_sfml->open(Graphical::Sfml::WINDOW);
 	_sfml->createBlocks();
 	initFilters();
-	while (_sfml->isOpen()) {// && _com->isValidFd(_com->getSocket())) {
+	while (_sfml->isOpen() && _com->isValidFd(_com->getSocket())) {
 		manageEvent();
-		//this->manageFd();
+		readServer();
 		_sfml->clear();
 		switch (_type) {
 			case MENU: printMenu(); break;
-			case GAME: printGame(map); break;
+			case GAME: printGame(); break;
 			case EXIT: _sfml->close();
 			default: break;
 		}
@@ -148,6 +163,8 @@ void Graphical::Game::initCommunication()
 {
 	if (!_com->sendToFd(_com->getSocket(), "msz"))
 		throw std::logic_error("Server is closed.");
+	if (!_com->sendToFd(_com->getSocket(), "GRAPHIC"))
+		throw std::logic_error("Server is closed.");
 };
 
 int main(int ac, char **av)
@@ -156,8 +173,9 @@ int main(int ac, char **av)
 		return (std::cerr << "I need a port argument" << std::endl, 84);
 	Graphical::Game game;
 
-	//game.setCommunication(std::make_unique<Graphical::Communication>(std::stoi(av[1])));
-	//game.initCommunication();
+	game.initPtrFunction();
+	game.setCommunication(std::make_unique<Graphical::Communication>(std::stoi(av[1])));
+	game.initCommunication();
 	game.setDisplayer(std::make_unique<Graphical::Sfml>());
 	game.setMap(std::make_unique<Graphical::Map>());
 	game.loop();

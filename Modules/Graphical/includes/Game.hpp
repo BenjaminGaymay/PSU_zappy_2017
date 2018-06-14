@@ -32,12 +32,13 @@ namespace Graphical {
 		inline const std::unique_ptr<Communication> &getCommunication() const { return _com; };
 		inline const std::unique_ptr<Sfml> &getDisplayer() const { return _sfml; };
 		inline const std::unique_ptr<Map> &getMap() const { return _map; };
-		void printGame(std::vector<std::vector<char>> map);
+		void printGame();
 		std::map<GAME_MOD, sf::FloatRect> createButtons();
 		void printMenu();
 		int loop();
 		void initPtrFunction();
 		int manageFd();
+		int readServer();
 		int manageEvent();
 		int keyManager(sf::Event &event);
 		/* FUNCTION PTR_FUNCTION COMMUNICATION */
@@ -116,13 +117,14 @@ namespace Graphical {
 			}
 
 		}
-		void dropStone(const char &id, const float &scale, const size_t &x, const size_t &y);
-		float findMapScale(std::vector<std::vector<char>> &map);
-		void printMap(std::vector<std::vector<char>> &map);
+		void dropStone(const char &id, const float &scale, const float &x, const float &y);
+		float findMapScale(const Pos &pos);
+		void printMap(const std::vector<std::unique_ptr<Case>> &map);
 		Graphical::Pos getEntityPos(const char &block);
 		void initFilters();
 		std::map<int, sf::FloatRect> printFilters();
 		sf::FloatRect createFilter(const int &id, const float &x, const float &y, const Pos &margin, const float &padding);
+		long eventFilters(const std::map<int, sf::FloatRect> &filters);
 	private:
 		std::vector<std::unique_ptr<Player>> _players;
 		std::unique_ptr<Sfml> _sfml;

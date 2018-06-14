@@ -28,32 +28,19 @@ bool Graphical::Sfml::createSprite(const int &index, const std::string &path,
 	return true;
 }
 
-Graphical::Pos Graphical::Sfml::getEntityPos(const char &block)
-{
-	static std::map<char, Graphical::Pos> map = {
-			{1, {0, 0}},
-			{2, {1, 0}},
-			{3, {2, 0}},
-			{4, {0, 1}},
-			{5, {2, 2}},
-			{6, {2, 1}},
-			{7, {0, 2}},
-			{8, {1, 2}},
-	};
-	return map[block];
-};
-
 void Graphical::Sfml::createBlocks()
 {
-	this->createSprite(0, _picturePath + "sand.png", _blocks, _textures);
-	this->createSprite(1, _picturePath + "emerald.png", _blocks, _textures);
-	this->createSprite(2, _picturePath + "diamond.png", _blocks, _textures);
-	this->createSprite(3, _picturePath + "rubis.png", _blocks, _textures);
-	this->createSprite(4, _picturePath + "agate.png", _blocks, _textures);
-	this->createSprite(5, _picturePath + "citrine.png", _blocks, _textures);
-	this->createSprite(6, _picturePath + "saphir.png", _blocks, _textures);
-	this->createSprite(7, _picturePath + "food.png", _blocks, _textures);
-	this->createSprite(8, _picturePath + "egg.png", _blocks, _textures);
-	this->createSprite(9, _picturePath + "player.png", _blocks, _textures);
-	this->createSprite(10, _picturePath + "button.png", _blocks, _textures);
+	createSprite(0, _picturePath + "sand.png", _blocks, _textures);
+	createSprite(1, _picturePath + "emerald.png", _blocks, _textures);
+	createSprite(2, _picturePath + "diamond.png", _blocks, _textures);
+	createSprite(3, _picturePath + "rubis.png", _blocks, _textures);
+	createSprite(4, _picturePath + "agate.png", _blocks, _textures);
+	createSprite(5, _picturePath + "citrine.png", _blocks, _textures);
+	createSprite(6, _picturePath + "saphir.png", _blocks, _textures);
+	createSprite(7, _picturePath + "food.png", _blocks, _textures);
+	createSprite(8, _picturePath + "egg.png", _blocks, _textures);
+	createSprite(9, _picturePath + "player.png", _blocks, _textures);
+	createSprite(10, _picturePath + "button.png", _blocks, _textures);
+	createSprite(11, _picturePath + "player_icon.png", _blocks, _textures);
+	createSprite(12, _picturePath + "reset.png", _blocks, _textures);
 }

@@ -25,6 +25,7 @@ SRCS_CPP	= 	srcs/main.cpp				\
 			srcs/map.cpp				\
 	  		srcs/menu.cpp				\
 	  		srcs/text.cpp				\
+			srcs/communication.cpp			\
 	  		srcs/textureAndSprite.cpp		\
 
 OBJS_CPP	= 	$(SRCS_CPP:.cpp=.o)

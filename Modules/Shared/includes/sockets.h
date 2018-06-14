@@ -26,3 +26,4 @@ typedef enum {
 } e_socket_type;
 
 int create_socket(const int, const in_addr_t, const e_socket_type);
+bool is_fd_open(const int);

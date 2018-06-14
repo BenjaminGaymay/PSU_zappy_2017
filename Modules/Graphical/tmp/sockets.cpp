@@ -5,7 +5,6 @@
 ** sockets
 */
 
-#include <fcntl.h>
 #include "macro.h"
 #include "sockets.h"
 
@@ -32,11 +31,6 @@ static int server(int fd, struct sockaddr_in *s_in)
 	if (connect(fd, (struct sockaddr *)s_in, sizeof(*s_in)) == -1)
 		return (FCT_FAILED("connect"), safe_close(fd, FD_ERROR));
 	return (fd);
-}
-
-bool is_fd_open(const int fd)
-{
-	return (fcntl(fd, F_GETFD) != -1);
 }
 
 int create_socket(const int port, const in_addr_t addr,

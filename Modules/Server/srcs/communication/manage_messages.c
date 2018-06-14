@@ -42,7 +42,6 @@ void read_all_messages(t_server *server, t_message *messages)
 
 void remove_messages(t_server *server, t_message *message)
 {
-	printf("Remove - Request '%s' / Response '%s'\n", message->request, message->response);
 	if (message == server->messages)
 		server->messages = message->next;
 	if (message->owner) {
@@ -75,8 +74,8 @@ void send_responses(t_message *responses)
 	t_message *tmp = responses;
 
 	while (tmp) {
-		if (tmp->response && !tmp->send) {
-			printf("Response from '%s': '%s'\n", tmp->request, tmp->response);
+		if (tmp->response && !tmp->send && tmp->owner) {
+			dprintf(tmp->owner->socket, "%s\n", tmp->response);
 			tmp->send = true;
 		}
 		tmp = tmp->next;

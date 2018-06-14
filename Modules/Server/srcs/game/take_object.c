@@ -34,36 +34,42 @@ char *take_obj(t_server *server, t_message *cmd)
 {
 	char *str;
 	t_change_map *tab;
+	char *line;
 
+	asprintf(&line, "%s", &cmd->request[5]);
 	tab = get_tab(server, cmd);
-	if (strlen(cmd->request) <= 5)
-		return (asprintf(&str, "ko"), free(tab), str);
-	cmd->request = &cmd->request[5];
+	if (strlen(line) <= 5)
+		return (asprintf(&str, "ko"), free(tab), free(line), NULL);
 	for (int i = 0; i < 7; ++i)
-		if (strcmp(cmd->request, tab[i].str) == 0
+		if (strcmp(line, tab[i].str) == 0
 		&& *(tab[i].x) > 0) {
+			cmd->finish_date =
+			time_until_finish(TAKE_TIME, server->opts->freq);
 			*(tab[i].inv) += 1;
 			*(tab[i].x) -= 1;
-			return (asprintf(&str, "ok"), free(tab), str);
+			return (asprintf(&str, "ok"), free(tab), free(line), str);
 		}
-	return (asprintf(&str, "ko"), free(tab), str);
+	return (asprintf(&str, "ko"), free(tab), free(line), NULL);
 }
 
 char *set_obj(t_server *server, t_message *cmd)
 {
 	char *str;
 	t_change_map *tab;
+	char *line;
 
+	asprintf(&line, "%s", &cmd->request[4]);
 	tab = get_tab(server, cmd);
-	if (strlen(cmd->request) <= 4)
-		return (asprintf(&str, "ko"), free(tab), str);
-	cmd->request = &cmd->request[4];
+	if (strlen(line) <= 4)
+		return (asprintf(&str, "ko"), free(tab), free(line), NULL);
 	for (int i = 0; i < 7; ++i)
-		if (strcmp(cmd->request, tab[i].str) == 0
+		if (strcmp(line, tab[i].str) == 0
 		&& *(tab[i].inv) > 0) {
+			cmd->finish_date =
+			time_until_finish(SET_TIME, server->opts->freq);
 			*(tab[i].inv) -= 1;
 			*(tab[i].x) += 1;
-			return (asprintf(&str, "ok"), free(tab), str);
+			return (asprintf(&str, "ok"), free(tab), free(line), str);
 		}
-	return (asprintf(&str, "ko"), free(tab), str);
+	return (asprintf(&str, "ko"), free(tab), free(line), NULL);
 }

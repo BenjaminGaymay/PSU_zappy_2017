@@ -19,6 +19,7 @@ SRCS	= 	./srcs/main.c				\
 	  	./srcs/arguments/arguments.c		\
 	  	./srcs/arguments/args_fct.c		\
 	  	./srcs/server/connect.c			\
+		./srcs/ai/ai.c				\
 		$(SHARED)/srcs/connection/sockets.c	\
 		$(SHARED)/srcs/tools/array_tools.c	\
 		$(SHARED)/srcs/tools/count_row.c	\
@@ -29,6 +30,8 @@ OBJS	= 	$(SRCS:.c=.o)
 CFLAGS = 	-I./includes/			\
 	 	-I./includes/arguments/		\
 		-I./includes/server		\
+		-I./includes/connection		\
+		-I./includes/client		\
 		-I$(SHARED)/includes
 
 CFLAGS += 	-W -Wall -Wextra

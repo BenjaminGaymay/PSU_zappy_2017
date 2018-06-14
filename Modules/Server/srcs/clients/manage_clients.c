@@ -49,7 +49,9 @@ void unlink_client_messages(t_server *server, t_client *client)
 void remove_client(t_server *server, t_client *client, bool close_fd)
 {
 	t_client *tmp = server->clients;
+	t_client *save = client;
 
+	unlink_client_messages(server, save);
 	if (client->player_id == tmp->player_id)
 		server->clients = client->next;
 	else {

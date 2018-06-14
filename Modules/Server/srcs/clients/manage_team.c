@@ -8,18 +8,24 @@
 #include "server.h"
 #include "manage_time.h"
 
-char *connect_number(t_server *server, t_message *cmd)
+size_t player_in_team(t_server *server, t_client *owner)
 {
 	t_client *client = server->clients;
-	char *response;
-	size_t i = 0;
+	size_t i = server->opts->max_clients;
 
-	cmd->finish_date = time_until_finish(0, server->opts->freq);
 	while (client) {
-		if (cmd->owner->team_id == client->team_id)
-			i += 1;
+		if (owner->team_id == client->team_id)
+			i -= 1;
 		client = client->next;
 	}
-	asprintf(&response, "%ld", i);
+	return (i);
+}
+
+char *connect_number(t_server *server, t_message *cmd)
+{
+	char *response;
+
+	cmd->finish_date = time_until_finish(0, server->opts->freq);
+	asprintf(&response, "%ld", player_in_team(server, cmd->owner));
 	return (response);
 }

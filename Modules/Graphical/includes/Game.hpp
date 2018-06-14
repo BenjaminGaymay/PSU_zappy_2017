@@ -123,6 +123,7 @@ namespace Graphical {
 		void initFilters();
 		std::map<int, sf::FloatRect> printFilters();
 		sf::FloatRect createFilter(const int &id, const float &x, const float &y, const Pos &margin, const float &padding);
+		long eventFilters(const std::map<int, sf::FloatRect> &filters);
 	private:
 		std::vector<std::unique_ptr<Player>> _players;
 		std::unique_ptr<Sfml> _sfml;

@@ -6,6 +6,7 @@
 */
 
 #include <iostream>
+#include <chrono>
 #include "Game.hpp"
 
 int Graphical::Game::keyManager(sf::Event &event)
@@ -93,23 +94,41 @@ std::map<int, sf::FloatRect> Graphical::Game::printFilters()
 	return buttons;
 }
 
-void Graphical::Game::printGame(std::vector<std::vector<char>> map)
+long Graphical::Game::eventFilters(const std::map<int, sf::FloatRect> &buttons)
 {
-	printMap(map);
-	auto buttons = printFilters();
+	long result = 0;
 	sf::Vector2f position(sf::Mouse::getPosition(_sfml->getWindow()));
 
 	if (!sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
-		return ;
+		return 0;
 	for (auto &button : buttons) {
 		if (button.second.contains(position)) {
 			_filters[button.first] = !_filters[button.first] && true;
+			result = 100000000;
 		}
 	}
 	if (_filters[12]) {
 		for (auto &filter : _filters)
 			filter.second = true;
 		_filters[12] = false;
+	}
+	return result;
+}
+
+void Graphical::Game::printGame(std::vector<std::vector<char>> map)
+{
+	printMap(map);
+	auto buttons = printFilters();
+	static long last = 0;
+
+
+	std::chrono::system_clock::time_point time = std::chrono::system_clock::now();
+	long now = time.time_since_epoch().count() ;
+
+	if (now > last) {
+		auto antiSpam = eventFilters(buttons);
+		if (antiSpam > 0)
+			last = now + antiSpam;
 	}
 }
 

@@ -12,6 +12,7 @@
 int run_ai(t_ai *ai)
 {
 	while (true) {
+		dprintf(ai->fd, LOOK);
 		manage_sockets(ai);
 
 	}

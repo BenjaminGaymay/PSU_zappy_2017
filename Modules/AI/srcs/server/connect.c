@@ -5,6 +5,7 @@
 ** connect
 */
 
+#include <sys/time.h>
 #include <stdio.h>
 #include "macro.h"
 #include "arguments_ai.h"

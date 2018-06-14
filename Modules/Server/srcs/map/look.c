@@ -74,6 +74,5 @@ char *look(t_server *server, t_message *cmd)
 	asprintf(&str, "[");
 	str = (*fct[direction])(server, str, pos);
 	asprintf(&str, "%s]", str);
-	printf("%s\n", str);
 	return (str);
 }

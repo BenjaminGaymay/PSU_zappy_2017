@@ -10,11 +10,38 @@
 #include "client.h"
 #include "game.h"
 
+static t_client *player_starving_to_death(t_server *server, t_client *dead_man)
+{
+	t_client *save;
+
+	if (dead_man->lives <= 0) {
+		save = dead_man->next;
+		remove_client(server, dead_man);
+	}
+	return (dead_man->lives <= 0 ? save : dead_man->next);
+}
+
+
+static void lost_lives(t_server* server, t_client *clients)
+{
+	t_client *tmp = clients;
+
+	while (tmp) {
+		if (is_finish(tmp->last_eat)) {
+			tmp->lives -= 1;
+			tmp->last_eat = time_until_finish(LIFE_TIME, server->opts->freq);
+			tmp = player_starving_to_death(server, tmp);
+		} else
+			tmp = tmp->next;
+	}
+}
+
 int game_loop(t_server *server)
 {
 	while (1) {
 		if (manage_sockets(server) == ERROR)
 			return (ERROR);
+		lost_lives(server, server->clients);
 		read_all_messages(server, server->messages);
 		send_responses(server->messages);
 		remove_finished_actions(server);

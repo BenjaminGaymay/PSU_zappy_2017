@@ -41,6 +41,8 @@ void parse_command(t_server *server, t_message *command)
 			break;
 		}
 	}
-	if (!command->response)
+	if (!command->response) {
+		command->finish_date = 0;
 		asprintf(&command->response, "ko");
+	}
 }

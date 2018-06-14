@@ -66,6 +66,7 @@ sf::FloatRect Graphical::Game::createFilter(const int &id, const float &x, const
 
 void Graphical::Game::initFilters()
 {
+	_filters[13] = false;
 	_filters[11] = true;
 	_filters[2] = true;
 	_filters[7] = true;
@@ -82,6 +83,8 @@ std::map<int, sf::FloatRect> Graphical::Game::printFilters()
 	float padding = static_cast<float>(_sfml->getWindow().getSize().y) / filterNb;
 	float y = 0;
 
+	buttons[13] = createFilter(13, x, y, margin, padding);
+	y += 1;
 	buttons[11] = createFilter(11, x, y, margin, padding);
 	y += 1;
 	buttons[2] = createFilter(2, x, y, margin, padding);
@@ -106,6 +109,10 @@ long Graphical::Game::eventFilters(const std::map<int, sf::FloatRect> &buttons)
 			_filters[button.first] = !_filters[button.first] && true;
 			result = 300000000;
 		}
+	}
+	if (_filters[13]) {
+		_type = MENU;
+		_filters[13] = false;
 	}
 	if (_filters[12]) {
 		for (auto &filter : _filters)
@@ -155,6 +162,8 @@ int Graphical::Game::loop()
 void Graphical::Game::initCommunication()
 {
 	if (!_com->sendToFd(_com->getSocket(), "msz"))
+		throw std::logic_error("Server is closed.");
+	if (!_com->sendToFd(_com->getSocket(), "GRAPHIC"))
 		throw std::logic_error("Server is closed.");
 };
 

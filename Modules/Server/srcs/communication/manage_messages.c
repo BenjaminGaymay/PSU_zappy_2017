@@ -74,7 +74,7 @@ void send_responses(t_message *responses)
 	t_message *tmp = responses;
 
 	while (tmp) {
-		if (tmp->response && !tmp->send) {
+		if (tmp->response && !tmp->send && tmp->owner) {
 			dprintf(tmp->owner->socket, "%s\n", tmp->response);
 			tmp->send = true;
 		}

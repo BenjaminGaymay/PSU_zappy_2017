@@ -16,7 +16,7 @@ static t_client *player_starving_to_death(t_server *server, t_client *dead_man)
 
 	if (dead_man->lives <= 0) {
 		save = dead_man->next;
-		remove_client(server, dead_man);
+		remove_client(server, dead_man, true);
 	}
 	return (dead_man->lives <= 0 ? save : dead_man->next);
 }

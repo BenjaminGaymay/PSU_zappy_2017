@@ -23,11 +23,6 @@ t_inventory **create_map(int y, int x)
 			map[i][j].sibur = rand() % 2;
 		}
 	}
-	for (int i = 0; i < y; ++i) {
-		for (int j = 0; j < x; ++j) {
-			printf("%ld ", map[i][j].linemate);
-		}
-	}
 	return (map);
 }
 

@@ -72,7 +72,7 @@ static int are_clients_written(t_server *server, fd_set *fd_read)
 int manage_sockets(t_server *server)
 {
 	static fd_set fd_read;
-	struct timeval tv = {1, 0};
+	struct timeval tv = {0, 50};
 
 	reset_all_sockets(server, &fd_read);
 	if (select(get_max_fd(server) + 1, &fd_read, NULL, NULL, &tv) == -1)

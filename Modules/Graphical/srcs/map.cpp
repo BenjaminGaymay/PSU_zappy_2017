@@ -7,18 +7,6 @@
 
 #include "Sfml.hpp"
 
-float Graphical::Sfml::findMapScale(std::vector<std::vector<char>> &map)
-{
-	size_t max_y = map.size(), max_x = map[0].size();
-	float height = _window.getSize().y, width = _window.getSize().x;
-	float min_window = height > width ? width : height;
-	float max_map = max_y > max_x ? max_y : max_x;
-	float scale = min_window / max_map;
-
-	return (scale);
-}
-
-
 void Graphical::Sfml::dropStone(const char &id, const float &scale, const size_t &x, const size_t &y)
 {
 	float elem = scale / 3.0f;
@@ -30,14 +18,32 @@ void Graphical::Sfml::dropStone(const char &id, const float &scale, const size_t
 	_screen.draw(*sprite_2);
 }
 
+float Graphical::Sfml::findMapScale(std::vector<std::vector<char>> &map)
+{
+	/*size_t max_y = map.size(), max_x = map[0].size();
+	float height = _window.getSize().y, width = _window.getSize().x;
+	float min_window = height > width ? width : height;
+	float max_map = max_y > max_x ? max_y : max_x;
+	float scale = min_window / max_map;
+
+	return (scale);*/
+	size_t max_y = map.size(), max_x = map[0].size();
+	float height = _window.getSize().y, width = _window.getSize().x;
+	float scale = width / max_x;
+
+	if (max_y * scale > height)
+		scale = height / max_y;
+	return (scale);
+}
+
 void Graphical::Sfml::print_map(std::vector<std::vector<char>> &map)
 {
-	size_t x = 0, y = 0;
 	float scale = findMapScale(map);
+	int x = 0, y = static_cast<int>((_window.getSize().y / 2) - (map.size() / 2.0f * scale));
 
 	for (auto &line : map) {
-		x = 0;
-		for (auto &block : line) 		{
+		x = static_cast<int>((_window.getSize().x / 2) - (line.size() / 2.0f * scale));
+		for (auto &block : line) {
 			if (block == 0) {
 				auto &sprite = _blocks[block];
 				float size = sprite->getTexture()->getSize().x;

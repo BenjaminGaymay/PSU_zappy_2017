@@ -6,6 +6,8 @@
 */
 #pragma once
 
+#include <vector>
+#include <stdexcept>
 #include "macro.h"
 #include "sockets.h"
 
@@ -30,6 +32,43 @@ namespace Graphical {
 			return (fcntl(fd, F_GETFD) != -1);
 		}
 
+		bool closeFd(const int &fd)
+		{
+			if (isValidFd(fd))
+				return close(fd), true;
+			return false;
+		}
+
+		std::vector<std::string> readFd(int fd)
+		{
+			std::vector<std::string> array;
+			static char buffer[4096];
+			ssize_t size;
+			char *tmp = nullptr;
+
+			size = read(fd, buffer, 4096);
+			if (size > 0) {
+				buffer[size] = '\0';
+				tmp = strtok(buffer, "\n");
+				while (tmp) {
+					array.push_back(tmp);
+					tmp = strtok(nullptr, "\n");
+				}
+			} else
+				closeFd(_socket);
+			return array;
+		}
+		bool sendToFd(const int &fd, const std::string &str, bool endl = true)
+		{
+			std::string msg = str;
+			if (!isValidFd(fd))
+				return false;
+			if (endl)
+				msg += "\n";
+			dprintf(fd, "%s", msg.c_str());
+			return true;
+		}
+		const int &getSocket() const { return _socket; };
 	private:
 		int _socket;
 	};

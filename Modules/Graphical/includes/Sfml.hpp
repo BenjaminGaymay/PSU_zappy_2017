@@ -47,6 +47,11 @@ namespace Graphical {
 		};
 		sf::RenderWindow &getWindow() { return _window; };
 		sf::RenderTexture &getScreen() { return _screen; };
+		void setScreen(const sf::Vector2u &size)
+		{
+			_screen.clear();
+			_screen.create(size.x, size.y);
+		}
 		bool isOpen() { return _window.isOpen(); };
 		void clear()
 		{

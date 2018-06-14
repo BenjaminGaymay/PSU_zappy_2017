@@ -18,7 +18,7 @@ static t_ptr_action *get_ptr_actions(void){
 		{connect_number, "Connect_nbr"},
 		// {fork_cmd, "Fork"},
 		// {eject, "Eject"},
-		// {take_obj, "Take object"},
+		{take_obj, "Take "},
 		// {set_obj, "Set object"},
 		// {incantation, "Incantation"},
 		{is_graphical, "msz"},

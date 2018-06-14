@@ -43,9 +43,12 @@ static int read_on_client(t_server *server, t_client *client)
 		buffer[size] = '\0';
 		tmp = strtok(buffer, "\n");
 		while (tmp && client->request_number < 10) {
-			if (add_message_in_list(server, client, tmp) == ERROR)
+			if (!client->team)
+				find_team(server, client, tmp);
+			else if (add_message_in_list(server, client, tmp) == ERROR)
 				return (ERROR);
-			client->request_number += 1;
+			else
+				client->request_number += 1;
 			tmp = strtok(NULL, "\n");
 		}
 		if (client->request_number >= 10)

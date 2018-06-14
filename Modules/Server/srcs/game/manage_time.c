@@ -21,6 +21,8 @@ bool is_finish(long long finish_date)
 {
 	struct timeval tv;
 
+	if (finish_date == -1)
+		return (false);
 	gettimeofday(&tv, 0);
 	return (tv.tv_sec * 1000000ll + tv.tv_usec >= finish_date);
 }

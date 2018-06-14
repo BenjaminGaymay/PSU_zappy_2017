@@ -10,6 +10,16 @@
 #include "macro.h"
 #include "arguments_server.h"
 
+void print_map(t_inventory **map, int y, int x)
+{
+	for (int i = 0; i < y; ++i) {
+		for (int j = 0; j < x; ++j) {
+			printf("%ld ", map[i][j].linemate);
+		}
+		printf("\n");
+	}
+}
+
 t_inventory **create_map(int y, int x)
 {
 	srand(time(NULL));
@@ -21,11 +31,6 @@ t_inventory **create_map(int y, int x)
 		for (int j = 0; j < x; ++j) {
 			map[i][j].linemate = rand() % 2;
 			map[i][j].sibur = rand() % 2;
-		}
-	}
-	for (int i = 0; i < y; ++i) {
-		for (int j = 0; j < x; ++j) {
-			printf("%ld ", map[i][j].linemate);
 		}
 	}
 	return (map);

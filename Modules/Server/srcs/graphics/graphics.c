@@ -27,13 +27,11 @@ static t_graphical_client *client_to_graphical(t_server *server, t_client *clien
 
 char *is_graphical(t_server *server, t_message *cmd)
 {
-	t_client *client = cmd->owner;
 	t_graphical_client *g_client;
 
 	cmd->finish_date = time_until_finish(0, server->opts->freq);
 	g_client = client_to_graphical(server, cmd->owner);
-	unlink_client_messages(server, cmd->owner);
-	remove_client(server, client, false);
+	remove_client(server, cmd->owner, false);
 	dprintf(g_client->socket, "msz %d %d\n", server->opts->x, server->opts->y);
 	return (NULL);
 }

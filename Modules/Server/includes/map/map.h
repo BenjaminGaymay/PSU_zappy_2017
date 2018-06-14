@@ -25,6 +25,12 @@ typedef struct s_get_type {
 	const char *str;
 } t_get_type;
 
+typedef struct s_change_map {
+	size_t *inv;
+	size_t *x;
+	const char *str;
+} t_change_map;
+
 typedef struct s_pos {
 	int x;
 	int y;
@@ -32,3 +38,4 @@ typedef struct s_pos {
 
 t_inventory **create_map(int, int);
 void remove_map(t_inventory **, int);
+void print_map(t_inventory **map, int y, int x);

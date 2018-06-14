@@ -18,10 +18,10 @@ static t_ptr_action *get_ptr_actions(void){
 		{connect_number, "Connect_nbr"},
 		// {fork_cmd, "Fork"},
 		// {eject, "Eject"},
-		// {take_obj, "Take object"},
-		// {set_obj, "Set object"},
+		{take_obj, "Take "},
+		{set_obj, "Set "},
 		// {incantation, "Incantation"},
-		{is_graphical, "msz"},
+		{is_graphical, "GRAPHIC"},
 		{NULL, NULL}
 	};
 
@@ -45,4 +45,5 @@ void parse_command(t_server *server, t_message *command)
 		command->finish_date = 0;
 		asprintf(&command->response, "ko");
 	}
+
 }

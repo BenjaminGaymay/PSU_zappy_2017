@@ -6,6 +6,8 @@
 */
 
 #include "client.h"
+#include "manage_time.h"
+#include "communication.h"
 
 int add_client(t_server *server)
 {
@@ -21,18 +23,30 @@ int add_client(t_server *server)
 	new->player_id = id++;
 	new->socket = accept(server->socket, (struct sockaddr *)&client_sin,
 		&client_sin_len);
+	new->occupied = false;
+	new->lives = 10;
+	new->last_eat = time_until_finish(LIFE_TIME, server->opts->freq);
 	new->inventory = (t_inventory){0, 0, 0, 0, 0, 0, 0};
 	new->level = 1;
 	new->pos = (t_pos){0, 0};
 	new->look = 0;
-	printf("New client - %ld\n", id - 1);
 	new->next = server->clients;
 	server->clients = new;
-	get_client_inventory(server->clients);
 	return (SUCCESS);
 }
 
-void remove_client(t_server *server, t_client *client)
+void unlink_client_messages(t_server *server, t_client *client)
+{
+	t_message *tmp = server->messages;
+
+	while (tmp) {
+		if (tmp->owner->player_id == client->player_id)
+			tmp->owner = NULL;
+		tmp = tmp->next;
+	}
+}
+
+void remove_client(t_server *server, t_client *client, bool close_fd)
 {
 	t_client *tmp = server->clients;
 
@@ -43,7 +57,10 @@ void remove_client(t_server *server, t_client *client)
 			tmp = tmp->next;
 		tmp->next = client->next;
 	}
-	printf("Client '%ld' out\n", client->player_id);
+	if (close_fd && is_fd_open(client->socket)) {
+		dprintf(client->socket, "dead\n");
+		close(client->socket);
+	}
 	free(client);
 }
 

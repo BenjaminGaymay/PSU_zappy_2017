@@ -18,13 +18,17 @@ SRCS	=	./srcs/main.c				\
 		./srcs/arguments/arguments.c		\
 		./srcs/map/create_map.c			\
 		./srcs/clients/manage_clients.c		\
+		./srcs/clients/get_client_inventory.c	\
+		./srcs/clients/manage_team.c		\
 		./srcs/communication/socket_infos.c	\
 		./srcs/communication/manage_messages.c	\
 		./srcs/game/game_loop.c			\
-		./srcs/game/manage_time.c			\
+		./srcs/game/manage_time.c		\
+		./srcs/game/parser.c			\
+		./srcs/game/move.c			\
 		./srcs/map/look.c			\
 		./srcs/map/get_map_look.c		\
-		./srcs/clients/get_client_inventory.c	\
+		./srcs/graphics/graphics.c		\
 		$(SHARED)/srcs/connection/sockets.c	\
 		$(SHARED)/srcs/tools/array_tools.c	\
 		$(SHARED)/srcs/tools/count_row.c	\

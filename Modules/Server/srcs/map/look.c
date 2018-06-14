@@ -7,13 +7,7 @@
 
 #include "macro.h"
 #include "server.h"
-
-static char *(*fct[])(t_server *, char *, t_pos pos) = {
-	look_top,
-	look_right,
-	look_bot,
-	look_left
-};
+#include "manage_time.h"
 
 char *look_top(t_server *server, char *str, t_pos pos)
 {
@@ -63,26 +57,22 @@ char *look_left(t_server *server, char *str, t_pos pos)
 	return (str);
 }
 
-char *look(t_server *server)
+static char *(*fct[])(t_server *, char *, t_pos pos) = {
+	look_top,
+	look_right,
+	look_bot,
+	look_left
+};
+
+char *look(t_server *server, t_message *cmd)
 {
 	char *str;
-	t_pos pos = {0, 0};
-	int direction = 0;
+	t_pos pos = {cmd->owner->pos.x, cmd->owner->pos.y};
+	int direction = cmd->owner->look;
 
+	cmd->finish_date = time_until_finish(LOOK_TIME, server->opts->freq);
 	asprintf(&str, "[");
-	printf("top\n");
 	str = (*fct[direction])(server, str, pos);
-	// printf("right\n");
-	// direction = 1;
-	// str = (*fct[direction])(server, str, pos);
-	// printf("bot\n");
-	// direction = 2;
-	// str = (*fct[direction])(server, str, pos);
-	// printf("left\n");
-	// direction = 3;
-	// str = (*fct[direction])(server, str, pos);
-
 	asprintf(&str, "%s]", str);
-	printf("%s\n", str);
 	return (str);
 }

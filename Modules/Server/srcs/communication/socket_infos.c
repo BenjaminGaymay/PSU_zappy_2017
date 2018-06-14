@@ -52,7 +52,7 @@ static int read_on_client(t_server *server, t_client *client)
 			printf("MAX REQUEST NUMBER FOR PLAYER '%ld'\n", client->player_id);
 	}
 	else
-		return (remove_client(server, client), ERROR);
+		return (remove_client(server, client, true), ERROR);
 	return (SUCCESS);
 }
 
@@ -72,7 +72,7 @@ static int are_clients_written(t_server *server, fd_set *fd_read)
 int manage_sockets(t_server *server)
 {
 	static fd_set fd_read;
-	struct timeval tv = {1, 0};
+	struct timeval tv = {0, 50};
 
 	reset_all_sockets(server, &fd_read);
 	if (select(get_max_fd(server) + 1, &fd_read, NULL, NULL, &tv) == -1)

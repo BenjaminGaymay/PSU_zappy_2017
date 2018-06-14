@@ -116,6 +116,13 @@ namespace Graphical {
 			}
 
 		}
+		void dropStone(const char &id, const float &scale, const size_t &x, const size_t &y);
+		float findMapScale(std::vector<std::vector<char>> &map);
+		void printMap(std::vector<std::vector<char>> &map);
+		Graphical::Pos getEntityPos(const char &block);
+		void initFilters();
+		std::map<int, sf::FloatRect> printFilters();
+		sf::FloatRect createFilter(const int &id, const float &x, const float &y, const Pos &margin, const float &padding);
 	private:
 		std::vector<std::unique_ptr<Player>> _players;
 		std::unique_ptr<Sfml> _sfml;
@@ -125,5 +132,6 @@ namespace Graphical {
 		std::map<std::string, std::function<int(const std::vector<std::string> &)>> _ptr_function;
 		std::map<std::string, std::vector<int>> _teams; /* team name, player id*/
 		std::vector<std::unique_ptr<Egg>> _eggs;
+		std::map<int, bool> _filters;
 	};
 }

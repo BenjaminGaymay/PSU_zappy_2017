@@ -46,3 +46,6 @@
 #define LEFT_TIME 7
 #define INVENTORY_TIME 1
 #define LIFE_TIME 126
+#define TAKE_TIME 7
+#define SET_TIME 7
+#define EJECT_TIME 7

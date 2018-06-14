@@ -26,10 +26,10 @@ int add_client(t_server *server)
 	new->occupied = false;
 	new->lives = 10;
 	new->last_eat = time_until_finish(LIFE_TIME, server->opts->freq);
-	new->inventory = (t_inventory){1, 1, 0, 0, 0, 0, 0};
+	new->inventory = (t_inventory){1, 0, 0, 0, 0, 0, 0};
 	new->level = 1;
 	new->pos = (t_pos){0, 0};
-	new->look = 0;
+	new->look = 3;
 	new->next = server->clients;
 	server->clients = new;
 	return (SUCCESS);

@@ -30,7 +30,7 @@ int add_client(t_server *server)
 	new->inventory = (t_inventory){0, 0, 0, 0, 0, 0, 0};
 	new->level = 1;
 	new->pos = (t_pos){0, 0};
-	new->look = 3;
+	new->look = 0;
 	new->next = server->clients;
 	server->clients = new;
 	dprintf(new->socket, "WELCOME\n");

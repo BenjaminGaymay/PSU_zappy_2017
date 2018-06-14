@@ -40,8 +40,7 @@ char *push_str(t_server *server, char *str, t_pos pos)
 		asprintf(&str, "%s,", str);
 	else
 		x = -1;
-	++x;
-	return (str);
+	return (++x, str);
 }
 
 char *get_map_objects_top_bot(t_server *server, char *str, t_pos pos)

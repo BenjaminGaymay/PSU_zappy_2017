@@ -33,6 +33,7 @@ t_inventory **create_map(int y, int x)
 			map[i][j].sibur = rand() % 2;
 		}
 	}
+	print_map(map, y, x);
 	return (map);
 }
 

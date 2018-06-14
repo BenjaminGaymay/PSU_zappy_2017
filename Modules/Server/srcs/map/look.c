@@ -15,7 +15,8 @@ char *look_top(t_server *server, char *str, t_pos pos)
 		if (pos.y - i < 0)
 			pos.y += server->opts->y;
 		for (int j = 0; j < (2 * i + 1); ++j) {
-			str = get_map_objects_top_bot(server, str, (t_pos){j - 2 * i / 2 + pos.x, -i + pos.y});
+			str = get_map_objects_top_bot(server, str,
+			(t_pos){j - 2 * i / 2 + pos.x, -i + pos.y});
 		}
 	}
 	return (str);
@@ -27,7 +28,8 @@ char *look_right(t_server *server, char *str, t_pos pos)
 		if (i + pos.x >= server->opts->x)
 			pos.x -= server->opts->x;
 		for (int j = 0; j < (2 * i + 1); ++j) {
-			str = get_map_objects_left_right(server, str, (t_pos){i + pos.x, j - 2 * i / 2 + pos.y});
+			str = get_map_objects_left_right(server, str,
+			(t_pos){i + pos.x, j - 2 * i / 2 + pos.y});
 		}
 	}
 	return (str);
@@ -39,7 +41,8 @@ char *look_bot(t_server *server, char *str, t_pos pos)
 		if (i + pos.y >= server->opts->y)
 			pos.y -= server->opts->y;
 		for (int j = 0; j < (2 * i + 1); ++j) {
-			str = get_map_objects_top_bot(server, str, (t_pos){j - 2 * i / 2 + pos.x, i + pos.y});
+			str = get_map_objects_top_bot(server, str,
+			(t_pos){j - 2 * i / 2 + pos.x, i + pos.y});
 		}
 	}
 	return (str);
@@ -51,7 +54,8 @@ char *look_left(t_server *server, char *str, t_pos pos)
 		if (pos.x - i < 0)
 			pos.x += server->opts->x;
 		for (int j = 0; j < (2 * i + 1); ++j) {
-			str = get_map_objects_left_right(server, str, (t_pos){-i + pos.x, j - 2 * i / 2 + pos.y});
+			str = get_map_objects_left_right(server, str,
+			(t_pos){-i + pos.x, j - 2 * i / 2 + pos.y});
 		}
 	}
 	return (str);

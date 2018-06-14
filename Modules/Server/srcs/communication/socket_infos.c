@@ -52,7 +52,7 @@ static int read_on_client(t_server *server, t_client *client)
 			printf("MAX REQUEST NUMBER FOR PLAYER '%ld'\n", client->player_id);
 	}
 	else
-		return (remove_client(server, client), ERROR);
+		return (remove_client(server, client, true), ERROR);
 	return (SUCCESS);
 }
 

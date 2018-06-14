@@ -46,7 +46,7 @@ void unlink_client_messages(t_server *server, t_client *client)
 	}
 }
 
-void remove_client(t_server *server, t_client *client)
+void remove_client(t_server *server, t_client *client, bool close_fd)
 {
 	t_client *tmp = server->clients;
 
@@ -57,7 +57,7 @@ void remove_client(t_server *server, t_client *client)
 			tmp = tmp->next;
 		tmp->next = client->next;
 	}
-	if (is_fd_open(client->socket)) {
+	if (close_fd && is_fd_open(client->socket)) {
 		dprintf(client->socket, "dead\n");
 		close(client->socket);
 	}

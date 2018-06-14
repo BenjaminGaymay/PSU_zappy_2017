@@ -35,7 +35,7 @@ namespace Graphical {
 				else if (type == WINDOW)
 					_window.create(sf::VideoMode(1080, 720), "ZAPPY", sf::Style::Close | sf::Style::Resize);
 				_window.setFramerateLimit(30);
-				_screen.create(_window.getSize().x, _window.getSize().y);
+				_screen.create(_window.getSize().x - _margin.x, _window.getSize().y);
 			}
 			_windowType = type;
 		};
@@ -64,16 +64,12 @@ namespace Graphical {
 			_window.display();
 			_screen.display();
 		};
-		void print_map(std::vector<std::vector<char>> &map);
 		void createBlocks();
 		bool createTexture(const int &index, const std::string &path,
 						   std::map<const int, std::unique_ptr<sf::Texture>> &textures);
 		bool createSprite(const int &index, const std::string &path,
 						  std::map<const int, std::unique_ptr<sf::Sprite>> &sprites,
 						  std::map<const int, std::unique_ptr<sf::Texture>> &textures);
-		float findMapScale(std::vector<std::vector<char>> &map);
-		Pos getEntityPos(const char &block);
-		void dropStone(const char &id, const float &scale, const std::size_t &x, const std::size_t &y);
 		std::unique_ptr<sf::Font> &getFont(const std::string &name);
 		void addFont(const std::string &key, const std::string &maccro);
 		void addFont(const std::string &key, std::unique_ptr<sf::Font> &font);
@@ -83,6 +79,8 @@ namespace Graphical {
 		const mod &getWindowType() const { return _windowType; };
 		void mouseScrollEvent(sf::Event &event);
 		void mouseEvent(sf::Event &event);
+		void resetView();
+		const Pos &getMargin() const { return _margin; };
 	private:
 		std::map<const int, std::unique_ptr<sf::Sprite>> _blocks;
 		std::map<const int, std::unique_ptr<sf::Texture>> _textures;
@@ -90,7 +88,8 @@ namespace Graphical {
 		std::map<const int, std::unique_ptr<sf::Sprite>> _buttons;
 		sf::RenderWindow _window;
 		sf::RenderTexture _screen;
-		float zoom = 1;
+		float _zoom = 1;
+		const Pos _margin = {50, 0};
 		mod _windowType;
 		const std::string _picturePath = "assets/pictures/";
 		const std::string _fontPath = "assets/fonts/";

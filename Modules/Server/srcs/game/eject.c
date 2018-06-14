@@ -15,10 +15,12 @@ static void move_eject(t_opts *opts, t_client *client, size_t look)
 		client->pos.y -= (client->pos.y <= 0 ? -opts->y + 1 : 1);
 		break;
 		case 1:
-		client->pos.x += (client->pos.x >= opts->x - 1? -opts->x + 1 : 1);
+		client->pos.x += (client->pos.x >=
+		opts->x - 1? -opts->x + 1 : 1);
 		break;
 		case 2:
-		client->pos.y += (client->pos.y >= opts->y - 1? -opts->y + 1 : 1);
+		client->pos.y += (client->pos.y >=
+		opts->y - 1? -opts->y + 1 : 1);
 		break;
 		case 3:
 		client->pos.x -= (client->pos.x <= 0 ? -opts->x + 1 : 1);

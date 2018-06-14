@@ -42,7 +42,7 @@ void unlink_client_messages(t_server *server, t_client *client)
 	t_message *tmp = server->messages;
 
 	while (tmp) {
-		if (tmp->owner->player_id == client->player_id)
+		if (tmp->owner && tmp->owner->player_id == client->player_id)
 			tmp->owner = NULL;
 		tmp = tmp->next;
 	}

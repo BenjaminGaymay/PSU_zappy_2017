@@ -20,6 +20,7 @@ int add_message_in_list(t_server *server, t_client *client, const char *request)
 	if (!new->request)
 		return (FCT_FAILED("strdup"), ERROR);
 	new->response = NULL;
+	new->broadcast = NULL;
 	new->finish_date = DEFAULT_VALUE;
 	new->send = false;
 	new->next = NULL;
@@ -69,13 +70,15 @@ void remove_finished_actions(t_server *server)
 	}
 }
 
-void send_responses(t_message *responses)
+void send_responses(t_server *server, t_message *responses)
 {
 	t_message *tmp = responses;
 
 	while (tmp) {
 		if (tmp->response && !tmp->send && tmp->owner) {
 			dprintf(tmp->owner->socket, "%s\n", tmp->response);
+			if (tmp->broadcast)
+				send_all(server, tmp->owner, tmp->broadcast);
 			tmp->send = true;
 		}
 		tmp = tmp->next;
@@ -92,6 +95,8 @@ void remove_all_messages(t_server *server)
 		free(server->messages->request);
 		if (server->messages->response)
 			free(server->messages->response);
+		if (server->messages->broadcast)
+			free(server->messages->broadcast);
 		free(server->messages);
 		server->messages = message;
 	}

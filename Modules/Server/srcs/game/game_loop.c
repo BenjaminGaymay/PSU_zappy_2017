@@ -44,7 +44,7 @@ int game_loop(t_server *server)
 			return (ERROR);
 		lost_lives(server, server->clients);
 		read_all_messages(server, server->messages);
-		send_responses(server->messages);
+		send_responses(server, server->messages);
 		remove_finished_actions(server);
 	}
 	return (SUCCESS);

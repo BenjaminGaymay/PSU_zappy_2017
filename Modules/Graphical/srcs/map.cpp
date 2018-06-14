@@ -83,7 +83,7 @@ void Graphical::Game::printMap(const std::vector<std::unique_ptr<Case>> &map)
 			printCaseInventory(block);
 		if (_filters[2]) {
 			for (auto &resource : block->getResources())
-				if (resource.second > 0)
+				if (resource.second > 0 && resource.first != 7)
 					dropStone(resource.first, scale, x, y);
 			/*dropStone(1, scale, x, y);
 			dropStone(2, scale, x, y);

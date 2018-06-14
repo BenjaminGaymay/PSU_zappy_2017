@@ -20,7 +20,7 @@ namespace Graphical {
 	public:
 		explicit Case(const Pos &pos) : _pos(pos)
 		{
-			for (std::size_t i = 0 ; i < _size ; ++i) _resources[i] = 0;
+			for (std::size_t i = 1 ; i <= _size ; ++i) _resources[i] = 0;
 		};
 
 		~Case() = default;
@@ -53,7 +53,14 @@ namespace Graphical {
 				for (int x = 0 ; x < _size.x; ++x) {
 					Pos pos(x, y);
 					std::unique_ptr<Case> aCase = std::make_unique<Case>(pos);
-					aCase->addResource(random(generator), 1);
+					//aCase->addResource(random(generator), 1);
+					aCase->addResource(1, 1);
+					aCase->addResource(2, 1);
+					aCase->addResource(3, 1);
+					aCase->addResource(4, 1);
+					aCase->addResource(5, 1);
+					aCase->addResource(6, 1);
+					aCase->addResource(7, 1);
 					_map.emplace_back(std::move(aCase));
 				}
 			}

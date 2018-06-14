@@ -12,6 +12,7 @@
 #include "sockets.h"
 #include "connect_client.h"
 #include "ai.h"
+#include "tools.h"
 
 static int read_socket(t_ai *ai)
 {

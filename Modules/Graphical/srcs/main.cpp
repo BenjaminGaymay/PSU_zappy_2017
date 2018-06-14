@@ -39,7 +39,7 @@ int Graphical::Game::manageEvent()
 			keyManager(event);
 		else if (_type == GAME && event.type == sf::Event::Resized) {
 			_sfml->getWindow().setView(sf::View(sf::FloatRect(0, 0, event.size.width, event.size.height)));
-			_sfml->setScreen(_sfml->getWindow().getSize());
+			_sfml->setScreen({_sfml->getWindow().getSize().x - _sfml->getMargin().x, _sfml->getWindow().getSize().y});
 		} else if (_type == GAME && event.type == sf::Event::MouseWheelScrolled)
 			_sfml->mouseScrollEvent(event);
 		else if (_type == GAME && event.type == sf::Event::MouseButtonPressed)
@@ -48,9 +48,69 @@ int Graphical::Game::manageEvent()
 	return (0);
 }
 
+
+sf::FloatRect Graphical::Game::createFilter(const int &id, const float &x, const float &y, const Pos &margin, const float &padding)
+{
+	sf::Color color = (_filters[id] ? sf::Color::Green : sf::Color::Red);
+	auto &player = _sfml->getBlock(id);
+	player->setScale(static_cast<float>(margin.x) / player->getTexture()->getSize().x,
+					 static_cast<float>(margin.x) / player->getTexture()->getSize().y);
+	player->setPosition(x, y * padding);
+	sf::Color last = player->getColor();
+	player->setColor(color);
+	_sfml->getWindow().draw(*player);
+	player->setColor(last);
+	return (player->getGlobalBounds());
+}
+
+void Graphical::Game::initFilters()
+{
+	_filters[11] = true;
+	_filters[2] = true;
+	_filters[7] = true;
+	_filters[8] = true;
+	_filters[12] = false;
+}
+
+std::map<int, sf::FloatRect> Graphical::Game::printFilters()
+{
+	std::map<int, sf::FloatRect> buttons;
+	const std::size_t filterNb = 6;
+	float x = _sfml->getWindow().getSize().x - _sfml->getMargin().x;
+	Pos margin = _sfml->getMargin();
+	float padding = static_cast<float>(_sfml->getWindow().getSize().y) / filterNb;
+	float y = 0;
+
+	buttons[11] = createFilter(11, x, y, margin, padding);
+	y += 1;
+	buttons[2] = createFilter(2, x, y, margin, padding);
+	y += 1;
+	buttons[7] = createFilter(7, x, y, margin, padding);
+	y += 1;
+	buttons[8] = createFilter(8, x, y, margin, padding);
+	y += 1;
+	buttons[12] = createFilter(12, x, y, margin, padding);
+	return buttons;
+}
+
 void Graphical::Game::printGame(std::vector<std::vector<char>> map)
 {
-	_sfml->print_map(map);
+	printMap(map);
+	auto buttons = printFilters();
+	sf::Vector2f position(sf::Mouse::getPosition(_sfml->getWindow()));
+
+	if (!sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+		return ;
+	for (auto &button : buttons) {
+		if (button.second.contains(position)) {
+			_filters[button.first] = !_filters[button.first] && true;
+		}
+	}
+	if (_filters[12]) {
+		for (auto &filter : _filters)
+			filter.second = true;
+		_filters[12] = false;
+	}
 }
 
 int Graphical::Game::loop()
@@ -68,6 +128,7 @@ int Graphical::Game::loop()
 	map.push_back({0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
 	_sfml->open(Graphical::Sfml::WINDOW);
 	_sfml->createBlocks();
+	initFilters();
 	while (_sfml->isOpen()) {// && _com->isValidFd(_com->getSocket())) {
 		manageEvent();
 		//this->manageFd();

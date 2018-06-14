@@ -29,9 +29,7 @@ void move_eject(t_opts *opts, t_client *client, size_t look)
 char *eject(t_server *server, t_message *cmd)
 {
 	char *str;
-
 	t_client *client = server->clients;
-	size_t i = 0;
 
 	cmd->finish_date = time_until_finish(EJECT_TIME, server->opts->freq);
 	while (client) {

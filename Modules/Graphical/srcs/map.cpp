@@ -22,7 +22,7 @@ Graphical::Pos Graphical::Game::getEntityPos(const char &block)
 	return map[block];
 };
 
-void Graphical::Game::dropStone(const char &id, const float &scale, const size_t &x, const size_t &y)
+void Graphical::Game::dropStone(const char &id, const float &scale, const float &x, const float &y)
 {
 	float elem = scale / 3.0f;
 	auto &sprite_2 = _sfml->getBlock(id);
@@ -33,7 +33,7 @@ void Graphical::Game::dropStone(const char &id, const float &scale, const size_t
 	_sfml->getScreen().draw(*sprite_2);
 }
 
-float Graphical::Game::findMapScale(std::vector<std::vector<char>> &map)
+float Graphical::Game::findMapScale(const Pos &pos)
 {
 	/*size_t max_y = map.size(), max_x = map[0].size();
 	float height = _window.getSize().y, width = _window.getSize().x;
@@ -42,7 +42,7 @@ float Graphical::Game::findMapScale(std::vector<std::vector<char>> &map)
 	float scale = min_window / max_map;
 
 	return (scale);*/
-	size_t max_y = map.size(), max_x = map[0].size();
+	int max_y = pos.y, max_x = pos.x;
 	float height = _sfml->getScreen().getSize().y, width = _sfml->getScreen().getSize().x;
 	float scale = width / max_x;
 
@@ -51,35 +51,31 @@ float Graphical::Game::findMapScale(std::vector<std::vector<char>> &map)
 	return (scale);
 }
 
-void Graphical::Game::printMap(std::vector<std::vector<char>> &map)
+void Graphical::Game::printMap(const std::vector<std::unique_ptr<Case>> &map)
 {
-	float scale = findMapScale(map);
-	int x = 0, y = static_cast<int>((_sfml->getScreen().getSize().y / 2.0f) - (map.size() / 2.0f * scale));
+	float scale = findMapScale(_map->getSize());
+	float marginX = (_sfml->getScreen().getSize().x / 2.0f) - (_map->getSize().x / 2.0f * scale);
+	float marginY = (_sfml->getScreen().getSize().y / 2.0f) - (_map->getSize().y / 2.0f * scale);
 
-	for (auto &line : map) {
-		x = static_cast<int>((_sfml->getScreen().getSize().x / 2.0f) - (line.size() / 2.0f * scale));
-		for (auto &block : line) {
-			if (block == 0) {
-				auto &sprite = _sfml->getBlock(block);
-				float size = sprite->getTexture()->getSize().x;
-				sprite->setScale({scale / size, scale / size});
-				sprite->setPosition(sf::Vector2f(x, y));
-				_sfml->getScreen().draw(*sprite);
-				if (_filters[2]) {
-					dropStone(1, scale, x, y);
-					dropStone(2, scale, x, y);
-					dropStone(3, scale, x, y);
-					dropStone(4, scale, x, y);
-					dropStone(5, scale, x, y);
-					dropStone(6, scale, x, y);
-				}
-				if (_filters[7])
-					dropStone(7, scale, x, y);
-				if (_filters[8])
-					dropStone(8, scale, x, y);
-			}
-			x += scale;
+	for (auto &block : map) {
+		auto &sprite = _sfml->getBlock(0);
+		float size = sprite->getTexture()->getSize().x;
+		sprite->setScale({scale / size, scale / size});
+		float x = marginX + (block->getPos().x * scale);
+		float y = marginY + (block->getPos().y * scale);
+		sprite->setPosition(sf::Vector2f(x, y));
+		_sfml->getScreen().draw(*sprite);
+		if (_filters[2]) {
+			dropStone(1, scale, x, y);
+			dropStone(2, scale, x, y);
+			dropStone(3, scale, x, y);
+			dropStone(4, scale, x, y);
+			dropStone(5, scale, x, y);
+			dropStone(6, scale, x, y);
 		}
-		y += scale;
+		if (_filters[7])
+			dropStone(7, scale, x, y);
+		if (_filters[8])
+			dropStone(8, scale, x, y);
 	}
 }

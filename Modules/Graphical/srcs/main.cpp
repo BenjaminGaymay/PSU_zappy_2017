@@ -115,9 +115,9 @@ long Graphical::Game::eventFilters(const std::map<int, sf::FloatRect> &buttons)
 	return result;
 }
 
-void Graphical::Game::printGame(std::vector<std::vector<char>> map)
+void Graphical::Game::printGame()
 {
-	printMap(map);
+	printMap(_map->getMap());
 	auto buttons = printFilters();
 	static long last = 0;
 
@@ -134,27 +134,16 @@ void Graphical::Game::printGame(std::vector<std::vector<char>> map)
 
 int Graphical::Game::loop()
 {
-	std::vector<std::vector<char>> map;
-	map.push_back({0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
-	map.push_back({0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
-	map.push_back({0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
-	map.push_back({0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
-	map.push_back({0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
-	map.push_back({0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
-	map.push_back({0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
-	map.push_back({0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
-	map.push_back({0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
-	map.push_back({0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
 	_sfml->open(Graphical::Sfml::WINDOW);
 	_sfml->createBlocks();
 	initFilters();
-	while (_sfml->isOpen()) {// && _com->isValidFd(_com->getSocket())) {
+	while (_sfml->isOpen() && _com->isValidFd(_com->getSocket())) {
 		manageEvent();
-		//this->manageFd();
+		readServer();
 		_sfml->clear();
 		switch (_type) {
 			case MENU: printMenu(); break;
-			case GAME: printGame(map); break;
+			case GAME: printGame(); break;
 			case EXIT: _sfml->close();
 			default: break;
 		}
@@ -175,8 +164,9 @@ int main(int ac, char **av)
 		return (std::cerr << "I need a port argument" << std::endl, 84);
 	Graphical::Game game;
 
-	//game.setCommunication(std::make_unique<Graphical::Communication>(std::stoi(av[1])));
-	//game.initCommunication();
+	game.initPtrFunction();
+	game.setCommunication(std::make_unique<Graphical::Communication>(std::stoi(av[1])));
+	game.initCommunication();
 	game.setDisplayer(std::make_unique<Graphical::Sfml>());
 	game.setMap(std::make_unique<Graphical::Map>());
 	game.loop();

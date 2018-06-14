@@ -38,3 +38,4 @@ typedef struct s_pos {
 
 t_inventory **create_map(int, int);
 void remove_map(t_inventory **, int);
+void print_map(t_inventory **map, int y, int x);

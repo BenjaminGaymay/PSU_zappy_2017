@@ -19,7 +19,7 @@ static t_ptr_action *get_ptr_actions(void){
 		// {fork_cmd, "Fork"},
 		// {eject, "Eject"},
 		{take_obj, "Take "},
-		// {set_obj, "Set object"},
+		{set_obj, "Set "},
 		// {incantation, "Incantation"},
 		{is_graphical, "msz"},
 		{NULL, NULL}

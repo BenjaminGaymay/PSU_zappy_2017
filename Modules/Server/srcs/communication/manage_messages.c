@@ -45,7 +45,7 @@ void remove_messages(t_server *server, t_message *message)
 {
 	if (message == server->messages)
 		server->messages = message->next;
-	if (message->owner) {
+	if (message->request && message->owner) {
 		message->owner->request_number -= 1;
 		message->owner->occupied = false;
 	}
@@ -91,8 +91,10 @@ void remove_all_messages(t_server *server)
 
 	while (server->messages) {
 		message = server->messages->next;
-		server->messages->owner->request_number -= 1;
-		free(server->messages->request);
+		if (server->messages->request) {
+			server->messages->owner->request_number -= 1;
+			free(server->messages->request);
+		}
 		if (server->messages->response)
 			free(server->messages->response);
 		if (server->messages->broadcast)

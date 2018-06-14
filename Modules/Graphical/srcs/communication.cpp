@@ -12,6 +12,7 @@ int Graphical::Game::manageFd()
 {
 	auto array = _com->readFd(_com->getSocket());
 	for (auto &line : array) {
+		std::cerr << "Reçu:" << line << std::endl;
 		auto command = Graphical::explode(line, ' ');
 		auto aFunction = _ptr_function[command[0]];
 		if (aFunction) {
@@ -22,10 +23,26 @@ int Graphical::Game::manageFd()
 	return 0;
 }
 
+int Graphical::Game::readServer()
+{
+	static fd_set fd_read;
+	struct timeval tv = {0, 50};
+
+	FD_ZERO(&fd_read);
+	FD_SET(_com->getSocket(), &fd_read);
+	if (select(_com->getSocket() + 1, &fd_read, NULL, NULL, &tv) == -1)
+		return (FCT_FAILED("select"), ERROR);
+	if (FD_ISSET(_com->getSocket(), &fd_read))
+		return (manageFd());
+	return (SUCCESS);
+
+}
+
 int Graphical::Game::setSize(const std::vector<std::string> &array)
 {
 	Pos pos(std::stoi(array[0]), std::stoi(array[1]));
 
+	std::cerr << "setSize" << std::endl;
 	_map->setSize(pos);
 	_map->initMap();
 	return 0;

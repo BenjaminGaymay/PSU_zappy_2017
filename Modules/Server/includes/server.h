@@ -21,7 +21,7 @@ typedef struct s_graphical_client {
 
 typedef struct s_client {
 	int socket;
-	size_t team_id;
+	t_team *team;
 	size_t player_id;
 	size_t request_number;
 	t_inventory inventory;

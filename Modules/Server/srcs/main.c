@@ -31,6 +31,7 @@ static void clear_server(t_server *server)
 	remove_all_messages(server);
 	remove_map(server->map, server->opts->y);
 	// Free clients graphiques
+	// Free opts->teams
 	free(server->opts);
 	close(server->socket);
 }

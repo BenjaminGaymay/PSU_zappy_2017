@@ -49,9 +49,12 @@ int name(char **av, t_opts *opt)
 	if (!av[0])
 		return (ERROR);
 	for (; av[len]; len++);
-	opt->teams = calloc(len + 1, sizeof(char*));
-	for (int i = 0; av[i] && av[i][0] != '-'; i++, h++)
-		opt->teams[h] = av[i];
+	opt->teams = calloc(len + 1, sizeof(t_team *));
+	for (int i = 0; av[i] && av[i][0] != '-'; i++, h++) {
+		opt->teams[h] = calloc(1, sizeof(t_team));
+		opt->teams[h]->name = av[i];
+		opt->teams[h]->id = h;
+	}
 	opt->teams[h] = NULL;
 	return (SUCCESS);
 }

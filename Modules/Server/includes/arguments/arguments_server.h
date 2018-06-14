@@ -7,11 +7,16 @@
 
 #pragma once
 
+typedef struct s_team {
+	char *name;
+	size_t id;
+} t_team;
+
 typedef struct s_opts {
 	int port;
 	int x;
 	int y;
-	char **teams;
+	t_team **teams;
 	int max_clients;
 	int freq;
 } t_opts;

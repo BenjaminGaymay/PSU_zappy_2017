@@ -20,18 +20,20 @@ int add_client(t_server *server)
 		return (FCT_FAILED("malloc"), ERROR);
 	client_sin_len = sizeof(client_sin);
 	new->request_number = 0;
+	new->team = NULL;
 	new->player_id = id++;
 	new->socket = accept(server->socket, (struct sockaddr *)&client_sin,
 		&client_sin_len);
 	new->occupied = false;
 	new->lives = 10;
-	new->last_eat = time_until_finish(LIFE_TIME, server->opts->freq);
-	new->inventory = (t_inventory){1, 0, 0, 0, 0, 0, 0};
+	new->last_eat = DEFAULT_VALUE;
+	new->inventory = (t_inventory){0, 0, 0, 0, 0, 0, 0};
 	new->level = 1;
 	new->pos = (t_pos){0, 0};
 	new->look = 3;
 	new->next = server->clients;
 	server->clients = new;
+	dprintf(new->socket, "WELCOME\n");
 	return (SUCCESS);
 }
 

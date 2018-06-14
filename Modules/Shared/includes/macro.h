@@ -27,7 +27,8 @@
 #define FCT_FAILED(s) fprintf(stderr, "Error: %s failed.\n", s)
 #define NOT_NUMBER(n) fprintf(stderr, "Error: %s must be a valid number.\n", n)
 
-#define USAGE_SERVER "USAGE: ./zappy_server -p port -x width -y height -n name1 name2 ... -c clientsNb -f freq\
+#define USAGE_SERVER "USAGE: ./zappy_server -p port -x width -y \
+	height -n name1 name2 ... -c clientsNb -f freq\
 	\n\tport\tis the port number\
 	\n\twidth\tis the width of the world\
 	\n\theight\tis the height of the world\

@@ -28,7 +28,7 @@ namespace Graphical {
 		inline const std::size_t &getResource(int id) { return _resources[id]; };
 		inline void addEgg(int id) { _eggsId.push_back(id); };
 		const std::vector<int> getEggsId() const { return _eggsId; };
-
+		const Pos &getPos() const { return _pos; };
 	private:
 		Pos _pos;
 		std::map<int, std::size_t> _resources;
@@ -46,26 +46,26 @@ namespace Graphical {
 			for (int y = 0 ; y < _size.y ; ++y) {
 				for (int x = 0 ; x < _size.x; ++x) {
 					Pos pos(x, y);
-					_map[pos] = std::make_unique<Case>(pos);
+					_map.emplace_back(std::make_unique<Case>(pos));
 				}
 			}
 		};
 
 		void setSize(const Pos &size) { _size = size; };
 		const Pos &getSize() const { return _size; };
-		const std::map<Pos, std::unique_ptr<Case>> &getMap() const { return _map; };
+		const std::vector<std::unique_ptr<Case>> &getMap() const { return _map; };
 		const std::unique_ptr<Case> &getCase(const Pos &pos) const
 		{
 			static std::unique_ptr<Case> notFound = nullptr;
 
 			for (auto &elem : _map)
-				if (elem.first.x == pos.x && elem.first.y == pos.y)
-					return elem.second;
+				if (elem->getPos().x == pos.x && elem->getPos().y == pos.y)
+					return elem;
 			return notFound;
 		};
 	private:
 		Pos _size;
-		std::map<Pos, std::unique_ptr<Case>> _map;
+		std::vector<std::unique_ptr<Case>> _map;
 
 	};
 }

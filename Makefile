@@ -16,23 +16,23 @@ GRAPHICAL	=	Modules/Graphical
 all: 		graphical server ai
 
 server:
-		make -sC $(SERVER)
+		make -C $(SERVER)
 
 ai:
-		make -sC $(AI)
+		make -C $(AI)
 
 graphical:
-		make -sC $(GRAPHICAL)
+		make -C $(GRAPHICAL)
 
 clean:
-		make clean -sC $(GRAPHICAL)
-		make clean -sC $(AI)
-		make clean -sC $(SERVER)
+		make clean -C $(GRAPHICAL)
+		make clean -C $(AI)
+		make clean -C $(SERVER)
 
 fclean: 	clean
-		make fclean -sC $(GRAPHICAL)
-		make fclean -sC $(AI)
-		make fclean -sC $(SERVER)
+		make fclean -C $(GRAPHICAL)
+		make fclean -C $(AI)
+		make fclean -C $(SERVER)
 
 re:		fclean all
 

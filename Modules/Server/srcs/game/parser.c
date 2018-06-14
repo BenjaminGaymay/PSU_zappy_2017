@@ -21,7 +21,7 @@ static t_ptr_action *get_ptr_actions(void){
 		{take_obj, "Take "},
 		{set_obj, "Set "},
 		// {incantation, "Incantation"},
-		{is_graphical, "msz"},
+		{is_graphical, "GRAPHIC"},
 		{NULL, NULL}
 	};
 
@@ -45,4 +45,5 @@ void parse_command(t_server *server, t_message *command)
 		command->finish_date = 0;
 		asprintf(&command->response, "ko");
 	}
+
 }

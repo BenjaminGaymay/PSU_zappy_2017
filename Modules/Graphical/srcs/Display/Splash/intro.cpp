@@ -8,6 +8,11 @@
 #include <chrono>
 #include "Core.hpp"
 
+/**
+ * @brief to center the sprite
+ * @param id
+ * @return
+ */
 std::unique_ptr<sf::Sprite> &Graphical::Core::createSplashIntro(const int &id)
 {
 	auto width = _sfml->getWindow().getSize().x;
@@ -39,16 +44,16 @@ void Graphical::Core::printSplashIntro(const int &id, const float &atime)
 
 	long now = std::chrono::system_clock::now().time_since_epoch().count();
 	if (visible) {
-		if (now <= last + time) {
+		if (now <= last + time)
 			alpha += alpha < (255 - padding) ? padding : 0;
-		} else {
+		else {
 			visible = false;
 			last = std::chrono::system_clock::now().time_since_epoch().count();
 		}
 	} else {
-		if (now <= last + 800000000) {
+		if (now <= last + time)
 			alpha -= alpha > padding ? padding : 0;
-		} else
+		else
 			_type = MENU;
 	}
 	sprite->setColor({200, 100, 100, alpha});

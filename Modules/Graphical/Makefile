@@ -20,9 +20,9 @@ SRCS_C		=	$(SHARED)/srcs/connection/sockets.c
 OBJS_C		=	$(SRCS_C:.c=.o)
 
 SRCS_CPP	= 	srcs/main.cpp					\
-			srcs/event.cpp						\
-			srcs/communication.cpp				\
-			srcs/Display/textureAndSprite.cpp	\
+			srcs/Display/event.cpp				\
+			srcs/Display/Game/communication.cpp		\
+			srcs/Display/textureAndSprite.cpp		\
 	  		srcs/Display/text.cpp				\
 			srcs/Display/mouse.cpp				\
 			srcs/Display/font.cpp				\

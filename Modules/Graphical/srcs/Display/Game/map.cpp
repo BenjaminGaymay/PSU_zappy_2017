@@ -5,9 +5,9 @@
 ** 12/06/18
 */
 
-#include "Game.hpp"
+#include "Core.hpp"
 
-Graphical::Pos Graphical::Game::getEntityPos(const int &block)
+Graphical::Pos Graphical::Core::getEntityPos(const int &block)
 {
 	static std::map<char, Graphical::Pos> map = {
 			{1, {0, 0}},
@@ -22,7 +22,7 @@ Graphical::Pos Graphical::Game::getEntityPos(const int &block)
 	return map[block];
 };
 
-void Graphical::Game::dropStone(const int &id, const float &scale, const float &x, const float &y)
+void Graphical::Core::dropStone(const int &id, const float &scale, const float &x, const float &y)
 {
 	float elem = scale / 3.0f;
 	auto &sprite_2 = _sfml->getBlock(id);
@@ -33,7 +33,7 @@ void Graphical::Game::dropStone(const int &id, const float &scale, const float &
 	_sfml->getScreen().draw(*sprite_2);
 }
 
-float Graphical::Game::findMapScale(const Pos &pos)
+float Graphical::Core::findMapScale(const Pos &pos)
 {
 	int max_y = pos.y, max_x = pos.x;
 	float height = _sfml->getScreen().getSize().y, width = _sfml->getScreen().getSize().x;
@@ -44,7 +44,7 @@ float Graphical::Game::findMapScale(const Pos &pos)
 	return (scale);
 }
 
-void Graphical::Game::printCaseInventory(const std::unique_ptr<Case> &block)
+void Graphical::Core::printCaseInventory(const std::unique_ptr<Case> &block)
 {
 	std::map<int, sf::FloatRect> buttons;
 	const std::size_t filterNb = 10;
@@ -62,12 +62,12 @@ void Graphical::Game::printCaseInventory(const std::unique_ptr<Case> &block)
 		y += 1;
 }
 
-void Graphical::Game::printMap(const std::vector<std::unique_ptr<Case>> &map)
+void Graphical::Core::printMap(const std::vector<std::unique_ptr<Case>> &map)
 {
 
-	float scale = findMapScale(_map->getSize());
-	float marginX = (_sfml->getScreen().getSize().x / 2.0f) - (_map->getSize().x / 2.0f * scale);
-	float marginY = (_sfml->getScreen().getSize().y / 2.0f) - (_map->getSize().y / 2.0f * scale);
+	float scale = findMapScale(_game->getMapper()->getSize());
+	float marginX = (_sfml->getScreen().getSize().x / 2.0f) - (_game->getMapper()->getSize().x / 2.0f * scale);
+	float marginY = (_sfml->getScreen().getSize().y / 2.0f) - (_game->getMapper()->getSize().y / 2.0f * scale);
 
 	for (auto &block : map) {
 		auto &sprite = _sfml->getBlock(0);

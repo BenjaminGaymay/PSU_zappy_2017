@@ -6,9 +6,9 @@
 */
 
 #include <chrono>
-#include "Game.hpp"
+#include "Core.hpp"
 
-void Graphical::Game::createIcon(const int &id, const float &x, const float &y, const Pos &margin, const float &padding)
+void Graphical::Core::createIcon(const int &id, const float &x, const float &y, const Pos &margin, const float &padding)
 {
 	auto &player = _sfml->getBlock(id);
 	player->setScale(static_cast<float>(margin.x) / player->getTexture()->getSize().x,
@@ -17,7 +17,7 @@ void Graphical::Game::createIcon(const int &id, const float &x, const float &y, 
 	_sfml->getWindow().draw(*player);
 }
 
-sf::FloatRect Graphical::Game::createFilter(const int &id, const float &x, const float &y, const Pos &margin, const float &padding)
+sf::FloatRect Graphical::Core::createFilter(const int &id, const float &x, const float &y, const Pos &margin, const float &padding)
 {
 	sf::Color color = (_filters[id] ? sf::Color::Green : sf::Color::Red);
 	auto &player = _sfml->getBlock(id);
@@ -32,7 +32,7 @@ sf::FloatRect Graphical::Game::createFilter(const int &id, const float &x, const
 	return (player->getGlobalBounds());
 }
 
-void Graphical::Game::initFilters()
+void Graphical::Core::initFilters()
 {
 	_filters[13] = false;
 	_filters[11] = true;
@@ -42,7 +42,7 @@ void Graphical::Game::initFilters()
 	_filters[12] = false;
 }
 
-std::map<int, sf::FloatRect> Graphical::Game::printFilters()
+std::map<int, sf::FloatRect> Graphical::Core::printFilters()
 {
 	std::map<int, sf::FloatRect> buttons;
 	const std::size_t filterNb = 6;
@@ -66,7 +66,7 @@ std::map<int, sf::FloatRect> Graphical::Game::printFilters()
 	return buttons;
 }
 
-long Graphical::Game::eventFilters(const std::map<int, sf::FloatRect> &buttons)
+long Graphical::Core::eventFilters(const std::map<int, sf::FloatRect> &buttons)
 {
 	long result = 0;
 	sf::Vector2f position(sf::Mouse::getPosition(_sfml->getWindow()));
@@ -92,7 +92,7 @@ long Graphical::Game::eventFilters(const std::map<int, sf::FloatRect> &buttons)
 	return result;
 }
 
-void Graphical::Game::printInventoryCases()
+void Graphical::Core::printInventoryCases()
 {
 	std::map<int, sf::FloatRect> buttons;
 	const std::size_t filterNb = 10;
@@ -111,7 +111,7 @@ void Graphical::Game::printInventoryCases()
 	}
 }
 
-void Graphical::Game::printToolbar()
+void Graphical::Core::printToolbar()
 {
 	auto &player = _sfml->getBlock(16);
 	player->setScale(_sfml->getMargin().x, _sfml->getWindow().getSize().y);
@@ -119,11 +119,11 @@ void Graphical::Game::printToolbar()
 	_sfml->getWindow().draw(*player);
 }
 
-void Graphical::Game::printGame()
+void Graphical::Core::printGame()
 {
 	printToolbar();
 	printInventoryCases();
-	printMap(_map->getMap());
+	printMap(_game->getMapper()->getMap());
 	auto buttons = printFilters();
 	static long last = 0;
 

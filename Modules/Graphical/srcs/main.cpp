@@ -5,9 +5,9 @@
 ** 11/06/18
 */
 
-#include "Game.hpp"
+#include "Core.hpp"
 
-void Graphical::Game::clear()
+void Graphical::Core::clear()
 {
 	if (_type == GAME) {
 		_sfml->getScreen().clear();
@@ -15,7 +15,7 @@ void Graphical::Game::clear()
 	_sfml->getWindow().clear();
 }
 
-void Graphical::Game::display()
+void Graphical::Core::display()
 {
 	if (_type == GAME) {
 		_sfml->displayScreen();
@@ -23,20 +23,20 @@ void Graphical::Game::display()
 	_sfml->getWindow().display();
 }
 
-int Graphical::Game::initGraphisms()
+int Graphical::Core::initGraphisms()
 {
 	_sfml->open(Graphical::Sfml::WINDOW);
 	_sfml->createBlocks();
 	return 0;
 }
 
-int Graphical::Game::initMusics()
+int Graphical::Core::initMusics()
 {
 	_music->createMusic("main", "main.ogg");
 	return 0;
 }
 
-int Graphical::Game::initAll()
+int Graphical::Core::initAll()
 {
 	initGraphisms();
 	initFilters();
@@ -44,7 +44,7 @@ int Graphical::Game::initAll()
 	return 0;
 }
 
-int Graphical::Game::loop()
+int Graphical::Core::loop()
 {
 	initAll();
 	_music->addEvent(Music::MUSIC, Music::PLAY, "main");
@@ -64,29 +64,20 @@ int Graphical::Game::loop()
 	return (0);
 }
 
-void Graphical::Game::initCommunication(const std::string &team)
-{
-	if (!_com->sendToFd(_com->getSocket(), team))
-		throw std::logic_error("Server is closed.");
-	if (!_com->sendToFd(_com->getSocket(), "msz")) {
-		throw std::logic_error("Server is closed.");
-	}
-};
-
 int main(int ac, char **av)
 {
 	if (ac != 3 || av[1] == nullptr || av[2] == nullptr)
 		return (std::cerr << "I need a port and a team argument" << std::endl, 84);
-	Graphical::Game game;
+	Graphical::Core core;
 
-	game.initPtrFunction();
-	game.setCommunication(std::make_unique<Graphical::Communication>(std::stoi(av[1])));
-	game.setGraphicTeam(av[2]);
-	//game.initCommunication(av[2]);
-	game.setDisplayer(std::make_unique<Graphical::Sfml>());
-	game.setMap(std::make_unique<Graphical::Map>());
-	game.setMusic(std::make_unique<Graphical::Music>());
-	game.loop();
+	core.initPtrFunction();
+	core.setCommunication(std::make_unique<Graphical::Communication>(std::stoi(av[1])));
+	core.setGraphicTeam(av[2]);
+	core.setDisplayer(std::make_unique<Graphical::Sfml>());
+	core.setMusic(std::make_unique<Graphical::Music>());
+	core.setGame(std::make_unique<Graphical::Game>());
+	core.getGame()->setMapper(std::make_unique<Graphical::Map>());
+	core.loop();
 	return (0);
 }
 

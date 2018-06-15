@@ -5,9 +5,9 @@
 ** 15/06/18
 */
 
-#include "Game.hpp"
+#include "Core.hpp"
 
-int Graphical::Game::switchResolution()
+int Graphical::Core::switchResolution()
 {
 	if (_sfml->getWindowType() == Graphical::Sfml::WINDOW) {
 		_sfml->close();
@@ -19,7 +19,7 @@ int Graphical::Game::switchResolution()
 	return 0;
 }
 
-int Graphical::Game::moveMapView(const sf::Vector2f& offset)
+int Graphical::Core::moveMapView(const sf::Vector2f& offset)
 {
 	auto view = _sfml->getScreen().getView();
 	view.move(offset);
@@ -27,7 +27,7 @@ int Graphical::Game::moveMapView(const sf::Vector2f& offset)
 	return 0;
 }
 
-int Graphical::Game::keyManager(sf::Event &event)
+int Graphical::Core::keyManager(sf::Event &event)
 {
 	switch (event.key.code) {
 		case sf::Keyboard::Tab: switchResolution();	break;
@@ -42,7 +42,7 @@ int Graphical::Game::keyManager(sf::Event &event)
 	return (0);
 };
 
-void Graphical::Game::mouseEvent(const sf::Event &event, const bool &move)
+void Graphical::Core::mouseEvent(const sf::Event &event, const bool &move)
 {
 	(void) event;
 	sf::View view = _sfml->getScreen().getView();
@@ -72,7 +72,7 @@ void Graphical::Game::mouseEvent(const sf::Event &event, const bool &move)
 	_sfml->getScreen().setView(view);
 }
 
-int Graphical::Game::manageEvent()
+int Graphical::Core::manageEvent()
 {
 	sf::Event event{};
 

@@ -6,15 +6,15 @@
 */
 
 #include <Tools.hpp>
-#include "Game.hpp"
+#include "Core.hpp"
 
-void Graphical::Game::getSizeServer()
+void Graphical::Game::getSizeServer(std::unique_ptr<Communication> &com)
 {
-	if (!_com->sendToFd(_com->getSocket(), "GRAPHIC"))
+	if (!com->sendToFd(com->getSocket(), "GRAPHIC"))
 		throw std::logic_error("Server is closed.");
 }
 
-int Graphical::Game::manageFd()
+int Graphical::Core::manageFd()
 {
 	static std::size_t index = 0;
 
@@ -29,12 +29,12 @@ int Graphical::Game::manageFd()
 			aFunction(command);
 		}
 		if (index == 3)
-			getSizeServer();
+			_game->getSizeServer(_com);
 	}
 	return 0;
 }
 
-int Graphical::Game::readServer()
+int Graphical::Core::readServer()
 {
 	static fd_set fd_read;
 	struct timeval tv = {0, 50};
@@ -54,8 +54,8 @@ int Graphical::Game::setSize(const std::vector<std::string> &array)
 	Pos pos(std::stoi(array[0]), std::stoi(array[1]));
 
 	std::cerr << "setSize" << std::endl;
-	_map->setSize(pos);
-	_map->initMap();
+	_mapper->setSize(pos);
+	_mapper->initMap();
 	return 0;
 }
 
@@ -63,7 +63,7 @@ int Graphical::Game::setCase(const std::vector<std::string> &array)
 {
 	Pos pos(std::stoi(array[0]), std::stoi(array[1]));
 
-	auto &aCase = _map->getCase(pos);
+	auto &aCase = _mapper->getCase(pos);
 	if (!aCase)
 		return 1;
 	int index = 0;
@@ -211,7 +211,7 @@ int Graphical::Game::setPlayerDropping(const std::vector<std::string> &array)
 		std::cerr << "Player not found" << std::endl;
 		return 1;
 	}
-	auto &aCase = getMap()->getCase(player->getPosition());
+	auto &aCase = _mapper->getCase(player->getPosition());
 	if (!aCase) {
 		std::cerr << "Case not found" << std::endl;
 		return 1;
@@ -231,7 +231,7 @@ int Graphical::Game::setPlayerCollecting(const std::vector<std::string> &array)
 		return 1;
 	}
 	player->addResource(resourceId, 1);
-	const std::unique_ptr<Case> &aCase = getMap()->getCase(player->getPosition());
+	const std::unique_ptr<Case> &aCase = _mapper->getCase(player->getPosition());
 	if (!aCase) {
 		std::cerr << "Case not found" << std::endl;
 		return 1;
@@ -266,7 +266,7 @@ int Graphical::Game::setEgg(const std::vector<std::string> &array)
 		std::cerr << "Player not found" << std::endl;
 		return 1;
 	}
-	const std::unique_ptr<Case> &aCase = getMap()->getCase(pos);
+	const std::unique_ptr<Case> &aCase = _mapper->getCase(pos);
 	if (!aCase) {
 		std::cerr << "Case not found" << std::endl;
 		return 1;
@@ -291,7 +291,7 @@ int Graphical::Game::setEndGame(const std::vector<std::string> &array)
 	return 0;
 }
 
-int Graphical::Game::setInitCom(const std::vector<std::string> &array)
+int Graphical::Core::setInitCom(const std::vector<std::string> &array)
 {
 	(void) array;
 	if (!_com->sendToFd(_com->getSocket(), getGraphicTeam()))
@@ -299,25 +299,25 @@ int Graphical::Game::setInitCom(const std::vector<std::string> &array)
 	return 0;
 }
 
-void Graphical::Game::initPtrFunction()
+void Graphical::Core::initPtrFunction()
 {
-	_ptr_function["WELCOME"] = std::bind(&Graphical::Game::setInitCom, this, std::placeholders::_1);
-	_ptr_function["msz"] = std::bind(&Graphical::Game::setSize, this, std::placeholders::_1);
-	_ptr_function["bct"] = std::bind(&Graphical::Game::setCase, this, std::placeholders::_1);
-	_ptr_function["tna"] = std::bind(&Graphical::Game::setTeam, this, std::placeholders::_1);
-	_ptr_function["pnw"] = std::bind(&Graphical::Game::setPlayer, this, std::placeholders::_1);
-	_ptr_function["ppo"] = std::bind(&Graphical::Game::setPlayerPosition, this, std::placeholders::_1);
-	_ptr_function["plv"] = std::bind(&Graphical::Game::setPlayerLevel, this, std::placeholders::_1);
-	_ptr_function["pin"] = std::bind(&Graphical::Game::setPlayerInventory, this, std::placeholders::_1);
-	_ptr_function["pex"] = std::bind(&Graphical::Game::setPlayerExpulsion, this, std::placeholders::_1);
-	_ptr_function["pbc"] = std::bind(&Graphical::Game::setPlayerBroadcast, this, std::placeholders::_1);
-	_ptr_function["pic"] = std::bind(&Graphical::Game::setPlayerStartIncantation, this, std::placeholders::_1);
-	_ptr_function["pie"] = std::bind(&Graphical::Game::setPlayerEndIncantation, this, std::placeholders::_1);
-	_ptr_function["pfk"] = std::bind(&Graphical::Game::setPlayerLaying, this, std::placeholders::_1);
-	_ptr_function["pdr"] = std::bind(&Graphical::Game::setPlayerDropping, this, std::placeholders::_1);
-	_ptr_function["pgt"] = std::bind(&Graphical::Game::setPlayerCollecting, this, std::placeholders::_1);
-	_ptr_function["pdi"] = std::bind(&Graphical::Game::setPlayerDeath, this, std::placeholders::_1);
-	_ptr_function["enw"] = std::bind(&Graphical::Game::setEgg, this, std::placeholders::_1);
-	_ptr_function["eht"] = std::bind(&Graphical::Game::setEggHatching, this, std::placeholders::_1);
-	_ptr_function["seg"] = std::bind(&Graphical::Game::setEndGame, this, std::placeholders::_1);
+	_ptr_function["WELCOME"] = std::bind(&Graphical::Core::setInitCom, this, std::placeholders::_1);
+	_ptr_function["msz"] = std::bind(&Graphical::Game::setSize, std::ref(_game), std::placeholders::_1);
+	_ptr_function["bct"] = std::bind(&Graphical::Game::setCase, std::ref(_game), std::placeholders::_1);
+	_ptr_function["tna"] = std::bind(&Graphical::Game::setTeam, std::ref(_game), std::placeholders::_1);
+	_ptr_function["pnw"] = std::bind(&Graphical::Game::setPlayer, std::ref(_game), std::placeholders::_1);
+	_ptr_function["ppo"] = std::bind(&Graphical::Game::setPlayerPosition, std::ref(_game), std::placeholders::_1);
+	_ptr_function["plv"] = std::bind(&Graphical::Game::setPlayerLevel, std::ref(_game), std::placeholders::_1);
+	_ptr_function["pin"] = std::bind(&Graphical::Game::setPlayerInventory, std::ref(_game), std::placeholders::_1);
+	_ptr_function["pex"] = std::bind(&Graphical::Game::setPlayerExpulsion, std::ref(_game), std::placeholders::_1);
+	_ptr_function["pbc"] = std::bind(&Graphical::Game::setPlayerBroadcast, std::ref(_game), std::placeholders::_1);
+	_ptr_function["pic"] = std::bind(&Graphical::Game::setPlayerStartIncantation, std::ref(_game), std::placeholders::_1);
+	_ptr_function["pie"] = std::bind(&Graphical::Game::setPlayerEndIncantation, std::ref(_game), std::placeholders::_1);
+	_ptr_function["pfk"] = std::bind(&Graphical::Game::setPlayerLaying, std::ref(_game), std::placeholders::_1);
+	_ptr_function["pdr"] = std::bind(&Graphical::Game::setPlayerDropping, std::ref(_game), std::placeholders::_1);
+	_ptr_function["pgt"] = std::bind(&Graphical::Game::setPlayerCollecting, std::ref(_game), std::placeholders::_1);
+	_ptr_function["pdi"] = std::bind(&Graphical::Game::setPlayerDeath, std::ref(_game), std::placeholders::_1);
+	_ptr_function["enw"] = std::bind(&Graphical::Game::setEgg, std::ref(_game), std::placeholders::_1);
+	_ptr_function["eht"] = std::bind(&Graphical::Game::setEggHatching, std::ref(_game), std::placeholders::_1);
+	_ptr_function["seg"] = std::bind(&Graphical::Game::setEndGame, std::ref(_game), std::placeholders::_1);
 }

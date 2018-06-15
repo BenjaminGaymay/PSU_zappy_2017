@@ -28,7 +28,8 @@ SRCS_CPP	= 	srcs/main.cpp					\
 			srcs/Display/font.cpp				\
 	  		srcs/Display/Menu/menu.cpp			\
 	  		srcs/Display/Game/map.cpp			\
-	  		srcs/Display/Game/game.cpp
+	  		srcs/Display/Game/game.cpp			\
+	  		srcs/Display/Game/loop.cpp
 
 OBJS_CPP	= 	$(SRCS_CPP:.cpp=.o)
 

@@ -51,7 +51,7 @@ namespace Graphical {
 				buffer[size] = '\0';
 				tmp = strtok(buffer, "\n");
 				while (tmp) {
-					array.push_back(tmp);
+					array.emplace_back(tmp);
 					tmp = strtok(nullptr, "\n");
 				}
 			} else

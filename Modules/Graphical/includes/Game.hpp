@@ -2,45 +2,18 @@
 ** EPITECH PROJECT, 2018
 ** student
 ** File description:
-** 11/06/18
+** 15/06/18
 */
 #pragma once
 
-#include <memory>
-#include <vector>
-#include "Player.hpp"
-#include "Sfml.hpp"
-#include "Communication.hpp"
 #include "Map.hpp"
-#include "Egg.hpp"
 
 namespace Graphical {
 	class Game {
 	public:
-		enum GAME_MOD {
-			MENU,
-			GAME,
-			EXIT
-		};
-		Game() { _type = MENU; };
-		~Game() = default;
+		inline void setMapper(std::unique_ptr<Map> map) { _mapper = std::move(map); };
+		inline const std::unique_ptr<Map> &getMapper() const { return _mapper; };
 		inline void addPlayer(std::unique_ptr<Player> player) { _players.emplace_back(std::move(player)); };
-		inline void setDisplayer(std::unique_ptr<Sfml> sfml) { _sfml = std::move(sfml); };
-		inline void setCommunication(std::unique_ptr<Communication> com) { _com = std::move(com); };
-		void initCommunication();
-		inline void setMap(std::unique_ptr<Map> map) { _map = std::move(map); };
-		inline const std::unique_ptr<Communication> &getCommunication() const { return _com; };
-		inline const std::unique_ptr<Sfml> &getDisplayer() const { return _sfml; };
-		inline const std::unique_ptr<Map> &getMap() const { return _map; };
-		void printGame();
-		std::map<GAME_MOD, sf::FloatRect> createButtons();
-		void printMenu();
-		int loop();
-		void initPtrFunction();
-		int manageFd();
-		int readServer();
-		int manageEvent();
-		int keyManager(sf::Event &event);
 		/* FUNCTION PTR_FUNCTION COMMUNICATION */
 		int setSize(const std::vector<std::string> &array);
 		int setCase(const std::vector<std::string> &array);
@@ -60,6 +33,8 @@ namespace Graphical {
 		int setEgg(const std::vector<std::string> &array);
 		int setEggHatching(const std::vector<std::string> &array);
 		int setEndGame(const std::vector<std::string> &array);
+		/*int setInitCom(const std::vector<std::string> &array);*/
+		void getSizeServer(std::unique_ptr<Communication> &com);
 		/* TOOLS */
 		void addPlayerToTeam(const std::string &team, const int &playerId)
 		{
@@ -117,23 +92,10 @@ namespace Graphical {
 			}
 
 		}
-		void dropStone(const char &id, const float &scale, const float &x, const float &y);
-		float findMapScale(const Pos &pos);
-		void printMap(const std::vector<std::unique_ptr<Case>> &map);
-		Graphical::Pos getEntityPos(const char &block);
-		void initFilters();
-		std::map<int, sf::FloatRect> printFilters();
-		sf::FloatRect createFilter(const int &id, const float &x, const float &y, const Pos &margin, const float &padding);
-		long eventFilters(const std::map<int, sf::FloatRect> &filters);
 	private:
+		std::unique_ptr<Map> _mapper;
 		std::vector<std::unique_ptr<Player>> _players;
-		std::unique_ptr<Sfml> _sfml;
-		std::unique_ptr<Communication> _com;
-		std::unique_ptr<Map> _map;
-		GAME_MOD _type;
-		std::map<std::string, std::function<int(const std::vector<std::string> &)>> _ptr_function;
 		std::map<std::string, std::vector<int>> _teams; /* team name, player id*/
 		std::vector<std::unique_ptr<Egg>> _eggs;
-		std::map<int, bool> _filters;
 	};
 }

@@ -19,14 +19,17 @@ SRCS_C		=	$(SHARED)/srcs/connection/sockets.c
 
 OBJS_C		=	$(SRCS_C:.c=.o)
 
-SRCS_CPP	= 	srcs/main.cpp				\
-			srcs/font.cpp				\
-			srcs/mouse.cpp				\
-			srcs/map.cpp				\
-	  		srcs/menu.cpp				\
-	  		srcs/text.cpp				\
-			srcs/communication.cpp			\
-	  		srcs/textureAndSprite.cpp		\
+SRCS_CPP	= 	srcs/main.cpp					\
+			srcs/Display/event.cpp				\
+			srcs/Display/Game/communication.cpp		\
+			srcs/Display/textureAndSprite.cpp		\
+	  		srcs/Display/text.cpp				\
+			srcs/Display/mouse.cpp				\
+			srcs/Display/font.cpp				\
+	  		srcs/Display/Menu/menu.cpp			\
+	  		srcs/Display/Game/map.cpp			\
+	  		srcs/Display/Game/game.cpp			\
+	  		srcs/Display/Game/loop.cpp
 
 OBJS_CPP	= 	$(SRCS_CPP:.cpp=.o)
 

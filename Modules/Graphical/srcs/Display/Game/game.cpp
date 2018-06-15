@@ -32,16 +32,6 @@ sf::FloatRect Graphical::Core::createFilter(const int &id, const float &x, const
 	return (player->getGlobalBounds());
 }
 
-void Graphical::Core::initFilters()
-{
-	_filters[13] = false;
-	_filters[11] = true;
-	_filters[2] = true;
-	_filters[7] = true;
-	_filters[8] = true;
-	_filters[12] = false;
-}
-
 std::map<int, sf::FloatRect> Graphical::Core::printFilters()
 {
 	std::map<int, sf::FloatRect> buttons;

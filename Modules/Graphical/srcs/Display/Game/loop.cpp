@@ -30,6 +30,16 @@ int Graphical::Core::initGraphisms()
 	return 0;
 }
 
+void Graphical::Core::initFilters()
+{
+	_filters[13] = false;
+	_filters[11] = true;
+	_filters[2] = true;
+	_filters[7] = true;
+	_filters[8] = true;
+	_filters[12] = false;
+}
+
 int Graphical::Core::initMusics()
 {
 	_music->createMusic("main", "main.ogg");

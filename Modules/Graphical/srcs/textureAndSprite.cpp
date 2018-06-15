@@ -45,4 +45,6 @@ void Graphical::Sfml::createBlocks()
 	createSprite(12, _picturePath + "reset.png", _blocks, _textures);
 	createSprite(13, _picturePath + "close.png", _blocks, _textures);
 	createSprite(14, _picturePath + "backPack.png", _blocks, _textures);
+	createSprite(15, _picturePath + "case.png", _blocks, _textures);
+	createSprite(16, _picturePath + "toolbar.png", _blocks, _textures);
 }

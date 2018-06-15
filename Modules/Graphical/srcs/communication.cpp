@@ -41,7 +41,7 @@ int Graphical::Game::readServer()
 
 	FD_ZERO(&fd_read);
 	FD_SET(_com->getSocket(), &fd_read);
-	if (select(_com->getSocket() + 1, &fd_read, NULL, NULL, &tv) == -1)
+	if (select(_com->getSocket() + 1, &fd_read, nullptr, nullptr, &tv) == -1)
 		return (FCT_FAILED("select"), ERROR);
 	if (FD_ISSET(_com->getSocket(), &fd_read))
 		return (manageFd());

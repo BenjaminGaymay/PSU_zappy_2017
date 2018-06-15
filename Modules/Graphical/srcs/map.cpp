@@ -52,10 +52,8 @@ void Graphical::Game::printCaseInventory(const std::unique_ptr<Case> &block)
 	float x = _sfml->getWindow().getSize().x - margin.x;
 	margin.x /= 2;
 	float padding = static_cast<float>(_sfml->getWindow().getSize().y) / filterNb;
-	float y = 0;
+	float y = 1;
 
-	createIcon(14, x, y, margin, padding);
-	y +=1;
 	for (int i = 1 ; i <= 7 ; ++i) {
 		if (block->getResource(i)) createIcon(i, x, y, margin, padding);
 			y += 1;

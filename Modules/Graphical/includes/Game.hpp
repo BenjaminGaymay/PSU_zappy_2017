@@ -138,6 +138,8 @@ namespace Graphical {
 		void mouseEvent(const sf::Event &event, const bool &move);
 		void setGraphicTeam(const std::string &team) { _team = team; };
 		const std::string &getGraphicTeam() const { return _team; };
+		void printInventoryCases();
+		void printToolbar();
 	private:
 		std::vector<std::unique_ptr<Player>> _players;
 		std::unique_ptr<Sfml> _sfml;

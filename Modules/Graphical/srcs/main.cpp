@@ -148,7 +148,7 @@ long Graphical::Game::eventFilters(const std::map<int, sf::FloatRect> &buttons)
 	for (auto &button : buttons) {
 		if (button.second.contains(position)) {
 			_filters[button.first] = !_filters[button.first] && true;
-			result = 300000000;
+			result = 300000000; // antispam
 		}
 	}
 	if (_filters[13]) {
@@ -157,14 +157,44 @@ long Graphical::Game::eventFilters(const std::map<int, sf::FloatRect> &buttons)
 	}
 	if (_filters[12]) {
 		for (auto &filter : _filters)
-			filter.second = true;
+			if (filter.first != 13)
+				filter.second = true;
 		_filters[12] = false;
 	}
 	return result;
 }
 
+void Graphical::Game::printInventoryCases()
+{
+	std::map<int, sf::FloatRect> buttons;
+	const std::size_t filterNb = 10;
+	Pos margin = _sfml->getMargin();
+	float x = _sfml->getWindow().getSize().x - margin.x;
+	margin.x /= 2;
+	float padding = static_cast<float>(_sfml->getWindow().getSize().y) / filterNb;
+	float y = 0;
+
+	createIcon(15, x, y, margin, padding);
+	createIcon(14, x, y, margin, padding);
+	y +=1;
+	while (y < 10) {
+		createIcon(15, x, y, margin, padding);
+		y += 1;
+	}
+}
+
+void Graphical::Game::printToolbar()
+{
+	auto &player = _sfml->getBlock(16);
+	player->setScale(_sfml->getMargin().x, _sfml->getWindow().getSize().y);
+	player->setPosition(_sfml->getWindow().getSize().x - _sfml->getMargin().x, 0);
+	_sfml->getWindow().draw(*player);
+}
+
 void Graphical::Game::printGame()
 {
+	printToolbar();
+	printInventoryCases();
 	printMap(_map->getMap());
 	auto buttons = printFilters();
 	static long last = 0;

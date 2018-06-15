@@ -13,6 +13,7 @@
 #include "Communication.hpp"
 #include "Map.hpp"
 #include "Egg.hpp"
+#include "Music.hpp"
 
 namespace Graphical {
 	class Game {
@@ -33,6 +34,7 @@ namespace Graphical {
 		inline void setCommunication(std::unique_ptr<Communication> com) { _com = std::move(com); };
 		void initCommunication(const std::string &team);
 		inline void setMap(std::unique_ptr<Map> map) { _map = std::move(map); };
+		inline void setMusic(std::unique_ptr<Music> music) { _music = std::move(music); };
 		inline const std::unique_ptr<Communication> &getCommunication() const { return _com; };
 		inline const std::unique_ptr<Sfml> &getDisplayer() const { return _sfml; };
 		inline const std::unique_ptr<Map> &getMap() const { return _map; };
@@ -142,11 +144,17 @@ namespace Graphical {
 		void printToolbar();
 		void display();
 		void clear();
+		int initAll();
+		int initGraphisms();
+		int initMusics();
+		int switchResolution();
+		int moveMapView(sf::Event &event);
 	private:
 		std::vector<std::unique_ptr<Player>> _players;
 		std::unique_ptr<Sfml> _sfml;
 		std::unique_ptr<Communication> _com;
 		std::unique_ptr<Map> _map;
+		std::unique_ptr<Music> _music;
 		GAME_MOD _type;
 		std::map<std::string, std::function<int(const std::vector<std::string> &)>> _ptr_function;
 		std::map<std::string, std::vector<int>> _teams; /* team name, player id*/

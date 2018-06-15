@@ -9,21 +9,42 @@
 #include <chrono>
 #include "Game.hpp"
 
+int Graphical::Game::switchResolution()
+{
+	if (_sfml->getWindowType() == Graphical::Sfml::WINDOW) {
+		_sfml->close();
+		_sfml->open(Graphical::Sfml::FULLSCREEN);
+	} else if (_sfml->getWindowType() == Graphical::Sfml::FULLSCREEN) {
+		_sfml->close();
+		_sfml->open(Graphical::Sfml::WINDOW);
+	}
+	return 0;
+}
+
+int Graphical::Game::moveMapView(sf::Event &event)
+{
+	auto view = _sfml->getScreen().getView();
+	switch (event.key.code) {
+		case sf::Keyboard::Left : view.move({-1, 0}); break;
+		case sf::Keyboard::Right : view.move({1, 0}); break;
+		case sf::Keyboard::Down : view.move({0, 1}); break;
+		case sf::Keyboard::Up : view.move({0, -1}); break;
+		default: break;
+	}
+	_sfml->getScreen().setView(view);
+	return 0;
+}
+
 int Graphical::Game::keyManager(sf::Event &event)
 {
 	switch (event.key.code) {
-		case sf::Keyboard::Tab: {
-			if (_sfml->getWindowType() == Graphical::Sfml::WINDOW) {
-				_sfml->close();
-				_sfml->open(Graphical::Sfml::FULLSCREEN);
-			} else if (_sfml->getWindowType() == Graphical::Sfml::FULLSCREEN) {
-				_sfml->close();
-				_sfml->open(Graphical::Sfml::WINDOW);
-			}
-			break;
-		}
+		case sf::Keyboard::Tab: switchResolution();	break;
 		case sf::Keyboard::Escape : _type = MENU; break;
 		case sf::Keyboard::Space : _move = !_move; break;
+		case sf::Keyboard::Left : moveMapView(event); break;
+		case sf::Keyboard::Right : moveMapView(event); break;
+		case sf::Keyboard::Down : moveMapView(event); break;
+		case sf::Keyboard::Up : moveMapView(event); break;
 		default: break;
 	}
 	return (0);
@@ -226,13 +247,34 @@ void Graphical::Game::display()
 	_sfml->getWindow().display();
 }
 
-int Graphical::Game::loop()
+int Graphical::Game::initGraphisms()
 {
 	_sfml->open(Graphical::Sfml::WINDOW);
 	_sfml->createBlocks();
+	return 0;
+}
+
+int Graphical::Game::initMusics()
+{
+	_music->createMusic("main", "main.ogg");
+	return 0;
+}
+
+int Graphical::Game::initAll()
+{
+	initGraphisms();
 	initFilters();
+	initMusics();
+	return 0;
+}
+
+int Graphical::Game::loop()
+{
+	initAll();
+	_music->addEvent(Music::MUSIC, Music::PLAY, "main");
 	while (_sfml->isOpen() && _com->isValidFd(_com->getSocket())) {
 		manageEvent();
+		_music->audioManager();
 		readServer();
 		clear();
 		switch (_type) {
@@ -267,6 +309,7 @@ int main(int ac, char **av)
 	//game.initCommunication(av[2]);
 	game.setDisplayer(std::make_unique<Graphical::Sfml>());
 	game.setMap(std::make_unique<Graphical::Map>());
+	game.setMusic(std::make_unique<Graphical::Music>());
 	game.loop();
 	return (0);
 }

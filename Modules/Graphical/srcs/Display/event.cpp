@@ -35,7 +35,7 @@ int Graphical::Core::keyManager(sf::Event &event)
 		case sf::Keyboard::Space : _move = !_move; break;
 		case sf::Keyboard::Left : moveMapView({-1, 0}); break;
 		case sf::Keyboard::Right : moveMapView({1, 0}); break;
-		case sf::Keyboard::Down : moveMapView({0, +1}); break;
+		case sf::Keyboard::Down : moveMapView({0, 1}); break;
 		case sf::Keyboard::Up : moveMapView({0, -1}); break;
 		default: break;
 	}

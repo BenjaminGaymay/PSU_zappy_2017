@@ -8,11 +8,11 @@
 #include <chrono>
 #include "Core.hpp"
 
-std::unique_ptr<sf::Sprite> &Graphical::Core::createSplashIntro()
+std::unique_ptr<sf::Sprite> &Graphical::Core::createSplashIntro(const int &id)
 {
 	auto width = _sfml->getWindow().getSize().x;
 	auto height = _sfml->getWindow().getSize().y;
-	auto &sprite = _sfml->getBlock(17);
+	auto &sprite = _sfml->getBlock(id);
 	float x = (width / 2.0f) -
 			  ((sprite->getTexture()->getSize().x * sprite->getScale().x) /
 			   2.0f);
@@ -23,17 +23,23 @@ std::unique_ptr<sf::Sprite> &Graphical::Core::createSplashIntro()
 	return sprite;
 }
 
-void Graphical::Core::printSplashIntro()
+/**
+ * @brief
+ * @param id of sprite
+ * @param time of each scan in second
+ */
+void Graphical::Core::printSplashIntro(const int &id, const float &atime)
 {
 	static sf::Uint8 alpha = 0;
 	static bool visible = true;
 	static long last = std::chrono::system_clock::now().time_since_epoch().count();
-	auto &sprite = createSplashIntro();
+	auto &sprite = createSplashIntro(id);
 	sf::Uint8 padding = 5;
+	long time = static_cast<int>(atime * 1000000000);
 
 	long now = std::chrono::system_clock::now().time_since_epoch().count();
 	if (visible) {
-		if (now <= last + 800000000) {
+		if (now <= last + time) {
 			alpha += alpha < (255 - padding) ? padding : 0;
 		} else {
 			visible = false;

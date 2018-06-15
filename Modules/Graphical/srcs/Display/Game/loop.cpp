@@ -72,7 +72,7 @@ int Graphical::Core::loop()
 		readServer();
 		clear();
 		switch (_type) {
-			case SPLASH_INTRO: printSplashIntro(); break;
+			case SPLASH_INTRO: printSplashIntro(17, 0.8f); break;
 			case MENU: printMenu(); break;
 			case GAME: printGame(); break;
 			case EXIT: _sfml->close();

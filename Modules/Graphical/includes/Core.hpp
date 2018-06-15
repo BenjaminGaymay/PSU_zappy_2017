@@ -73,9 +73,9 @@ namespace Graphical {
 		int switchResolution();
 		int moveMapView(const sf::Vector2f& offset);
 		sf::FloatRect createButton(std::unique_ptr<sf::Sprite> &sprite, const sf::Vector2f &position);
-		void printSplashIntro();
+		void printSplashIntro(const int &id, const float &time);
 		int initFonts();
-		std::unique_ptr<sf::Sprite> &createSplashIntro();
+		std::unique_ptr<sf::Sprite> &createSplashIntro(const int &id);
 	private:
 		std::unique_ptr<Sfml> _sfml;
 		std::unique_ptr<Communication> _com;

@@ -12,7 +12,6 @@
 #include <vector>
 #include <SFML/Graphics/Rect.h>
 #include "Tools.hpp"
-#include "Execption.hpp"
 #include "Egg.hpp"
 
 namespace Graphical {

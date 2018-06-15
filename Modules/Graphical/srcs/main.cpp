@@ -21,16 +21,10 @@ int Graphical::Game::switchResolution()
 	return 0;
 }
 
-int Graphical::Game::moveMapView(sf::Event &event)
+int Graphical::Game::moveMapView(const sf::Vector2f& offset)
 {
 	auto view = _sfml->getScreen().getView();
-	switch (event.key.code) {
-		case sf::Keyboard::Left : view.move({-1, 0}); break;
-		case sf::Keyboard::Right : view.move({1, 0}); break;
-		case sf::Keyboard::Down : view.move({0, 1}); break;
-		case sf::Keyboard::Up : view.move({0, -1}); break;
-		default: break;
-	}
+	view.move(offset);
 	_sfml->getScreen().setView(view);
 	return 0;
 }
@@ -41,10 +35,10 @@ int Graphical::Game::keyManager(sf::Event &event)
 		case sf::Keyboard::Tab: switchResolution();	break;
 		case sf::Keyboard::Escape : _type = MENU; break;
 		case sf::Keyboard::Space : _move = !_move; break;
-		case sf::Keyboard::Left : moveMapView(event); break;
-		case sf::Keyboard::Right : moveMapView(event); break;
-		case sf::Keyboard::Down : moveMapView(event); break;
-		case sf::Keyboard::Up : moveMapView(event); break;
+		case sf::Keyboard::Left : moveMapView({-1, 0}); break;
+		case sf::Keyboard::Right : moveMapView({1, 0}); break;
+		case sf::Keyboard::Down : moveMapView({0, +1}); break;
+		case sf::Keyboard::Up : moveMapView({0, -1}); break;
 		default: break;
 	}
 	return (0);

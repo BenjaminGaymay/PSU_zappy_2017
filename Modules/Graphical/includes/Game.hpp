@@ -148,7 +148,7 @@ namespace Graphical {
 		int initGraphisms();
 		int initMusics();
 		int switchResolution();
-		int moveMapView(sf::Event &event);
+		int moveMapView(const sf::Vector2f& offset);
 	private:
 		std::vector<std::unique_ptr<Player>> _players;
 		std::unique_ptr<Sfml> _sfml;

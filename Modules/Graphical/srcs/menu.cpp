@@ -20,18 +20,18 @@ std::map<Graphical::Game::GAME_MOD, sf::FloatRect> Graphical::Game::createButton
 	y = sprite->getTexture()->getSize().y * scale;
 
 	sprite->setPosition(sf::Vector2f((width / 2.0f) - (x / 2.0f), ((height / 2.0f) - y) - (y / 2.0f)));
-	_sfml->getScreen().draw(*sprite);
+	_sfml->getWindow().draw(*sprite);
 	positions[GAME] = sprite->getGlobalBounds();
 	sprite->setPosition(sf::Vector2f((width / 2.0f) - (x / 2.0f), ((height / 2.0f) + y) - (y / 2.0f)));
-	_sfml->getScreen().draw(*sprite);
+	_sfml->getWindow().draw(*sprite);
 	positions[EXIT] = sprite->getGlobalBounds();
 
 	auto text = _sfml->getText("birdy", "PLAY", 50, sf::Color::White, {0, 0});
 	text->setPosition(sf::Vector2f((width / 2.0f) - (50), ((height / 2.0f) - y) - (y / 2)));
-	_sfml->getScreen().draw(*text);
+	_sfml->getWindow().draw(*text);
 	text->setString("QUIT");
 	text->setPosition(sf::Vector2f((width / 2.0f) - (50), ((height / 2.0f) + y) - (y / 2)));
-	_sfml->getScreen().draw(*text);
+	_sfml->getWindow().draw(*text);
 	return positions;
 }
 

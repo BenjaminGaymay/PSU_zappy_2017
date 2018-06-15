@@ -210,6 +210,22 @@ void Graphical::Game::printGame()
 	}
 }
 
+void Graphical::Game::clear()
+{
+	if (_type == GAME) {
+		_sfml->getScreen().clear();
+	}
+	_sfml->getWindow().clear();
+}
+
+void Graphical::Game::display()
+{
+	if (_type == GAME) {
+		_sfml->displayScreen();
+	}
+	_sfml->getWindow().display();
+}
+
 int Graphical::Game::loop()
 {
 	_sfml->open(Graphical::Sfml::WINDOW);
@@ -218,14 +234,14 @@ int Graphical::Game::loop()
 	while (_sfml->isOpen() && _com->isValidFd(_com->getSocket())) {
 		manageEvent();
 		readServer();
-		_sfml->clear();
+		clear();
 		switch (_type) {
 			case MENU: printMenu(); break;
 			case GAME: printGame(); break;
 			case EXIT: _sfml->close();
 			default: break;
 		}
-		_sfml->display();
+		display();
 	}
 	return (0);
 }

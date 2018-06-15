@@ -53,15 +53,15 @@ namespace Graphical {
 			_screen.create(size.x, size.y);
 		}
 		bool isOpen() { return _window.isOpen(); };
+
 		void clear()
 		{
 			_window.clear();
 			_screen.clear();
 		};
-		void display()
+		void displayScreen()
 		{
 			_window.draw(sf::Sprite(_screen.getTexture()));
-			_window.display();
 			_screen.display();
 		};
 		void createBlocks();

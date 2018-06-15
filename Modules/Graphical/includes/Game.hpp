@@ -140,6 +140,8 @@ namespace Graphical {
 		const std::string &getGraphicTeam() const { return _team; };
 		void printInventoryCases();
 		void printToolbar();
+		void display();
+		void clear();
 	private:
 		std::vector<std::unique_ptr<Player>> _players;
 		std::unique_ptr<Sfml> _sfml;

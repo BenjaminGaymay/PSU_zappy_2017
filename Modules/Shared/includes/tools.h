@@ -13,7 +13,7 @@
 bool arr_contains(const char **, const char *);
 int index_in_arr(const char **, const char *);
 void free_tab(void **);
-char **str_to_tab(char *, char *);
+char **str_to_tab(char *, const char *);
 void show_tab(char **);
 
 char *lstrip(char *, char *);
@@ -22,6 +22,9 @@ char char_to_upper(char);
 void str_to_upper(char *);
 int count_words(char *, char *);
 bool is_number(char *);
+void replace_str(char *, const char *, const char *);
+void insert(char *, const char *, int);
+size_t tablen(char **);
 
 typedef struct s_elevation {
 	size_t player;

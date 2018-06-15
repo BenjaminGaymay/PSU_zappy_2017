@@ -26,6 +26,7 @@ sf::FloatRect Graphical::Game::createFilter(const int &id, const float &x, const
 	player->setPosition(x, y * padding);
 	sf::Color last = player->getColor();
 	player->setColor(color);
+	createIcon(15, x, y, margin, padding);
 	_sfml->getWindow().draw(*player);
 	player->setColor(last);
 	return (player->getGlobalBounds());

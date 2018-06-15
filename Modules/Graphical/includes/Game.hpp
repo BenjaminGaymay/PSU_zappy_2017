@@ -26,7 +26,7 @@ namespace Graphical {
 		Game()
 		{
 			_type = MENU;
-			_move = true;
+			_move = false;
 		};
 		~Game() = default;
 		inline void addPlayer(std::unique_ptr<Player> player) { _players.emplace_back(std::move(player)); };

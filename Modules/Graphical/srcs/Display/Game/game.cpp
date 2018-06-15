@@ -10,11 +10,11 @@
 
 void Graphical::Core::createIcon(const int &id, const float &x, const float &y, const Pos &margin, const float &padding)
 {
-	auto &player = _sfml->getBlock(id);
-	player->setScale(static_cast<float>(margin.x) / player->getTexture()->getSize().x,
-					 static_cast<float>(margin.x) / player->getTexture()->getSize().y);
-	player->setPosition(x, y * padding);
-	_sfml->getWindow().draw(*player);
+	auto &sprite = _sfml->getBlock(id);
+	sprite->setScale(static_cast<float>(margin.x) / sprite->getTexture()->getSize().x,
+					 static_cast<float>(margin.x) / sprite->getTexture()->getSize().y);
+	sprite->setPosition(x, y * padding);
+	_sfml->getWindow().draw(*sprite);
 }
 
 sf::FloatRect Graphical::Core::createFilter(const int &id, const float &x, const float &y, const Pos &margin, const float &padding)

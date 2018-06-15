@@ -46,8 +46,16 @@ int Graphical::Core::initMusics()
 	return 0;
 }
 
+int Graphical::Core::initFonts()
+{
+	_sfml->createFont("birdy", "birdy.ttf");
+	_sfml->createFont("comic", "comic.ttf");
+	return 0;
+}
+
 int Graphical::Core::initAll()
 {
+	initFonts();
 	initGraphisms();
 	initFilters();
 	initMusics();
@@ -64,6 +72,7 @@ int Graphical::Core::loop()
 		readServer();
 		clear();
 		switch (_type) {
+			case SPLASH_INTRO: printSplashIntro(); break;
 			case MENU: printMenu(); break;
 			case GAME: printGame(); break;
 			case EXIT: _sfml->close();

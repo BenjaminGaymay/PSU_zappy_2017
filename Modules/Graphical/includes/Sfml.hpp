@@ -17,10 +17,7 @@ namespace Graphical {
 			FULLSCREEN,
 			WINDOW,
 		};
-		Sfml()
-		{
-			addFont("birdy", _fontPath + "birdy.ttf");
-		};
+		Sfml() {};
 
 		~Sfml()
 		{
@@ -71,8 +68,8 @@ namespace Graphical {
 						  std::map<const int, std::unique_ptr<sf::Sprite>> &sprites,
 						  std::map<const int, std::unique_ptr<sf::Texture>> &textures);
 		std::unique_ptr<sf::Font> &getFont(const std::string &name);
-		void addFont(const std::string &key, const std::string &maccro);
-		void addFont(const std::string &key, std::unique_ptr<sf::Font> &font);
+		void createFont(const std::string &key, const std::string &maccro);
+		void createFont(const std::string &key, std::unique_ptr<sf::Font> &font);
 		std::unique_ptr<sf::Sprite> &getBlock(const int &id) { return _blocks[id]; };
 		void text(const std::string &font_name, const std::string &line, const std::size_t &size, const sf::Color &textColor,  const sf::Vector2f &position);
 		std::unique_ptr<sf::Text> getText(const std::string &font_name, const std::string &line, const std::size_t &size, const sf::Color &textColor, const sf::Vector2f &position);
@@ -92,7 +89,7 @@ namespace Graphical {
 		sf::RenderTexture _screen;
 		float _zoom = 1;
 		float _zoomRank = 1;
-		Pos _mouse;
+		Pos _mouse{};
 		const Pos _margin = {100, 0};
 		mod _windowType;
 		const std::string _picturePath = "assets/pictures/";

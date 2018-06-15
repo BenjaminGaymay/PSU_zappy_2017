@@ -34,16 +34,13 @@ void Graphical::Core::printSplashIntro()
 	long now = std::chrono::system_clock::now().time_since_epoch().count();
 	if (visible) {
 		if (now <= last + 800000000) {
-			std::cerr << "- " << (int)alpha << std::endl;
 			alpha += alpha < (255 - padding) ? padding : 0;
 		} else {
-			std::cerr << "inversion" << std::endl;
 			visible = false;
 			last = std::chrono::system_clock::now().time_since_epoch().count();
 		}
 	} else {
 		if (now <= last + 800000000) {
-			std::cerr << "+ " << (int)alpha << std::endl;
 			alpha -= alpha > padding ? padding : 0;
 		} else
 			_type = MENU;

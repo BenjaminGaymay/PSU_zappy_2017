@@ -36,12 +36,12 @@ void free_tab(void **tab)
 	free(tab);
 }
 
-char **str_to_tab(char *str, char *delimiter)
+char **str_to_tab(char *str, const char *delimiter)
 {
 	char **tab = NULL;
 	int i = 0;
 
-	tab = calloc(count_words(str, delimiter) + 2, sizeof(char *));
+	tab = calloc(count_words(str, (char *)delimiter) + 2, sizeof(char *));
 	if (!tab)
 		return (FCT_FAILED("malloc"), NULL);
 	tab[i] = strtok(str, delimiter);

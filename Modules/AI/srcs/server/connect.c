@@ -27,6 +27,8 @@ static int read_socket(t_ai *ai)
 		while (tmp) {
 			// tmp = une cmd
 			printf("RESPONSE: %s\n", tmp);
+			if (ai->state == AI_LOOK)
+				look_for_ressources(ai, tmp);
 			tmp = strtok(NULL, "\n");
 		}
 	}

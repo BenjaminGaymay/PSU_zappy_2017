@@ -77,7 +77,7 @@ void Graphical::Core::printMap(const std::vector<std::unique_ptr<Case>> &map)
 		float y = marginY + (block->getPos().y * scale);
 		sprite->setPosition(sf::Vector2f(x, y));
 		_sfml->getScreen().draw(*sprite);
-		if (sprite->getGlobalBounds().contains(_sfml->getMousePosition().x, _sfml->getMousePosition().y))
+		if (!_move && sprite->getGlobalBounds().contains(_sfml->getMousePosition().x, _sfml->getMousePosition().y))
 			printCaseInventory(block);
 		if (_filters[2]) {
 			for (auto &resource : block->getResources())

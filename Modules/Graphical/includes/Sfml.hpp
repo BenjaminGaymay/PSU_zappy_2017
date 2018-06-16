@@ -70,7 +70,12 @@ namespace Graphical {
 		std::unique_ptr<sf::Font> &getFont(const std::string &name);
 		void createFont(const std::string &key, const std::string &maccro);
 		void createFont(const std::string &key, std::unique_ptr<sf::Font> &font);
-		std::unique_ptr<sf::Sprite> &getBlock(const int &id) { return _blocks[id]; };
+		std::unique_ptr<sf::Sprite> &getBlock(const int &id)
+		{
+			if (!_blocks[id])
+				throw std::logic_error("getBlock: Texture not found !");
+			return _blocks[id];
+		};
 		void text(const std::string &font_name, const std::string &line, const std::size_t &size, const sf::Color &textColor,  const sf::Vector2f &position);
 		std::unique_ptr<sf::Text> getText(const std::string &font_name, const std::string &line, const std::size_t &size, const sf::Color &textColor, const sf::Vector2f &position);
 		const mod &getWindowType() const { return _windowType; };

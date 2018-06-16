@@ -76,6 +76,7 @@ namespace Graphical {
 		void printSplashIntro(const int &id, const float &time);
 		int initFonts();
 		std::unique_ptr<sf::Sprite> &createSplashIntro(const int &id);
+		void manageEventFiltersResult();
 	private:
 		std::unique_ptr<Sfml> _sfml;
 		std::unique_ptr<Communication> _com;

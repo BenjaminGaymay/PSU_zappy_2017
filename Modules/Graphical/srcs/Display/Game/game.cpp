@@ -35,7 +35,7 @@ sf::FloatRect Graphical::Core::createFilter(const int &id, const float &x, const
 std::map<int, sf::FloatRect> Graphical::Core::printFilters()
 {
 	std::map<int, sf::FloatRect> buttons;
-	const std::size_t filterNb = 6;
+	const std::size_t filterNb = 7;
 	Pos margin = _sfml->getMargin();
 	margin.x /= 2;
 	float x = _sfml->getWindow().getSize().x - margin.x;
@@ -43,6 +43,8 @@ std::map<int, sf::FloatRect> Graphical::Core::printFilters()
 	float y = 0;
 
 	buttons[13] = createFilter(13, x, y, margin, padding);
+	y += 1;
+	buttons[18] = createFilter((_filters[18] ? 18 : 19), x, y, margin, padding);
 	y += 1;
 	buttons[11] = createFilter(11, x, y, margin, padding);
 	y += 1;
@@ -54,6 +56,21 @@ std::map<int, sf::FloatRect> Graphical::Core::printFilters()
 	y += 1;
 	buttons[12] = createFilter(12, x, y, margin, padding);
 	return buttons;
+}
+
+void Graphical::Core::manageEventFiltersResult()
+{
+	_move = _filters[18];
+	if (_filters[13]) {
+		_type = MENU;
+		_filters[13] = false;
+	}
+	if (_filters[12]) {
+		for (auto &filter : _filters)
+			if (filter.first != 13 && filter.first != 18)
+				filter.second = true;
+		_filters[12] = false;
+	}
 }
 
 long Graphical::Core::eventFilters(const std::map<int, sf::FloatRect> &buttons)
@@ -70,16 +87,7 @@ long Graphical::Core::eventFilters(const std::map<int, sf::FloatRect> &buttons)
 			result = 300000000; // antispam
 		}
 	}
-	if (_filters[13]) {
-		_type = MENU;
-		_filters[13] = false;
-	}
-	if (_filters[12]) {
-		for (auto &filter : _filters)
-			if (filter.first != 13)
-				filter.second = true;
-		_filters[12] = false;
-	}
+	manageEventFiltersResult();
 	return result;
 }
 

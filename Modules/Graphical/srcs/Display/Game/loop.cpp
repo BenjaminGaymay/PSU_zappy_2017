@@ -33,6 +33,7 @@ int Graphical::Core::initGraphisms()
 void Graphical::Core::initFilters()
 {
 	_filters[13] = false;
+	_filters[18] = false;
 	_filters[11] = true;
 	_filters[2] = true;
 	_filters[7] = true;

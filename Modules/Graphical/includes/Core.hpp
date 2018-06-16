@@ -30,12 +30,12 @@ namespace Graphical {
 			_move = false;
 		};
 		~Core() = default;
-		inline void setDisplayer(std::unique_ptr<Sfml> sfml) { _sfml = std::move(sfml); };
+		inline void setDisplayer(std::shared_ptr<Sfml> sfml) { _sfml = std::move(sfml); };
 		inline void setCommunication(std::unique_ptr<Communication> com) { _com = std::move(com); };
 		inline void setMusic(std::unique_ptr<Music> music) { _music = std::move(music); };
 		inline void setGame(std::unique_ptr<Game> game) { _game = std::move(game); };
 		inline const std::unique_ptr<Communication> &getCommunication() const { return _com; };
-		inline const std::unique_ptr<Sfml> &getDisplayer() const { return _sfml; };
+		inline const std::shared_ptr<Sfml> &getDisplayer() const { return _sfml; };
 		inline const std::unique_ptr<Music> &getMusic() const { return _music; };
 		inline std::unique_ptr<Game> &getGame() { return _game; };
 		void printGame();
@@ -48,6 +48,7 @@ namespace Graphical {
 		int manageEvent();
 		int keyManager(sf::Event &event);
 		int setInitCom(const std::vector<std::string> &array);
+		void dropThis(const int &id, const float &scale, const float &x, const float &y);
 		void dropStone(const int &id, const float &scale, const float &x, const float &y);
 		float findMapScale(const Pos &pos);
 		void printMap(const std::vector<std::unique_ptr<Case>> &map);
@@ -78,7 +79,7 @@ namespace Graphical {
 		std::unique_ptr<sf::Sprite> &createSplashIntro(const int &id);
 		void manageEventFiltersResult();
 	private:
-		std::unique_ptr<Sfml> _sfml;
+		std::shared_ptr<Sfml> _sfml;
 		std::unique_ptr<Communication> _com;
 		std::unique_ptr<Music> _music;
 		std::unique_ptr<Game> _game;

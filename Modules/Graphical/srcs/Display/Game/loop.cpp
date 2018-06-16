@@ -61,6 +61,7 @@ int Graphical::Core::initAll()
 	initGraphisms();
 	initFilters();
 	initAudios();
+	_game->setCristals(std::make_unique<Graphical::Cristal>(_sfml, 20));
 	return 0;
 }
 

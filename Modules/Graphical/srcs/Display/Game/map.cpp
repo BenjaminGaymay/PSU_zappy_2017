@@ -22,15 +22,29 @@ Graphical::Pos Graphical::Core::getEntityPos(const int &block)
 	return map[block];
 };
 
+void Graphical::Core::dropThis(const int &id, const float &scale, const float &x, const float &y)
+{
+	float elem = scale / 3.0f;
+	auto &sprite = _sfml->getBlock(id);
+	float size = sprite->getTexture()->getSize().x;
+	sprite->setScale({elem / size, elem / size});
+	auto pos = getEntityPos(id);
+	sprite->setPosition(sf::Vector2f(x + elem * pos.x, y + elem * pos.y));
+	_sfml->getScreen().draw(*sprite);
+}
+
 void Graphical::Core::dropStone(const int &id, const float &scale, const float &x, const float &y)
 {
 	float elem = scale / 3.0f;
-	auto &sprite_2 = _sfml->getBlock(id);
-	float size_2 = sprite_2->getTexture()->getSize().x;
-	sprite_2->setScale({elem / size_2, elem / size_2});
+	//auto &sprite = _sfml->getBlock(id);
+	auto &sprite = _game->getCristals()->getCristalSprite(id);
+	//float size = sprite->getTexture()->getSize().x;
+	float size = 64;
+
+	sprite->setScale({elem / size, elem / size});
 	auto pos = getEntityPos(id);
-	sprite_2->setPosition(sf::Vector2f(x + elem * pos.x, y + elem * pos.y));
-	_sfml->getScreen().draw(*sprite_2);
+	sprite->setPosition(sf::Vector2f(x + elem * pos.x, y + elem * pos.y));
+	_sfml->getScreen().draw(*sprite);
 }
 
 float Graphical::Core::findMapScale(const Pos &pos)
@@ -80,9 +94,12 @@ void Graphical::Core::printMap(const std::vector<std::unique_ptr<Case>> &map)
 		if (!_move && sprite->getGlobalBounds().contains(_sfml->getMousePosition().x, _sfml->getMousePosition().y))
 			printCaseInventory(block);
 		if (_filters[2]) {
-			for (auto &resource : block->getResources())
-				if (resource.second > 0 && resource.first != 7)
+			for (auto &resource : block->getResources()) {
+				if(resource.first >= 7)
+					break;
+				if (resource.second > 0)
 					dropStone(resource.first, scale, x, y);
+			}
 			/*dropStone(1, scale, x, y);
 			dropStone(2, scale, x, y);
 			dropStone(3, scale, x, y);
@@ -91,8 +108,8 @@ void Graphical::Core::printMap(const std::vector<std::unique_ptr<Case>> &map)
 			dropStone(6, scale, x, y);*/
 		}
 		if (_filters[7] && block->getResource(7) > 0)
-			dropStone(7, scale, x, y);
+			dropThis(7, scale, x, y);
 		if (_filters[8] && block->getResource(8) > 0)
-			dropStone(8, scale, x, y);
+			dropThis(8, scale, x, y);
 	}
 }

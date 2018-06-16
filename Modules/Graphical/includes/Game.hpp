@@ -7,12 +7,15 @@
 #pragma once
 
 #include "Map.hpp"
+#include "Cristal.hpp"
 
 namespace Graphical {
 	class Game {
 	public:
 		inline void setMapper(std::unique_ptr<Map> map) { _mapper = std::move(map); };
 		inline const std::unique_ptr<Map> &getMapper() const { return _mapper; };
+		inline void setCristals(std::unique_ptr<Cristal> cristals) { _cristals = std::move(cristals); };
+		inline const std::unique_ptr<Cristal> &getCristals() const { return _cristals; };
 		inline void addPlayer(std::unique_ptr<Player> player) { _players.emplace_back(std::move(player)); };
 		/* FUNCTION PTR_FUNCTION COMMUNICATION */
 		int setSize(const std::vector<std::string> &array);
@@ -94,6 +97,7 @@ namespace Graphical {
 		}
 	private:
 		std::unique_ptr<Map> _mapper;
+		std::unique_ptr<Cristal> _cristals;
 		std::vector<std::unique_ptr<Player>> _players;
 		std::map<std::string, std::vector<int>> _teams; /* team name, player id*/
 		std::vector<std::unique_ptr<Egg>> _eggs;

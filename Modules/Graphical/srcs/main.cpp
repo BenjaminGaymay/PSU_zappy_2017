@@ -16,7 +16,7 @@ int main(int ac, char **av)
 	core.initPtrFunction();
 	core.setCommunication(std::make_unique<Graphical::Communication>(std::stoi(av[1])));
 	core.setGraphicTeam(av[2]);
-	core.setDisplayer(std::make_unique<Graphical::Sfml>());
+	core.setDisplayer(std::make_shared<Graphical::Sfml>());
 	core.setMusic(std::make_unique<Graphical::Music>());
 	core.setGame(std::make_unique<Graphical::Game>());
 	core.getGame()->setMapper(std::make_unique<Graphical::Map>());

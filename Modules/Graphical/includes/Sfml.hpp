@@ -17,7 +17,7 @@ namespace Graphical {
 			FULLSCREEN,
 			WINDOW,
 		};
-		Sfml() {};
+		Sfml() = default;
 
 		~Sfml()
 		{

@@ -54,8 +54,8 @@ namespace Graphical {
 		Graphical::Pos getEntityPos(const int &block);
 		void initFilters();
 		std::map<int, sf::FloatRect> printFilters();
-		sf::FloatRect createFilter(const int &id, const float &x, const float &y, const Pos &margin, const float &padding);
-		void createIcon(const int &id, const float &x, const float &y, const Pos &margin, const float &padding);
+		sf::FloatRect createFilter(const std::size_t &totalElem, const int &id, const float &x, const float &y, const Pos &margin, const float &padding);
+		void createIcon(const std::size_t &totalElem, const int &id, const float &x, const float &y, const Pos &margin, const float &padding);
 		long eventFilters(const std::map<int, sf::FloatRect> &filters);
 		void setMovePossibility(const bool &move) { _move = move; };
 		const bool &getMovePossibility() { return _move; };

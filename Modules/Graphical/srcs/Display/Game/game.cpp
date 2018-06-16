@@ -8,28 +8,36 @@
 #include <chrono>
 #include "Core.hpp"
 
-void Graphical::Core::createIcon(const int &id, const float &x, const float &y, const Pos &margin, const float &padding)
+void Graphical::Core::createIcon(const std::size_t &totalElem, const int &id, const float &x, const float &y, const Pos &margin, const float &padding)
 {
 	auto &sprite = _sfml->getBlock(id);
-	sprite->setScale(static_cast<float>(margin.x) / sprite->getTexture()->getSize().x,
-					 static_cast<float>(margin.x) / sprite->getTexture()->getSize().y);
+	
+	int cmp = static_cast<int>(_sfml->getWindow().getSize().y / totalElem);
+	float scaller = cmp < margin.x ? _sfml->getWindow().getSize().y / totalElem : margin.x;
+	sprite->setScale(scaller / sprite->getTexture()->getSize().x,
+					 scaller / sprite->getTexture()->getSize().y);
+	
 	sprite->setPosition(x, y * padding);
 	_sfml->getWindow().draw(*sprite);
 }
 
-sf::FloatRect Graphical::Core::createFilter(const int &id, const float &x, const float &y, const Pos &margin, const float &padding)
+sf::FloatRect Graphical::Core::createFilter(const std::size_t &totalElem, const int &id, const float &x, const float &y, const Pos &margin, const float &padding)
 {
 	sf::Color color = (_filters[id] ? sf::Color::Green : sf::Color::Red);
-	auto &player = _sfml->getBlock(id);
-	player->setScale(static_cast<float>(margin.x) / player->getTexture()->getSize().x,
-					 static_cast<float>(margin.x) / player->getTexture()->getSize().y);
-	player->setPosition(x, y * padding);
-	sf::Color last = player->getColor();
-	player->setColor(color);
-	createIcon(15, x, y, margin, padding);
-	_sfml->getWindow().draw(*player);
-	player->setColor(last);
-	return (player->getGlobalBounds());
+	auto &sprite = _sfml->getBlock(id);
+	
+	int cmp = static_cast<int>(_sfml->getWindow().getSize().y / totalElem);
+	float scaller = cmp < margin.x ? _sfml->getWindow().getSize().y / totalElem : margin.x;
+	sprite->setScale(scaller / sprite->getTexture()->getSize().x,
+					 scaller / sprite->getTexture()->getSize().y);
+	
+	sprite->setPosition(x, y * padding);
+	sf::Color last = sprite->getColor();
+	sprite->setColor(color);
+	createIcon(totalElem, 15, x, y, margin, padding);
+	_sfml->getWindow().draw(*sprite);
+	sprite->setColor(last);
+	return (sprite->getGlobalBounds());
 }
 
 std::map<int, sf::FloatRect> Graphical::Core::printFilters()
@@ -42,19 +50,19 @@ std::map<int, sf::FloatRect> Graphical::Core::printFilters()
 	float padding = static_cast<float>(_sfml->getWindow().getSize().y) / filterNb;
 	float y = 0;
 
-	buttons[13] = createFilter(13, x, y, margin, padding);
+	buttons[13] = createFilter(filterNb, 13, x, y, margin, padding);
 	y += 1;
-	buttons[18] = createFilter((_filters[18] ? 18 : 19), x, y, margin, padding);
+	buttons[18] = createFilter(filterNb, (_filters[18] ? 18 : 19), x, y, margin, padding);
 	y += 1;
-	buttons[11] = createFilter(11, x, y, margin, padding);
+	buttons[11] = createFilter(filterNb, 11, x, y, margin, padding);
 	y += 1;
-	buttons[2] = createFilter(2, x, y, margin, padding);
+	buttons[2] = createFilter(filterNb, 2, x, y, margin, padding);
 	y += 1;
-	buttons[7] = createFilter(7, x, y, margin, padding);
+	buttons[7] = createFilter(filterNb, 7, x, y, margin, padding);
 	y += 1;
-	buttons[8] = createFilter(8, x, y, margin, padding);
+	buttons[8] = createFilter(filterNb, 8, x, y, margin, padding);
 	y += 1;
-	buttons[12] = createFilter(12, x, y, margin, padding);
+	buttons[12] = createFilter(filterNb, 12, x, y, margin, padding);
 	return buttons;
 }
 
@@ -101,11 +109,11 @@ void Graphical::Core::printInventoryCases()
 	float padding = static_cast<float>(_sfml->getWindow().getSize().y) / filterNb;
 	float y = 0;
 
-	createIcon(15, x, y, margin, padding);
-	createIcon(14, x, y, margin, padding);
+	createIcon(filterNb, 15, x, y, margin, padding);
+	createIcon(filterNb, 14, x, y, margin, padding);
 	y +=1;
 	while (y < 10) {
-		createIcon(15, x, y, margin, padding);
+		createIcon(filterNb, 15, x, y, margin, padding);
 		y += 1;
 	}
 }

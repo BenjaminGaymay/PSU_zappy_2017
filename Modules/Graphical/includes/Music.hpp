@@ -23,11 +23,16 @@ namespace Graphical {
 			STOP,
 			//PAUSE,
 		};
-		typedef struct {
+		typedef struct MusicEvent {
 			audioType audio;
 			audioActionType action;
 			std::string index;
 			float volume;
+			MusicEvent() = default;
+			MusicEvent(const audioType &audio_, const audioActionType &action_, const std::string &index_, const float &volume_)
+					: audio(audio_), action(action_), index (index_), volume(volume_) {};
+			~MusicEvent() = default;
+
 		} MusicEvent;
 		Music() = default;
 		~Music()
@@ -158,11 +163,8 @@ namespace Graphical {
 
 		void addEvent(const audioType &audio, const audioActionType &action, const std::string &index, const std::size_t &volume = 100)
 		{
-			MusicEvent event;
-			event.audio = audio;
-			event.action = action;
-			event.index = index;
-			event.volume = volume;
+			MusicEvent event(audio, action, index, volume);
+
 			_events.emplace_back(event);
 		}
 	private:

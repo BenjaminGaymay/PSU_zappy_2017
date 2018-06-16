@@ -65,6 +65,7 @@ int run_ai(t_ai *ai)
 	// 	{AI_EAT, TURN_LEFT},
 	// 	{AI_MOVE, FORWARD}
 	// };
+	dprintf(ai->fd, "%s\n", ai->opts->name);
 	dprintf(ai->fd, LOOK);
 
 	while (true) {

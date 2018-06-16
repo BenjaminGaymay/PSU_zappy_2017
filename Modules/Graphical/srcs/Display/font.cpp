@@ -8,15 +8,15 @@ std::unique_ptr<sf::Font> &Graphical::Sfml::getFont(const std::string &name)
 	return _fonts[name];
 }
 
-void Graphical::Sfml::addFont(const std::string &key, const std::string &maccro)
+void Graphical::Sfml::createFont(const std::string &key, const std::string &path)
 {
 	std::unique_ptr<sf::Font> font = std::make_unique<sf::Font>();
 
-	font->loadFromFile(maccro);
+	font->loadFromFile(_fontPath + path);
 	_fonts[key] = std::move(font);
 }
 
-void Graphical::Sfml::addFont(const std::string &key, std::unique_ptr<sf::Font> &font)
+void Graphical::Sfml::createFont(const std::string &key, std::unique_ptr<sf::Font> &font)
 {
 	_fonts[key] = std::move(font);
 }

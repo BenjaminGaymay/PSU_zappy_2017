@@ -40,30 +40,40 @@ void Graphical::Core::initFilters()
 	_filters[12] = false;
 }
 
-int Graphical::Core::initMusics()
+int Graphical::Core::initAudios()
 {
-	_music->createMusic("main", "main.ogg");
+	_music->addEvent(Music::MUSIC, Music::CREATE, "main.ogg");
+	_music->addEvent(Music::SOUND, Music::CREATE, "select.wav");
+	return 0;
+}
+
+int Graphical::Core::initFonts()
+{
+	_sfml->createFont("birdy", "birdy.ttf");
+	_sfml->createFont("comic", "comic.ttf");
 	return 0;
 }
 
 int Graphical::Core::initAll()
 {
+	initFonts();
 	initGraphisms();
 	initFilters();
-	initMusics();
+	initAudios();
 	return 0;
 }
 
 int Graphical::Core::loop()
 {
 	initAll();
-	_music->addEvent(Music::MUSIC, Music::PLAY, "main");
+	_music->addEvent(Music::MUSIC, Music::PLAY, "main", 50);
 	while (_sfml->isOpen() && _com->isValidFd(_com->getSocket())) {
 		manageEvent();
 		_music->audioManager();
 		readServer();
 		clear();
 		switch (_type) {
+			case SPLASH_INTRO: printSplashIntro(17, 0.8f); break;
 			case MENU: printMenu(); break;
 			case GAME: printGame(); break;
 			case EXIT: _sfml->close();

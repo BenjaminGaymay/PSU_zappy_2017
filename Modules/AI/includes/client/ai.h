@@ -28,3 +28,4 @@ typedef struct s_ai {
 
 int run_ai(t_ai *);
 int manage_sockets(t_ai *ai);
+int look_for_ressources(t_ai *, const char *);

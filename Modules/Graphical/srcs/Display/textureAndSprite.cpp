@@ -22,12 +22,15 @@ bool Graphical::Sfml::createSprite(const int &index, const std::string &path,
 						  std::map<const int, std::unique_ptr<sf::Sprite>> &spritesMap,
 						  std::map<const int, std::unique_ptr<sf::Texture>> &texturesMap)
 {
-	if (!this->createTexture(index, path, _textures))
+	if (!createTexture(index, path, _textures))
 		return false;
 	spritesMap[index] = std::make_unique<sf::Sprite>(*texturesMap[index]);
 	return true;
 }
 
+/**
+ * @brief sprite dataBase
+ */
 void Graphical::Sfml::createBlocks()
 {
 	createSprite(0, _picturePath + "sand.png", _blocks, _textures);

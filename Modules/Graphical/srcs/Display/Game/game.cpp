@@ -65,6 +65,7 @@ long Graphical::Core::eventFilters(const std::map<int, sf::FloatRect> &buttons)
 		return 0;
 	for (auto &button : buttons) {
 		if (button.second.contains(position)) {
+			_music->addEvent(Music::SOUND, Music::PLAY, "select");
 			_filters[button.first] = !_filters[button.first] && true;
 			result = 300000000; // antispam
 		}

@@ -40,9 +40,10 @@ void Graphical::Core::initFilters()
 	_filters[12] = false;
 }
 
-int Graphical::Core::initMusics()
+int Graphical::Core::initAudios()
 {
-	_music->createMusic("main", "main.ogg");
+	_music->addEvent(Music::MUSIC, Music::CREATE, "main.ogg");
+	_music->addEvent(Music::SOUND, Music::CREATE, "select.wav");
 	return 0;
 }
 
@@ -58,14 +59,14 @@ int Graphical::Core::initAll()
 	initFonts();
 	initGraphisms();
 	initFilters();
-	initMusics();
+	initAudios();
 	return 0;
 }
 
 int Graphical::Core::loop()
 {
 	initAll();
-	_music->addEvent(Music::MUSIC, Music::PLAY, "main");
+	_music->addEvent(Music::MUSIC, Music::PLAY, "main", 50);
 	while (_sfml->isOpen() && _com->isValidFd(_com->getSocket())) {
 		manageEvent();
 		_music->audioManager();

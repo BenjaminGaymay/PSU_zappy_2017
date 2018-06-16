@@ -69,7 +69,7 @@ namespace Graphical {
 		void clear();
 		int initAll();
 		int initGraphisms();
-		int initMusics();
+		int initAudios();
 		int switchResolution();
 		int moveMapView(const sf::Vector2f& offset);
 		sf::FloatRect createButton(std::unique_ptr<sf::Sprite> &sprite, const sf::Vector2f &position);

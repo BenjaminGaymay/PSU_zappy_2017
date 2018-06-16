@@ -18,10 +18,17 @@ namespace Graphical {
 		};
 
 		enum audioActionType {
+			CREATE,
 			PLAY,
 			STOP,
 			//PAUSE,
 		};
+		typedef struct {
+			audioType audio;
+			audioActionType action;
+			std::string index;
+			float volume;
+		} MusicEvent;
 		Music() = default;
 		~Music()
 		{
@@ -29,21 +36,23 @@ namespace Graphical {
 			destroyMusics();
 		};
 
-		void soundManager(const audioActionType &action, const std::string &index)
+		void soundManager(const audioActionType &action, const MusicEvent &event)
 		{
 			switch (action) {
-				case PLAY: playSound(index); break;
-				case STOP: stopSound(index); break;
+				case CREATE: createSound(event.index); break;
+				case PLAY: playSound(event.index, event.volume); break;
+				case STOP: stopSound(event.index); break;
 			//	case PAUSE: break;
 				default: break;
 			}
 		}
 
-		void musicManager(const audioActionType &action, const std::string &index)
+		void musicManager(const audioActionType &action, const MusicEvent &event)
 		{
 			switch (action) {
-				case PLAY: playMusic(index); break;
-				case STOP: stopMusic(index); break;
+				case CREATE: createMusic(event.index); break;
+				case PLAY: playMusic(event.index, event.volume); break;
+				case STOP: stopMusic(event.index); break;
 			//	case PAUSE: break;
 				default: break;
 			}
@@ -53,8 +62,8 @@ namespace Graphical {
 		{
 			for (auto &event : _events) {
 				switch (event.audio) {
-					case SOUND: soundManager(event.action, event.index); break;
-					case MUSIC:	musicManager(event.action, event.index); break;
+					case SOUND: soundManager(event.action, event); break;
+					case MUSIC:	musicManager(event.action, event); break;
 					default: break;
 				}
 			}
@@ -80,14 +89,17 @@ namespace Graphical {
 			_sounds[index] = std::move(sound);
 		}
 
-		void createSound(const std::string &index, const std::string &path)
+		void createSound(const std::string &path)
 		{
+			const std::string index = path.substr(0, path.find('.'));
+
 			addSoundBuffer(index, _path + _sound + path);
 			addSound(index);
 		}
 
-		void createMusic(const std::string &index, const std::string &path)
+		void createMusic(const std::string &path)
 		{
+			const std::string index = path.substr(0, path.find('.'));
 			std::unique_ptr<sf::Music> music = std::make_unique<sf::Music>();
 
 			if (!music->openFromFile(_path + _music + path))
@@ -96,18 +108,20 @@ namespace Graphical {
 				_musics[index] = std::move(music);
 		}
 
-		void playSound(const std::string &index)
+		void playSound(const std::string &index, const float &volume)
 		{
 			if (!_sounds[index])
 				throw std::logic_error("Audio play sound: \'" + index + "\' not found");
+			_sounds[index]->setVolume(volume);
 			_sounds[index]->play();
 		}
 
 
-		void playMusic(const std::string &index)
+		void playMusic(const std::string &index, const float &volume)
 		{
 			if (!_musics[index])
 				throw std::logic_error("Audio play music: \'" + index + "\' not found");
+			_musics[index]->setVolume(volume);
 			_musics[index]->play();
 			_musics[index]->setLoop(true);
 		}
@@ -142,12 +156,13 @@ namespace Graphical {
 			}
 		}
 
-		void addEvent(const audioType &audio, const audioActionType &action, const std::string &index)
+		void addEvent(const audioType &audio, const audioActionType &action, const std::string &index, const std::size_t &volume = 100)
 		{
 			MusicEvent event;
 			event.audio = audio;
 			event.action = action;
 			event.index = index;
+			event.volume = volume;
 			_events.emplace_back(event);
 		}
 	private:
@@ -157,11 +172,6 @@ namespace Graphical {
 		std::map<std::string, std::unique_ptr<sf::SoundBuffer>> _buffers;
 		std::map<std::string, std::unique_ptr<sf::Sound>> _sounds;
 		std::map<std::string, std::unique_ptr<sf::Music>> _musics;
-		typedef struct {
-			audioType audio;
-			audioActionType action;
-			std::string index;
-		} MusicEvent;
 		std::vector<MusicEvent> _events;
 	};
 }

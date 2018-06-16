@@ -12,7 +12,7 @@
 
 bool arr_contains(const char **, const char *);
 int index_in_arr(const char **, const char *);
-void free_tab(void **);
+void free_tab(char **);
 char **str_to_tab(char *, const char *);
 void show_tab(char **);
 

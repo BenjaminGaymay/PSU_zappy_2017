@@ -43,6 +43,19 @@ static void find_forward(const char **tab, const t_ai *ai, bool *no_res)
 	}
 }
 
+static int take_object(char **cmd, t_ai *ai)
+{
+	char **tab = str_to_tab(cmd[0], " ");
+	char msg[100];
+
+	sprintf(msg, "Take %s\n", tab[0]);
+	printf(msg);
+	dprintf(ai->fd, msg);
+	// free_tab(tab);
+	// free_tab(cmd);
+	return (SUCCESS);
+}
+
 int look_for_ressources(t_ai *ai, const char *tmp)
 {
 	char **tab = get_data_from_look(tmp);
@@ -50,7 +63,7 @@ int look_for_ressources(t_ai *ai, const char *tmp)
 	int random_dir = rand() % 2;
 
 	if (strcmp(tab[0], "") != 0)
-		return (dprintf(ai->fd, "Take linemate\n"), SUCCESS);
+		return take_object(tab, ai);
 	find_forward((const char**)tab, ai, &no_res);
 	if (no_res == false)
 		dprintf(ai->fd, random_dir == 0 ? TURN_LEFT : TURN_RIGHT);

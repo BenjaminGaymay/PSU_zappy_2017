@@ -29,7 +29,7 @@ int index_in_arr(const char **haystack, const char *needle)
 	return (ERR_FC);
 }
 
-void free_tab(void **tab)
+void free_tab(char **tab)
 {
 	for (int i = 0; tab[i]; i++)
 		free(tab[i]);

@@ -11,6 +11,7 @@
 
 int add_client(t_server *server)
 {
+	srand(time(NULL));
 	static size_t id = 0;
 	struct sockaddr_in client_sin;
 	socklen_t client_sin_len;
@@ -29,8 +30,9 @@ int add_client(t_server *server)
 	new->last_eat = DEFAULT_VALUE;
 	new->inventory = (t_inventory){0, 0, 0, 0, 0, 0, 0};
 	new->level = 1;
-	new->pos = (t_pos){0, 0};
-	new->look = 0;
+	new->pos = (t_pos){rand() % server->opts->y , rand() % server->opts->x};
+	// printf("pos: %d, %d\n", new->pos.y, new->pos.x);
+	new->look = 3;
 	new->next = server->clients;
 	server->clients = new;
 	dprintf(new->socket, "WELCOME\n");

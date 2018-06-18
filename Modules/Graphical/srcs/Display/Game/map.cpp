@@ -57,6 +57,18 @@ void Graphical::Core::dropEgg(const int &id, const float &scale, const float &x,
 	_sfml->getScreen().draw(*sprite);
 }
 
+void Graphical::Core::dropFood(const int &id, const float &scale, const float &x, const float &y)
+{
+	float elem = scale / 3.0f;
+	auto &sprite = _game->getAnimatedFoods()->getSprite(id);
+	float size = _game->getAnimatedFoods()->getPadding();
+
+	sprite->setScale({elem / size, elem / size});
+	auto pos = getEntityPos(id);
+	sprite->setPosition(sf::Vector2f(x + elem * pos.x, y + elem * pos.y));
+	_sfml->getScreen().draw(*sprite);
+}
+
 float Graphical::Core::findMapScale(const Pos &pos)
 {
 	int max_y = pos.y, max_x = pos.x;
@@ -105,8 +117,8 @@ void Graphical::Core::printMap(const std::vector<std::unique_ptr<Case>> &map)
 		auto &sprite = _sfml->getBlock(0);
 		float size = sprite->getTexture()->getSize().x;
 		sprite->setScale({scale / size, scale / size});
-		float x = marginX + (block->getPos().x * scale);
-		float y = marginY + (block->getPos().y * scale);
+		float x = marginX + (block->getPos().x * scale) + ((block->getPos().x * scale) / sprite->getTexture()->getSize().x);
+		float y = marginY + (block->getPos().y * scale) + ((block->getPos().y * scale) / sprite->getTexture()->getSize().y);
 		sprite->setPosition(sf::Vector2f(x, y));
 		_sfml->getScreen().draw(*sprite);
 		if (!_move && sprite->getGlobalBounds().contains(_sfml->getMousePosition().x, _sfml->getMousePosition().y))
@@ -126,7 +138,7 @@ void Graphical::Core::printMap(const std::vector<std::unique_ptr<Case>> &map)
 			dropStone(6, scale, x, y);*/
 		}
 		if (_filters[7] && block->getResource(7) > 0)
-			dropThis(7, scale, x, y);
+			dropFood(7, scale, x, y);
 		if (_filters[8] && !block->getEggsId().empty())
 			dropEgg(8, scale, x, y);
 	}

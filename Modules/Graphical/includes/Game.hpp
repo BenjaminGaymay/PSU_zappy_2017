@@ -9,6 +9,7 @@
 #include "Map.hpp"
 #include "Cristals.hpp"
 #include "Eggs.hpp"
+#include "Foods.hpp"
 #include "Player.hpp"
 
 namespace Graphical {
@@ -20,6 +21,8 @@ namespace Graphical {
 		inline const std::unique_ptr<Cristals> &getCristals() const { return _animatedCristals; };
 		inline void setAnimatedEggs(std::unique_ptr<Eggs> eggs) { _animatedEggs = std::move(eggs); };
 		inline const std::unique_ptr<Eggs> &getAnimatedEggs() const { return _animatedEggs; };
+		inline void setAnimatedFoods(std::unique_ptr<Foods> foods) { _animatedFoods = std::move(foods); };
+		inline const std::unique_ptr<Foods> &getAnimatedFoods() const { return _animatedFoods; };
 		inline void addPlayer(std::unique_ptr<Player> player) { _players.emplace_back(std::move(player)); };
 		/* FUNCTION PTR_FUNCTION COMMUNICATION */
 		int setSize(const std::vector<std::string> &array);
@@ -103,6 +106,7 @@ namespace Graphical {
 		std::unique_ptr<Map> _mapper;
 		std::unique_ptr<Cristals> _animatedCristals;
 		std::unique_ptr<Eggs> _animatedEggs;
+		std::unique_ptr<Foods> _animatedFoods;
 		std::vector<std::unique_ptr<Player>> _players;
 		std::map<std::string, std::vector<int>> _teams; /* team name, player id*/
 		std::vector<std::unique_ptr<Egg>> _eggs;

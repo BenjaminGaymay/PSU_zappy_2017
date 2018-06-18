@@ -51,6 +51,7 @@ namespace Graphical {
 		void dropThis(const int &id, const float &scale, const float &x, const float &y);
 		void dropStone(const int &id, const float &scale, const float &x, const float &y);
 		void dropEgg(const int &id, const float &scale, const float &x, const float &y);
+		void dropFood(const int &id, const float &scale, const float &x, const float &y);
 		float findMapScale(const Pos &pos);
 		void printMap(const std::vector<std::unique_ptr<Case>> &map);
 		Graphical::Pos getEntityPos(const int &block);

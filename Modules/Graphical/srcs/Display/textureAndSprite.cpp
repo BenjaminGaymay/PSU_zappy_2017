@@ -34,12 +34,12 @@ bool Graphical::Sfml::createSprite(const int &index, const std::string &path,
 void Graphical::Sfml::createBlocks()
 {
 	createSprite(0, _picturePath + "sand.png", _blocks, _textures);
-	createSprite(1, _picturePath + "emerald.png", _blocks, _textures);
+	//createSprite(1, _picturePath + "emerald.png", _blocks, _textures);
 	createSprite(2, _picturePath + "diamond.png", _blocks, _textures);
-	createSprite(3, _picturePath + "rubis.png", _blocks, _textures);
+	/*createSprite(3, _picturePath + "rubis.png", _blocks, _textures);
 	createSprite(4, _picturePath + "agate.png", _blocks, _textures);
 	createSprite(5, _picturePath + "citrine.png", _blocks, _textures);
-	createSprite(6, _picturePath + "saphir.png", _blocks, _textures);
+	createSprite(6, _picturePath + "saphir.png", _blocks, _textures);*/
 	createSprite(7, _picturePath + "food.png", _blocks, _textures);
 	createSprite(8, _picturePath + "egg.png", _blocks, _textures);
 	createSprite(9, _picturePath + "player.png", _blocks, _textures);
@@ -56,4 +56,5 @@ void Graphical::Sfml::createBlocks()
 	createSprite(20, _picturePath + "cristals_empty.png", _blocks, _textures);
 	createSprite(21, _picturePath + "eggs_animated.png", _blocks, _textures);
 	createSprite(22, _picturePath + "one_cristal.png", _blocks, _textures);
+	createSprite(23, _picturePath + "food_animated.png", _blocks, _textures);
 }

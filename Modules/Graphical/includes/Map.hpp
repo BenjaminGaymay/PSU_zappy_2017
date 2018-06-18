@@ -17,7 +17,7 @@
 namespace Graphical {
 	class Case {
 	public:
-		explicit Case(const Pos &pos) : _pos(pos)
+		explicit Case(const Pos &pos) : _pos(pos.x, pos.y)
 		{
 			for (std::size_t i = 1 ; i <= _size ; ++i) _resources[i] = 0;
 		};

@@ -11,20 +11,20 @@
 #include "Sfml.hpp"
 
 namespace Graphical {
-	class Eggs {
+	class Foods {
 	public:
-		Eggs(std::shared_ptr<Graphical::Sfml> &sfml, const int &id) : _id(id), _x(0), _y(0)
+		Foods(std::shared_ptr<Graphical::Sfml> &sfml, const int &id) : _id(id), _x(0), _y(0)
 		{
 			_sfml = sfml;
 		};
 
-		~Eggs() = default;
+		~Foods() = default;
 
 		void setX(std::unique_ptr<sf::Sprite> &sprite) {
 			static long last = std::chrono::system_clock::now().time_since_epoch().count();
 			long now = std::chrono::system_clock::now().time_since_epoch().count();
 
-			if (now > last + 150000000) {
+			if (now > last + 250000000) {
 				last = std::chrono::system_clock::now().time_since_epoch().count();
 				_x += _padding;
 				if (_x >= sprite->getTexture()->getSize().x)

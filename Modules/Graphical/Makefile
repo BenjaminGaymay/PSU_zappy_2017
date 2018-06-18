@@ -35,7 +35,8 @@ SRCS_CPP	= 	srcs/main.cpp					\
 OBJS_CPP	= 	$(SRCS_CPP:.cpp=.o)
 
 CXXFLAGS 	= 	-I./includes/		\
-			-I$(SHARED)/includes	\
+			-I./includes/Sprite/	\
+			-I$(SHARED)/includes/	\
 			-W -Wextra -g3
 
 LDFLAGS		= 	-lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system

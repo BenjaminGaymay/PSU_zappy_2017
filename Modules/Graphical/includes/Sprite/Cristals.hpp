@@ -13,19 +13,17 @@
 namespace Graphical {
 	class Cristals {
 	public:
-		Cristals(std::shared_ptr<Graphical::Sfml> &sfml, const int &id) : _id(id), _x(0), _y(0)
-		{
-			_sfml = sfml;
-		};
+		Cristals(std::shared_ptr<Graphical::Sfml> &sfml, const int &id)
+				: _sfml(sfml), _id(id), _x(0), _y(0), _last(std::chrono::system_clock::now().time_since_epoch().count())
+		{};
 
 		~Cristals() = default;
 
 		void setX(std::unique_ptr<sf::Sprite> &sprite) {
-			static long last = std::chrono::system_clock::now().time_since_epoch().count();
 			long now = std::chrono::system_clock::now().time_since_epoch().count();
 
-			if (now > last + 100000000) {
-				last = std::chrono::system_clock::now().time_since_epoch().count();
+			if (now > _last + 100000000) {
+				_last = std::chrono::system_clock::now().time_since_epoch().count();
 				_x += _padding;
 				if (_x >= sprite->getTexture()->getSize().x)
 					_x = 0;
@@ -38,7 +36,7 @@ namespace Graphical {
 
 			switch (id) {
 				case 1: color = sf::Color::Blue; break;
-				case 2: color = sf::Color::Red; break; //RED
+				case 2: color = sf::Color::Red; break;
 				case 3: color = sf::Color::Yellow; break;
 				case 4: color = sf::Color::Cyan; break;
 				case 5: color = sf::Color::Green; break;
@@ -53,7 +51,7 @@ namespace Graphical {
 			auto &sprite = _sfml->getBlock(_id);
 
 			setX(sprite);
-			sprite->setTextureRect({static_cast<int>(_x), static_cast<int>(_y), 64, 64});
+			sprite->setTextureRect({static_cast<int>(_x), static_cast<int>(_y), _padding, _padding});
 			sprite->setColor(getColor(id));
 
 			return sprite;
@@ -66,5 +64,6 @@ namespace Graphical {
 		const int _padding = 64;
 		std::size_t _x;
 		std::size_t _y;
+		long _last;
 	};
 }

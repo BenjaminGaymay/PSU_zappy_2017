@@ -13,19 +13,17 @@
 namespace Graphical {
 	class Foods {
 	public:
-		Foods(std::shared_ptr<Graphical::Sfml> &sfml, const int &id) : _id(id), _x(0), _y(0)
-		{
-			_sfml = sfml;
-		};
+		Foods(std::shared_ptr<Graphical::Sfml> &sfml, const int &id)
+				: _sfml(sfml), _id(id), _x(0), _y(0), _last(std::chrono::system_clock::now().time_since_epoch().count())
+		{};
 
 		~Foods() = default;
 
 		void setX(std::unique_ptr<sf::Sprite> &sprite) {
-			static long last = std::chrono::system_clock::now().time_since_epoch().count();
 			long now = std::chrono::system_clock::now().time_since_epoch().count();
 
-			if (now > last + 250000000) {
-				last = std::chrono::system_clock::now().time_since_epoch().count();
+			if (now > _last + 250000000) {
+				_last = std::chrono::system_clock::now().time_since_epoch().count();
 				_x += _padding;
 				if (_x >= sprite->getTexture()->getSize().x)
 					_x = 0;
@@ -49,5 +47,6 @@ namespace Graphical {
 		const int _padding = 64;
 		std::size_t _x;
 		std::size_t _y;
+		long _last;
 	};
 }

@@ -79,13 +79,19 @@ void Graphical::Core::printCaseInventory(const std::unique_ptr<Case> &block)
 	float y = 1;
 
 	for (int i = 1 ; i < 7 ; ++i) {
-		if (block->getResource(i) > 0) createIcon(filterNb, 22, x, y, margin, padding, _game->getCristals()->getColor(i));
-			y += 1;
+		if (block->getResource(i) > 0)
+			createIcon(filterNb, 22, x, y, margin, padding, _game->getCristals()->getColor(i));
+		_sfml->text("birdy", std::to_string(block->getResource(i)), 20, sf::Color::White, {x, y * padding});
+		y += 1;
 	}
-	if (block->getResource(7) > 0) createIcon(filterNb, 7, x, y, margin, padding);
-		y += 1;
-	if (!block->getEggsId().empty()) createIcon(filterNb, 8, x, y, margin, padding);
-		y += 1;
+	if (block->getResource(7) > 0)
+		createIcon(filterNb, 7, x, y, margin, padding);
+	_sfml->text("birdy", std::to_string(block->getResource(7)), 20, sf::Color::White, {x, y * padding});
+	y += 1;
+	if (!block->getEggsId().empty())
+		createIcon(filterNb, 8, x, y, margin, padding);
+	_sfml->text("birdy", std::to_string(block->getEggsId().size()), 20, sf::Color::White, {x, y * padding});
+	y += 1;
 }
 
 void Graphical::Core::printMap(const std::vector<std::unique_ptr<Case>> &map)

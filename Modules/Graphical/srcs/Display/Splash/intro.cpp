@@ -59,3 +59,8 @@ void Graphical::Core::printSplashIntro(const int &id, const float &atime)
 	sprite->setColor({200, 100, 100, alpha});
 	_sfml->getWindow().draw(*sprite);
 }
+
+void Graphical::Core::printSplash(const int &id, const float &time)
+{
+	printSplashIntro(id, time);
+}

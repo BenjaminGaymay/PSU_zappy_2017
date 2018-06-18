@@ -77,6 +77,7 @@ namespace Graphical {
 		int moveMapView(const sf::Vector2f& offset);
 		sf::FloatRect createButton(std::unique_ptr<sf::Sprite> &sprite, const sf::Vector2f &position);
 		void printSplashIntro(const int &id, const float &time);
+		void printSplash(const int &id, const float &time);
 		int initFonts();
 		std::unique_ptr<sf::Sprite> &createSplashIntro(const int &id);
 		void manageEventFiltersResult();

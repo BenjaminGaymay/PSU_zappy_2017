@@ -36,10 +36,20 @@ void Graphical::Core::dropThis(const int &id, const float &scale, const float &x
 void Graphical::Core::dropStone(const int &id, const float &scale, const float &x, const float &y)
 {
 	float elem = scale / 3.0f;
-	//auto &sprite = _sfml->getBlock(id);
-	auto &sprite = _game->getCristals()->getCristalSprite(id);
-	//float size = sprite->getTexture()->getSize().x;
-	float size = 64;
+	auto &sprite = _game->getCristals()->getSprite(id);
+	float size =_game->getCristals()->getPadding();
+
+	sprite->setScale({elem / size, elem / size});
+	auto pos = getEntityPos(id);
+	sprite->setPosition(sf::Vector2f(x + elem * pos.x, y + elem * pos.y));
+	_sfml->getScreen().draw(*sprite);
+}
+
+void Graphical::Core::dropEgg(const int &id, const float &scale, const float &x, const float &y)
+{
+	float elem = scale / 3.0f;
+	auto &sprite = _game->getAnimatedEggs()->getSprite(id);
+	float size = _game->getAnimatedEggs()->getPadding();
 
 	sprite->setScale({elem / size, elem / size});
 	auto pos = getEntityPos(id);
@@ -68,10 +78,12 @@ void Graphical::Core::printCaseInventory(const std::unique_ptr<Case> &block)
 	float padding = static_cast<float>(_sfml->getWindow().getSize().y) / filterNb;
 	float y = 1;
 
-	for (int i = 1 ; i <= 7 ; ++i) {
-		if (block->getResource(i)) createIcon(filterNb, i, x, y, margin, padding);
+	for (int i = 1 ; i < 7 ; ++i) {
+		if (block->getResource(i) > 0) createIcon(filterNb, 22, x, y, margin, padding, _game->getCristals()->getColor(i));
 			y += 1;
 	}
+	if (block->getResource(7) > 0) createIcon(filterNb, 7, x, y, margin, padding);
+		y += 1;
 	if (!block->getEggsId().empty()) createIcon(filterNb, 8, x, y, margin, padding);
 		y += 1;
 }
@@ -109,7 +121,7 @@ void Graphical::Core::printMap(const std::vector<std::unique_ptr<Case>> &map)
 		}
 		if (_filters[7] && block->getResource(7) > 0)
 			dropThis(7, scale, x, y);
-		if (_filters[8] && block->getResource(8) > 0)
-			dropThis(8, scale, x, y);
+		if (_filters[8] && !block->getEggsId().empty())
+			dropEgg(8, scale, x, y);
 	}
 }

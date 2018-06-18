@@ -50,13 +50,14 @@ namespace Graphical {
 		int setInitCom(const std::vector<std::string> &array);
 		void dropThis(const int &id, const float &scale, const float &x, const float &y);
 		void dropStone(const int &id, const float &scale, const float &x, const float &y);
+		void dropEgg(const int &id, const float &scale, const float &x, const float &y);
 		float findMapScale(const Pos &pos);
 		void printMap(const std::vector<std::unique_ptr<Case>> &map);
 		Graphical::Pos getEntityPos(const int &block);
 		void initFilters();
 		std::map<int, sf::FloatRect> printFilters();
 		sf::FloatRect createFilter(const std::size_t &totalElem, const int &id, const float &x, const float &y, const Pos &margin, const float &padding);
-		void createIcon(const std::size_t &totalElem, const int &id, const float &x, const float &y, const Pos &margin, const float &padding);
+		void createIcon(const std::size_t &totalElem, const int &id, const float &x, const float &y, const Pos &margin, const float &padding, const sf::Color &color = sf::Color::Transparent);
 		long eventFilters(const std::map<int, sf::FloatRect> &filters);
 		void setMovePossibility(const bool &move) { _move = move; };
 		const bool &getMovePossibility() { return _move; };

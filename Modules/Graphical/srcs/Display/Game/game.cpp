@@ -8,7 +8,7 @@
 #include <chrono>
 #include "Core.hpp"
 
-void Graphical::Core::createIcon(const std::size_t &totalElem, const int &id, const float &x, const float &y, const Pos &margin, const float &padding)
+void Graphical::Core::createIcon(const std::size_t &totalElem, const int &id, const float &x, const float &y, const Pos &margin, const float &padding, const sf::Color &color)
 {
 	auto &sprite = _sfml->getBlock(id);
 	
@@ -18,6 +18,8 @@ void Graphical::Core::createIcon(const std::size_t &totalElem, const int &id, co
 					 scaller / sprite->getTexture()->getSize().y);
 	
 	sprite->setPosition(x, y * padding);
+	if (color != sf::Color::Transparent)
+		sprite->setColor(color);
 	_sfml->getWindow().draw(*sprite);
 }
 

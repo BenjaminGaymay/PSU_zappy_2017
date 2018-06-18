@@ -61,7 +61,8 @@ int Graphical::Core::initAll()
 	initGraphisms();
 	initFilters();
 	initAudios();
-	_game->setCristals(std::make_unique<Graphical::Cristal>(_sfml, 20));
+	_game->setCristals(std::make_unique<Graphical::Cristals>(_sfml, 20));
+	_game->setAnimatedEggs(std::make_unique<Graphical::Eggs>(_sfml, 21));
 	return 0;
 }
 

@@ -60,6 +60,7 @@ namespace Graphical {
 					aCase->addResource(5, 1);
 					aCase->addResource(6, 1);
 					aCase->addResource(7, 1);
+					aCase->addEgg(0);
 					_map.emplace_back(std::move(aCase));
 				}
 			}

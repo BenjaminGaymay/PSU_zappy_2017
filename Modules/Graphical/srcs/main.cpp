@@ -7,10 +7,20 @@
 
 #include "Core.hpp"
 
+int manageArguments(int ac, char **av)
+{
+	if (ac == 2 && av[1] != nullptr && (std::string(av[1]) == "-h" || std::string(av[1]) == "--help"))
+		std::cout << av[0] << " port_number graphical_team_name" << std::endl;
+	else if (ac != 3 || av[1] == nullptr || av[2] == nullptr)
+		std::cerr << av[0] << " -h" << std::endl;
+	else
+		return 0;
+	return 84;
+}
+
 int main(int ac, char **av)
 {
-	if (ac != 3 || av[1] == nullptr || av[2] == nullptr)
-		return (std::cerr << "I need a port and a team argument" << std::endl, 84);
+	if (manageArguments(ac, av) == 84) return 84;
 	Graphical::Core core;
 
 	core.initPtrFunction();

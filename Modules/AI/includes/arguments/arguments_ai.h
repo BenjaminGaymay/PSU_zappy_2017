@@ -8,11 +8,13 @@
 #pragma once
 
 #include <stdbool.h>
+#include "tools.h"
 
 typedef struct s_opts_ai {
 	int port;
 	char *name;
 	char *machine;
+	t_vec2d dim;
 } t_opts_ai;
 
 typedef struct s_args {

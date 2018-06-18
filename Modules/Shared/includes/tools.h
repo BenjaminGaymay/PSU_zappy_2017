@@ -26,6 +26,11 @@ void replace_str(char *, const char *, const char *);
 void insert(char *, const char *, int);
 size_t tablen(char **);
 
+typedef struct s_vec2d {
+	int x;
+	int y;
+} t_vec2d;
+
 typedef struct s_elevation {
 	size_t player;
 	size_t linemate;

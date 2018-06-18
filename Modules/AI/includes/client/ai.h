@@ -30,6 +30,5 @@ typedef struct s_ai {
 int run_ai(t_ai *);
 int manage_sockets(t_ai *);
 int look_for_ressources(t_ai *, const char *);
-int try_incatation(t_ai *);
-void receipt_welcome(t_ai *);
-int receipt_infos(t_ai *ai);
+int try_incantation(t_ai *);
+int receipt_welcome(t_ai *);

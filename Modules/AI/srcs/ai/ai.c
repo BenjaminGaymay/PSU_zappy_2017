@@ -30,11 +30,12 @@ static void find_forward(const char **tab, const t_ai *ai, bool *no_res)
 {
 	size_t i = 0;
 	size_t j = 2;
+	char t[4096];
 
 	while (i < tablen((char **)tab)) {
 		if (strcmp(tab[i], "") != 0) {
 			dprintf(ai->fd, FORWARD);
-			read(ai->fd, NULL, 4096);
+			read(ai->fd, t, 4096);
 			*no_res = false;
 			break;
 		}
@@ -49,6 +50,7 @@ static int take_object(char **cmd, t_ai *ai)
 		"mendiane", "phiras", "thystame", "food", NULL};
 	char **tab = str_to_tab(cmd[0], " ");
 	char msg[100];
+	char t[4096];
 
 	for (int i = 0; tab[i]; i++) {
 		for (int j = 0; objects[j]; j++) {
@@ -56,7 +58,7 @@ static int take_object(char **cmd, t_ai *ai)
 				sprintf(msg, "Take %s\n", tab[i]);
 				printf(msg);
 				dprintf(ai->fd, msg);
-				read(ai->fd, NULL, 4096);
+				read(ai->fd, t, 4096);
 				return (SUCCESS);
 			}
 		}
@@ -70,6 +72,7 @@ int look_for_ressources(t_ai *ai, const char *tmp)
 	char **tab = get_data_from_look(tmp);
 	bool no_res = true;
 	int random_dir = rand() % 2;
+	char t[4096];
 
 	if (first <= 1)
 		return (first++, SUCCESS);
@@ -78,18 +81,17 @@ int look_for_ressources(t_ai *ai, const char *tmp)
 	find_forward((const char **)tab, ai, &no_res);
 	if (no_res == false) {
 		dprintf(ai->fd, random_dir == 0 ? TURN_LEFT : TURN_RIGHT);
-		read(ai->fd, NULL, 4096);
+		read(ai->fd, t, 4096);
 	}
 	return (SUCCESS);
 }
 
 int run_ai(t_ai *ai)
 {
-	receipt_welcome(ai);
-	dprintf(ai->fd, "%s\n", ai->opts->name);
-	receipt_infos(ai);
+	if (receipt_welcome(ai))
+		return (ERROR);
 	while (true) {
-		try_incatation(ai);
+		try_incantation(ai);
 		dprintf(ai->fd, LOOK);
 		manage_sockets(ai);
 	}

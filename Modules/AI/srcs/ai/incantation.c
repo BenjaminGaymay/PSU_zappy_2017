@@ -14,12 +14,13 @@
 void parse_inventory(char *buf, t_elevation *current)
 {
 	char **tab = str_to_tab(buf, ",");
+	(void)current;
 	for (int i = 0; tab[i]; i++) {
-		printf("%s\n", tab[i]);
+		printf("INV : %s\n", tab[i]);
 	}
 }
 
-int try_incatation(t_ai *ai)
+int try_incantation(t_ai *ai)
 {
 	t_elevation current;
 	char buf[4096];
@@ -30,6 +31,7 @@ int try_incatation(t_ai *ai)
 		buf[size] = '\0';
 		parse_inventory(buf, &current);
 		// printf("INVENTORY %s\n", buf);
+		return (SUCCESS);
 	}
-	return (SUCCESS);
+	return (ERROR);
 }

@@ -15,6 +15,11 @@ typedef enum {
 	AI_MOVE
 } e_state;
 
+typedef struct s_vec2d {
+	int x;
+	int y;
+} t_vec2d;
+
 typedef struct s_action {
 	e_state state;
 	char *action;

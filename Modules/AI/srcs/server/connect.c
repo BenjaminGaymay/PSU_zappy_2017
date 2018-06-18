@@ -33,7 +33,7 @@ static int read_socket(t_ai *ai)
 		}
 	}
 	else
-		return (ERROR); // SERVER OUT
+		return (ERROR);
 	return (SUCCESS);
 }
 

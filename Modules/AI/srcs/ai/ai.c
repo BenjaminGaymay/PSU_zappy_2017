@@ -7,7 +7,6 @@
 
 #include <stdlib.h>
 #include <unistd.h>
-#include <time.h>
 #include <stdio.h>
 #include <string.h>
 #include "ai.h"
@@ -48,11 +47,12 @@ static int take_object(char **cmd, t_ai *ai)
 	char **tab = str_to_tab(cmd[0], " ");
 	char msg[100];
 
+	if (strcmp(tab[0], "ko") == 0 ||
+		strcmp(tab[0], "dead") == 0)
+		return (ERROR);
 	sprintf(msg, "Take %s\n", tab[0]);
 	printf(msg);
 	dprintf(ai->fd, msg);
-	// free_tab(tab);
-	// free_tab(cmd);
 	return (SUCCESS);
 }
 
@@ -64,7 +64,7 @@ int look_for_ressources(t_ai *ai, const char *tmp)
 
 	if (strcmp(tab[0], "") != 0)
 		return take_object(tab, ai);
-	find_forward((const char**)tab, ai, &no_res);
+	find_forward((const char **)tab, ai, &no_res);
 	if (no_res == false)
 		dprintf(ai->fd, random_dir == 0 ? TURN_LEFT : TURN_RIGHT);
 	return (SUCCESS);
@@ -72,26 +72,11 @@ int look_for_ressources(t_ai *ai, const char *tmp)
 
 int run_ai(t_ai *ai)
 {
-	srand(time(NULL));
-	// t_action action[] = {
-	// 	{AI_LOOK, LOOK},
-	// 	{AI_EAT, TURN_LEFT},
-	// 	{AI_MOVE, FORWARD}
-	// };
 	dprintf(ai->fd, "%s\n", ai->opts->name);
-	dprintf(ai->fd, LOOK);
-
 	while (true) {
 		if (ai->state == AI_LOOK)
 			dprintf(ai->fd, LOOK);
 		manage_sockets(ai);
 	}
-	// while (true) {
-	// 	// a = rand() % 2;
-	// 	// ai->state = a;
-	// 	find_ressources(ai, action);
-	// 	dprintf(ai->fd, FORWARD);
-	// 	manage_sockets(ai);
-	// }
 	return (SUCCESS);
 }

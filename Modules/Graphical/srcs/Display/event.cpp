@@ -81,7 +81,7 @@ int Graphical::Core::manageEvent()
 			_sfml->close();
 		else if (event.type == sf::Event::KeyPressed)
 			keyManager(event);
-		else if (_type == GAME && event.type == sf::Event::Resized) {
+		else if (event.type == sf::Event::Resized) {
 			_sfml->getWindow().setView(sf::View(sf::FloatRect(0, 0, event.size.width, event.size.height)));
 			_sfml->setScreen({_sfml->getWindow().getSize().x - _sfml->getMargin().x, _sfml->getWindow().getSize().y});
 		} else if (_type == GAME && event.type == sf::Event::MouseWheelScrolled)

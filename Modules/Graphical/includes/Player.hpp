@@ -37,6 +37,8 @@ namespace Graphical {
 		const std::size_t &getLevel() const { return _level; };
 		const std::string &getTeam() const { return _team; };
 		void addResource(int id, std::size_t nb) { _resources[id] += nb; };
+		const std::size_t &getResource(const int &id) { return _resources[id]; };
+		const std::map<int, std::size_t> &getResources() const { return _resources; };
 	private:
 		const int _id;
 		Pos<int> _pos;

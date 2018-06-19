@@ -84,6 +84,7 @@ namespace Graphical {
 		void manageEventFiltersResult();
 		void printPlayers();
 		void printPlayerInfo(std::unique_ptr<Player> &player, const int &padding, const Pos<float> &pos);
+		void printPlayerInventory(std::unique_ptr<Player> &player, const int &padding, const Pos<float> &pos);
 	private:
 		std::shared_ptr<Sfml> _sfml;
 		std::unique_ptr<Communication> _com;

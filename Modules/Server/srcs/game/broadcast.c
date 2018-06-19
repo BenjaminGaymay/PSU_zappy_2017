@@ -6,19 +6,8 @@
 */
 
 #include "player_actions.h"
+#include "communication.h"
 #include "manage_time.h"
-
-void send_all(const t_server *server,
-		const t_client *owner, const char *message)
-{
-	t_client *tmp = server->clients;
-
-	while (tmp) {
-		if (owner->player_id != tmp->player_id && tmp->team)
-			dprintf(tmp->socket, "%s\n", message);
-		tmp = tmp->next;
-	}
-}
 
 int switch_diagonal_directions(t_server *server, t_pos owner, t_pos pos)
 {
@@ -45,22 +34,23 @@ int switch_directions(t_server *server, t_pos owner, t_pos pos)
 
 char *broadcast(t_server *server, t_message *cmd)
 {
-	t_client *tmp = server->clients;
+	t_client *client = server->clients;
 	char *response;
+	char *tmp;
 	int result = 0;
 
 	cmd->finish_date = time_until_finish(BROADCAST_TIME,
 					server->opts->freq);
-	while (tmp) {
-		if (cmd->owner->player_id != tmp->player_id && tmp->team) {
+	while (client) {
+		if (cmd->owner->player_id != client->player_id && client->team) {
 			result = switch_directions(server,
-				cmd->owner->pos, tmp->pos);
-			result = (result + 2 * tmp->look) % 8;
+				cmd->owner->pos, client->pos);
+			result = (result + 2 * client->look) % 8;
 			result = (result == 0 ? 8 : result);
+			asprintf(&tmp, "Message %d, %s", result, &cmd->request[11]);
+			add_special_response(server, client, tmp);
 		}
-		tmp = tmp->next;
+		client = client->next;
 	}
-	// asprintf(&cmd->broadcast, "Message %d, %s", 0, &cmd->request[11]);
-	asprintf(&response, "ok");
-	return (response);
+	return (asprintf(&response, "ok"), response);
 }

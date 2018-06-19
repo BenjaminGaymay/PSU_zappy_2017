@@ -19,7 +19,7 @@ char *comma(const t_get_type tab[7], char *str, int nb)
 	return (str);
 }
 
-char *players_pos(t_server *server, char *str, t_pos pos, t_message *cmd)
+char *players_pos(t_server *server, char *str, t_pos pos)
 {
 	t_client *tmp = server->clients;
 
@@ -42,7 +42,7 @@ char *push_str(t_server *server, char *str, t_pos pos, t_message *cmd)
 	{server->map[pos.y][pos.x].phiras, "phiras"},
 	{server->map[pos.y][pos.x].thystame, "thystame"}};
 
-	str = players_pos(server, str, pos, cmd);
+	str = players_pos(server, str, pos);
 	str = comma(tab, str, 0);
 	for (int i = 0; i < 7;++i)
 		if (tab[i].x > 0) {

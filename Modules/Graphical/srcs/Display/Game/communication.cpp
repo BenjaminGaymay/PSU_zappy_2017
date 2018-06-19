@@ -64,8 +64,8 @@ int Graphical::Game::setSize(const std::vector<std::string> &array)
 	_mapper->getCase({0, 0})->addPlayer(1);
 	addPlayer(std::make_unique<Graphical::Player>(2, Pos<int>(0, 1), 0, 1, "lol"));
 	_mapper->getCase({0, 1})->addPlayer(2);
-	addATeam("lol");
-	addATeam("mdr");
+	/*addATeam("lol");
+	addATeam("mdr");*/
 	/**/
 	return 0;
 }

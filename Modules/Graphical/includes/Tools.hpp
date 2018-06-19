@@ -10,15 +10,17 @@
 #include <vector>
 
 namespace Graphical {
+	template<typename T>
 	struct Pos {
-		int x;
-		int y;
+		T x;
+		T y;
 		Pos() = default;
-		Pos(int X, int Y) : x(X), y(Y) {};
+		Pos(T X, T Y) : x(X), y(Y) {};
 		~Pos() = default;
 	};
 
-	inline bool operator<(const Pos &one, const Pos &two) { return one.x < two.x || one.y < two.y; };
+	template<typename T>
+	inline bool operator<(const Pos<T> &one, const Pos<T> &two) { return one.x < two.x || one.y < two.y; };
 
 	__attribute__((unused)) static std::vector<std::string>
 	explode(const std::string &str, char separator)

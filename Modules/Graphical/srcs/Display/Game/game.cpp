@@ -8,22 +8,25 @@
 #include <chrono>
 #include "Core.hpp"
 
-void Graphical::Core::createIcon(const std::size_t &totalElem, const int &id, const float &x, const float &y, const Pos &margin, const float &padding, const sf::Color &color)
+std::unique_ptr<sf::Sprite> &Graphical::Core::createIcon(const std::size_t &totalElem, const int &id, const float &x, const float &y, const Pos<int> &margin, const float &padding, const sf::Color &color)
 {
 	auto &sprite = _sfml->getBlock(id);
 	
 	int cmp = static_cast<int>(_sfml->getWindow().getSize().y / totalElem);
-	float scaller = cmp < margin.x ? _sfml->getWindow().getSize().y / totalElem : margin.x;
-	sprite->setScale(scaller / sprite->getTexture()->getSize().x,
-					 scaller / sprite->getTexture()->getSize().y);
+	float scaller = cmp <= margin.x ? _sfml->getWindow().getSize().y / totalElem : margin.x;
+	sprite->setScale(scaller / static_cast<float>(sprite->getTexture()->getSize().x),
+					 scaller / static_cast<float>(sprite->getTexture()->getSize().y));
 	
 	sprite->setPosition(x, y * padding);
+	sf::Color last = sprite->getColor();
 	if (color != sf::Color::Transparent)
 		sprite->setColor(color);
 	_sfml->getWindow().draw(*sprite);
+	sprite->setColor(last);
+	return sprite;
 }
 
-sf::FloatRect Graphical::Core::createFilter(const std::size_t &totalElem, const int &id, const float &x, const float &y, const Pos &margin, const float &padding)
+sf::FloatRect Graphical::Core::createFilter(const std::size_t &totalElem, const int &id, const float &x, const float &y, const Pos<int> &margin, const float &padding)
 {
 	sf::Color color = (_filters[id] ? sf::Color::Green : sf::Color::Red);
 	auto &sprite = _sfml->getBlock(id);
@@ -46,7 +49,7 @@ std::map<int, sf::FloatRect> Graphical::Core::printFilters()
 {
 	std::map<int, sf::FloatRect> buttons;
 	const std::size_t filterNb = 7;
-	Pos margin = _sfml->getMargin();
+	Pos<int> margin = _sfml->getMargin();
 	margin.x /= 2;
 	float x = _sfml->getWindow().getSize().x - margin.x;
 	float padding = static_cast<float>(_sfml->getWindow().getSize().y) / filterNb;
@@ -103,9 +106,8 @@ long Graphical::Core::eventFilters(const std::map<int, sf::FloatRect> &buttons)
 
 void Graphical::Core::printInventoryCases()
 {
-	std::map<int, sf::FloatRect> buttons;
 	const std::size_t filterNb = 10;
-	Pos margin = _sfml->getMargin();
+	Pos<int> margin = _sfml->getMargin();
 	float x = _sfml->getWindow().getSize().x - margin.x;
 	margin.x /= 2;
 	float padding = static_cast<float>(_sfml->getWindow().getSize().y) / filterNb;
@@ -115,7 +117,12 @@ void Graphical::Core::printInventoryCases()
 	createIcon(filterNb, 14, x, y, margin, padding);
 	y +=1;
 	while (y < 10) {
-		createIcon(filterNb, 15, x, y, margin, padding);
+		auto &sprite = createIcon(filterNb, 15, x, y, margin, padding);
+		if (y == 9 && sf::Mouse::isButtonPressed(sf::Mouse::Left)) { // player button, not generic, sorry
+			sf::Vector2f position(sf::Mouse::getPosition(_sfml->getWindow()));
+			if (sprite->getGlobalBounds().contains(position))
+				_type = PLAYERS_INFO;
+		}
 		y += 1;
 	}
 }

@@ -51,17 +51,28 @@ int Graphical::Core::readServer()
 
 int Graphical::Game::setSize(const std::vector<std::string> &array)
 {
-	Pos pos(std::stoi(array[0]), std::stoi(array[1]));
+	Pos<int> pos(std::stoi(array[0]), std::stoi(array[1]));
 
 	std::cerr << "setSize" << std::endl;
 	_mapper->setSize(pos);
 	_mapper->initMap();
+	std::cerr << "ajout en dur" << std::endl;
+	/**/
+	addPlayer(std::make_unique<Graphical::Player>(0, Pos<int>(0, 0), 0, 1, "lol"));
+	_mapper->getCase({0, 0})->addPlayer(0);
+	addPlayer(std::make_unique<Graphical::Player>(1, Pos<int>(0, 0), 0, 1, "mdr"));
+	_mapper->getCase({0, 0})->addPlayer(1);
+	addPlayer(std::make_unique<Graphical::Player>(2, Pos<int>(0, 1), 0, 1, "lol"));
+	_mapper->getCase({0, 1})->addPlayer(2);
+	addATeam("lol");
+	addATeam("mdr");
+	/**/
 	return 0;
 }
 
 int Graphical::Game::setCase(const std::vector<std::string> &array)
 {
-	Pos pos(std::stoi(array[0]), std::stoi(array[1]));
+	Pos<int> pos(std::stoi(array[0]), std::stoi(array[1]));
 
 	auto &aCase = _mapper->getCase(pos);
 	if (!aCase)
@@ -86,7 +97,7 @@ int Graphical::Game::setTeam(const std::vector<std::string> &array)
 int Graphical::Game::setPlayer(const std::vector<std::string> &array)
 {
 	int id = std::stoi(array[0]);
-	Pos pos(std::stoi(array[1]), std::stoi(array[2]));
+	Pos<int> pos(std::stoi(array[1]), std::stoi(array[2]));
 	int rotation = std::stoi(array[3]);
 	std::size_t level = std::stoul(array[4]);
 	const std::string team = array[5];
@@ -102,7 +113,7 @@ int Graphical::Game::setPlayer(const std::vector<std::string> &array)
 int Graphical::Game::setPlayerPosition(const std::vector<std::string> &array)
 {
 	int id = std::stoi(array[0]);
-	Pos pos(std::stoi(array[1]), std::stoi(array[2]));
+	Pos<int> pos(std::stoi(array[1]), std::stoi(array[2]));
 	int rotation = std::stoi(array[3]);
 
 	const std::unique_ptr<Player> &player = isPlayerExist(id);
@@ -133,7 +144,7 @@ int Graphical::Game::setPlayerInventory(const std::vector<std::string> &array)
 {
 	int id = std::stoi(array[0]);
 	const std::unique_ptr<Player> &player = isPlayerExist(id);
-	Pos pos(std::stoi(array[1]), std::stoi(array[2]));
+	Pos<int> pos(std::stoi(array[1]), std::stoi(array[2]));
 
 	if (!player) {
 		std::cerr << "Player not found" << std::endl;
@@ -178,7 +189,7 @@ int Graphical::Game::setPlayerBroadcast(const std::vector<std::string> &array)
 
 int Graphical::Game::setPlayerStartIncantation(const std::vector<std::string> &array)
 {
-	Pos pos(std::stoi(array[0]), std::stoi(array[1]));
+	Pos<int> pos(std::stoi(array[0]), std::stoi(array[1]));
 	std::size_t level = std::stoul(array[2]);
 	std::vector<int> playersId;
 
@@ -193,7 +204,7 @@ int Graphical::Game::setPlayerStartIncantation(const std::vector<std::string> &a
 
 int Graphical::Game::setPlayerEndIncantation(const std::vector<std::string> &array)
 {
-	Pos pos(std::stoi(array[0]), std::stoi(array[1]));
+	Pos<int> pos(std::stoi(array[0]), std::stoi(array[1]));
 	auto result = static_cast<bool>(std::stoi(array[2]));
 
 	(void) pos;
@@ -259,7 +270,7 @@ int Graphical::Game::setEgg(const std::vector<std::string> &array)
 {
 	int eggId = std::stoi(array[0]);
 	int playerId = std::stoi(array[1]);
-	Pos pos(std::stoi(array[2]), std::stoi(array[3]));
+	Pos<int> pos(std::stoi(array[2]), std::stoi(array[3]));
 
 	auto &player = isPlayerExist(playerId);
 	if (!player) {

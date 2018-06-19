@@ -20,6 +20,7 @@ namespace Graphical {
 	public:
 		enum GAME_MOD {
 			SPLASH_INTRO,
+			PLAYERS_INFO,
 			MENU,
 			GAME,
 			EXIT,
@@ -48,17 +49,17 @@ namespace Graphical {
 		int manageEvent();
 		int keyManager(sf::Event &event);
 		int setInitCom(const std::vector<std::string> &array);
-		void dropThis(const int &id, const float &scale, const float &x, const float &y);
+		void dropThis(const int &id, const float &scale, const float &x, const float &y, const sf::Color &color = sf::Color::Transparent);
 		void dropStone(const int &id, const float &scale, const float &x, const float &y);
 		void dropEgg(const int &id, const float &scale, const float &x, const float &y);
 		void dropFood(const int &id, const float &scale, const float &x, const float &y);
-		float findMapScale(const Pos &pos);
+		float findMapScale(const Pos<int> &pos);
 		void printMap(const std::vector<std::unique_ptr<Case>> &map);
-		Graphical::Pos getEntityPos(const int &block);
+		Pos<int> getEntityPos(const int &block);
 		void initFilters();
 		std::map<int, sf::FloatRect> printFilters();
-		sf::FloatRect createFilter(const std::size_t &totalElem, const int &id, const float &x, const float &y, const Pos &margin, const float &padding);
-		void createIcon(const std::size_t &totalElem, const int &id, const float &x, const float &y, const Pos &margin, const float &padding, const sf::Color &color = sf::Color::Transparent);
+		sf::FloatRect createFilter(const std::size_t &totalElem, const int &id, const float &x, const float &y, const Pos<int> &margin, const float &padding);
+		std::unique_ptr<sf::Sprite> &createIcon(const std::size_t &totalElem, const int &id, const float &x, const float &y, const Pos<int> &margin, const float &padding, const sf::Color &color = sf::Color::Transparent);
 		long eventFilters(const std::map<int, sf::FloatRect> &filters);
 		void setMovePossibility(const bool &move) { _move = move; };
 		const bool &getMovePossibility() { return _move; };
@@ -81,6 +82,8 @@ namespace Graphical {
 		int initFonts();
 		std::unique_ptr<sf::Sprite> &createSplashIntro(const int &id);
 		void manageEventFiltersResult();
+		void printPlayers();
+		void printPlayerInfo(std::unique_ptr<Player> &player, const int &padding, const Pos<float> &pos);
 	private:
 		std::shared_ptr<Sfml> _sfml;
 		std::unique_ptr<Communication> _com;
@@ -91,5 +94,6 @@ namespace Graphical {
 		std::map<int, bool> _filters;
 		bool _move;
 		std::string _team;
+		Pos<int> _caseSelected;
 	};
 }

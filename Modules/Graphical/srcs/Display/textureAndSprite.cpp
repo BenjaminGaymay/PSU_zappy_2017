@@ -57,4 +57,5 @@ void Graphical::Sfml::createBlocks()
 	createSprite(21, _picturePath + "eggs_animated.png", _blocks, _textures);
 	createSprite(22, _picturePath + "one_cristal.png", _blocks, _textures);
 	createSprite(23, _picturePath + "food_animated.png", _blocks, _textures);
+	createSprite(24, _picturePath + "player_empty.png", _blocks, _textures);
 }

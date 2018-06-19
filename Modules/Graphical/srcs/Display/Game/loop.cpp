@@ -78,6 +78,7 @@ int Graphical::Core::loop()
 		clear();
 		switch (_type) {
 			case SPLASH_INTRO: printSplash(17, 0.8f); break;
+			case PLAYERS_INFO: printPlayers(); break;
 			case MENU: printMenu(); break;
 			case GAME: printGame(); break;
 			case EXIT: _sfml->close();

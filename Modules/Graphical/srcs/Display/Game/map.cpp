@@ -7,9 +7,9 @@
 
 #include "Core.hpp"
 
-Graphical::Pos Graphical::Core::getEntityPos(const int &block)
+Graphical::Pos<int> Graphical::Core::getEntityPos(const int &block)
 {
-	static std::map<char, Graphical::Pos> map = {
+	static std::map<char, Pos<int>> map = {
 			{1, {0, 0}},
 			{2, {1, 0}},
 			{3, {2, 0}},
@@ -18,19 +18,25 @@ Graphical::Pos Graphical::Core::getEntityPos(const int &block)
 			{6, {2, 1}},
 			{7, {0, 2}},
 			{8, {1, 2}},
+			{24, {1, 1}},
+			{11, {1, 1}},
 	};
 	return map[block];
 };
 
-void Graphical::Core::dropThis(const int &id, const float &scale, const float &x, const float &y)
+void Graphical::Core::dropThis(const int &id, const float &scale, const float &x, const float &y, const sf::Color &color)
 {
 	float elem = scale / 3.0f;
 	auto &sprite = _sfml->getBlock(id);
 	float size = sprite->getTexture()->getSize().x;
 	sprite->setScale({elem / size, elem / size});
+	sf::Color last = sprite->getColor();
+	if (color != sf::Color::Transparent)
+		sprite->setColor(color);
 	auto pos = getEntityPos(id);
 	sprite->setPosition(sf::Vector2f(x + elem * pos.x, y + elem * pos.y));
 	_sfml->getScreen().draw(*sprite);
+	sprite->setColor(last);
 }
 
 void Graphical::Core::dropStone(const int &id, const float &scale, const float &x, const float &y)
@@ -69,7 +75,7 @@ void Graphical::Core::dropFood(const int &id, const float &scale, const float &x
 	_sfml->getScreen().draw(*sprite);
 }
 
-float Graphical::Core::findMapScale(const Pos &pos)
+float Graphical::Core::findMapScale(const Pos<int> &pos)
 {
 	int max_y = pos.y, max_x = pos.x;
 	float height = _sfml->getScreen().getSize().y, width = _sfml->getScreen().getSize().x;
@@ -84,12 +90,13 @@ void Graphical::Core::printCaseInventory(const std::unique_ptr<Case> &block)
 {
 	std::map<int, sf::FloatRect> buttons;
 	const std::size_t filterNb = 10;
-	Pos margin = _sfml->getMargin();
+	Pos<int> margin = _sfml->getMargin();
 	float x = _sfml->getWindow().getSize().x - margin.x;
 	margin.x /= 2;
 	float padding = static_cast<float>(_sfml->getWindow().getSize().y) / filterNb;
 	float y = 1;
 
+	_caseSelected = block->getPos();
 	for (int i = 1 ; i < 7 ; ++i) {
 		if (block->getResource(i) > 0)
 			createIcon(filterNb, 22, x, y, margin, padding, _game->getCristals()->getColor(i));
@@ -103,6 +110,10 @@ void Graphical::Core::printCaseInventory(const std::unique_ptr<Case> &block)
 	if (!block->getEggsId().empty())
 		createIcon(filterNb, 8, x, y, margin, padding);
 	_sfml->text("birdy", std::to_string(block->getEggsId().size()), 20, sf::Color::White, {x, y * padding});
+	y += 1;
+	if (!block->getPlayersId().empty())
+		createIcon(filterNb, 11, x, y, margin, padding);
+	_sfml->text("birdy", std::to_string(block->getPlayersId().size()), 20, sf::Color::White, {x, y * padding});
 	y += 1;
 }
 
@@ -141,5 +152,10 @@ void Graphical::Core::printMap(const std::vector<std::unique_ptr<Case>> &map)
 			dropFood(7, scale, x, y);
 		if (_filters[8] && !block->getEggsId().empty())
 			dropEgg(8, scale, x, y);
+		if (_filters[11] && (block->getPlayersId().size() == 1)) {
+			auto &player = _game->getPlayer(block->getPlayersId()[0]);
+			dropThis(24, scale, x, y, _game->getColor(player->getTeam()));
+		} else if (_filters[11] && !block->getPlayersId().empty())
+			dropThis(11, scale, x, y);
 	}
 }

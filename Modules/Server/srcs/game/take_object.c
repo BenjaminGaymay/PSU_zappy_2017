@@ -37,8 +37,6 @@ char *take_obj(t_server *server, t_message *cmd)
 
 	asprintf(&line, "%s", &cmd->request[5]);
 	tab = get_tab(server, cmd);
-	if (strlen(line) <= 5)
-		return (asprintf(&str, "ko"), free(tab), free(line), NULL);
 	for (int i = 0; i < 7; ++i)
 		if (strcmp(line, tab[i].str) == 0
 		&& *(tab[i].x) > 0) {

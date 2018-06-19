@@ -26,9 +26,8 @@ int add_client(t_server *server)
 	new->socket = accept(server->socket, (struct sockaddr *)&client_sin,
 		&client_sin_len);
 	new->occupied = false;
-	new->lives = 10;
 	new->last_eat = DEFAULT_VALUE;
-	new->inventory = (t_inventory){0, 0, 0, 0, 0, 0, 0};
+	new->inventory = (t_inventory){0, 0, 0, 0, 0, 0, 10};
 	new->level = 1;
 	new->pos = (t_pos){rand() % server->opts->x , rand() % server->opts->y};
 	new->look = 1;

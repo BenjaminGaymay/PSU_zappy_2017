@@ -29,6 +29,7 @@ t_inventory **create_map(int y, int x)
 	for (int i = 0; i < y; ++i) {
 		map[i] = calloc(x + 1, sizeof(t_inventory));
 		for (int j = 0; j < x; ++j) {
+			map[i][j].food = 10;
 			map[i][j].linemate = rand() % 2;
 			map[i][j].sibur = rand() % 2;
 		}

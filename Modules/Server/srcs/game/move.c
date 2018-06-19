@@ -15,21 +15,20 @@ char *forward(t_server *server, t_message *cmd)
 	cmd->finish_date = time_until_finish(FORWARD_TIME, server->opts->freq);
 	switch (cmd->owner->look) {
 		case 0:
-		(cmd->owner->pos.y =
-		((cmd->owner->pos.y <= 0 ? server->opts->y : cmd->owner->pos.y) - 1));
+		(cmd->owner->pos.y = ((cmd->owner->pos.y
+		<= 0 ? server->opts->y : cmd->owner->pos.y) - 1));
 		break;
 		case 1:
-		(cmd->owner->pos.x =
-		((cmd->owner->pos.x >= server->opts->x - 1 ? -1 : cmd->owner->pos.x) + 1));
+		(cmd->owner->pos.x = ((cmd->owner->pos.x
+		>= server->opts->x - 1 ? -1 : cmd->owner->pos.x) + 1));
 		break;
 		case 2:
-		(cmd->owner->pos.y =
-		((cmd->owner->pos.y >= server->opts->y - 1 ? -1 : cmd->owner->pos.y) + 1));
+		(cmd->owner->pos.y = ((cmd->owner->pos.y
+		>= server->opts->y - 1 ? -1 : cmd->owner->pos.y) + 1));
 		break;
 		case 3:
-		(cmd->owner->pos.x =
-		((cmd->owner->pos.x <= 0 ? server->opts->x : cmd->owner->pos.x) - 1));
-	}
+		(cmd->owner->pos.x = ((cmd->owner->pos.x
+		<= 0 ? server->opts->x : cmd->owner->pos.x) - 1));}
 	return (asprintf(&str, "ok"), str);
 }
 

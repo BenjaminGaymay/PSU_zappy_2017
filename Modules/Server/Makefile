@@ -27,6 +27,8 @@ SRCS	=	./srcs/main.c				\
 		./srcs/game/parser.c			\
 		./srcs/game/move.c			\
 		./srcs/game/take_object.c		\
+		./srcs/game/eject.c			\
+		./srcs/game/broadcast.c			\
 		./srcs/map/look.c			\
 		./srcs/map/get_map_look.c		\
 		./srcs/graphics/graphics.c		\

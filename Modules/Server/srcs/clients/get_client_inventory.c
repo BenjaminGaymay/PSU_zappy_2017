@@ -19,7 +19,8 @@ char *inventory(t_server *server, t_message *cmd)
 	{cmd->owner->inventory.phiras, "phiras"},
 	{cmd->owner->inventory.thystame, "thystame"}};
 
-	cmd->finish_date = time_until_finish(INVENTORY_TIME, server->opts->freq);
+	cmd->finish_date = time_until_finish(INVENTORY_TIME,
+	server->opts->freq);
 	asprintf(&str, "[");
 	for (int i = 0; i < 7;++i) {
 		asprintf(&str, "%s%s %ld", str, tab[i].str, tab[i].x);

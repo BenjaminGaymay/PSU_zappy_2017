@@ -38,7 +38,6 @@ typedef struct s_message {
 	t_client *owner;
 	char *request;
 	char *response;
-	char *broadcast;
 	bool send;
 	long long finish_date;
 	struct s_message *next;

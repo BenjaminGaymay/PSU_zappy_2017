@@ -20,7 +20,6 @@ int add_message_in_list(t_server *server, t_client *client, const char *request)
 	if (!new->request)
 		return (FCT_FAILED("strdup"), ERROR);
 	new->response = NULL;
-	new->broadcast = NULL;
 	new->finish_date = DEFAULT_VALUE;
 	new->send = false;
 	new->next = NULL;
@@ -29,6 +28,22 @@ int add_message_in_list(t_server *server, t_client *client, const char *request)
 	else
 		server->messages = new;
 	return (last_message = new, SUCCESS);
+}
+
+int add_special_response(t_server *server, t_client *client, char *response)
+{
+	t_message *new = calloc(1, sizeof(*new));
+
+	if (!new)
+		return (FCT_FAILED("malloc"), ERROR);
+	new->owner = client;
+	new->request = NULL;
+	new->response = response;
+	new->finish_date = 0;
+	new->send = false;
+	new->next = server->messages;
+	server->messages = new;
+	return (SUCCESS);
 }
 
 void read_all_messages(t_server *server, t_message *messages)
@@ -70,15 +85,13 @@ void remove_finished_actions(t_server *server)
 	}
 }
 
-void send_responses(t_server *server, t_message *responses)
+void send_responses(t_message *responses)
 {
 	t_message *tmp = responses;
 
 	while (tmp) {
 		if (tmp->response && !tmp->send && tmp->owner) {
 			dprintf(tmp->owner->socket, "%s\n", tmp->response);
-			if (tmp->broadcast)
-				send_all(server, tmp->owner, tmp->broadcast);
 			tmp->send = true;
 		}
 		tmp = tmp->next;
@@ -97,8 +110,6 @@ void remove_all_messages(t_server *server)
 		}
 		if (server->messages->response)
 			free(server->messages->response);
-		if (server->messages->broadcast)
-			free(server->messages->broadcast);
 		free(server->messages);
 		server->messages = message;
 	}

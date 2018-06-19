@@ -38,10 +38,18 @@ typedef struct s_message {
 	t_client *owner;
 	char *request;
 	char *response;
+	char *graphics_message;
 	bool send;
 	long long finish_date;
 	struct s_message *next;
 } t_message;
+
+typedef struct s_egg {
+	bool ready;
+	long long finish_date;
+	t_pos pos;
+	struct s_egg *next;
+} t_egg;
 
 typedef struct s_server {
 	t_opts *opts;

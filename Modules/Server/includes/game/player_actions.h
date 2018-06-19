@@ -27,3 +27,4 @@ char *take_obj(t_server *, t_message *);
 char *set_obj(t_server *, t_message *);
 char *incantation(t_server *, t_message *);
 char *is_graphical(t_server *, t_message *);
+char *fork_cmd(t_server *, t_message *);

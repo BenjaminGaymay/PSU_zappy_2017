@@ -11,7 +11,7 @@
 char *comma(const t_get_type tab[7], char *str, int nb)
 {
 	for (int i = nb; i < 7;++i) {
-		if (tab[i].x > 0 && strlen(str) > 1) {
+		if (tab[i].x > 0 && strlen(str) > 2) {
 			asprintf(&str, "%s ", str);
 			break;
 		}
@@ -19,7 +19,19 @@ char *comma(const t_get_type tab[7], char *str, int nb)
 	return (str);
 }
 
-char *push_str(t_server *server, char *str, t_pos pos)
+char *players_pos(t_server *server, char *str, t_pos pos, t_message *cmd)
+{
+	t_client *tmp = server->clients;
+
+	while (tmp) {
+		if (tmp->pos.x == pos.x && tmp->pos.y == pos.y)
+			asprintf(&str, "%s player", str);
+		tmp = tmp->next;
+	}
+	return (str);
+}
+
+char *push_str(t_server *server, char *str, t_pos pos, t_message *cmd)
 {
 	static int x = 0;
 	const t_get_type tab[7] = {{server->map[pos.y][pos.x].food, "food"},
@@ -30,20 +42,21 @@ char *push_str(t_server *server, char *str, t_pos pos)
 	{server->map[pos.y][pos.x].phiras, "phiras"},
 	{server->map[pos.y][pos.x].thystame, "thystame"}};
 
+	str = players_pos(server, str, pos, cmd);
 	str = comma(tab, str, 0);
 	for (int i = 0; i < 7;++i)
 		if (tab[i].x > 0) {
 			asprintf(&str, "%s%s", str, tab[i].str);
 			str = comma(tab, str, i + 1);
 		}
-	if (x < 15)
+	if (x < (int)(3 * cmd->owner->level + (2 * (cmd->owner->level - 1))))
 		asprintf(&str, "%s,", str);
 	else
 		x = -1;
 	return (++x, str);
 }
 
-char *get_map_objects_top_bot(t_server *server, char *str, t_pos pos)
+char *get_map_objects_top_bot(t_server *server, char *str, t_pos pos, t_message *cmd)
 {
 	int x;
 	int y;
@@ -60,11 +73,11 @@ char *get_map_objects_top_bot(t_server *server, char *str, t_pos pos)
 		y = pos.y;
 		x = pos.x;
 	}
-	str = push_str(server, str, (t_pos){x, y});
+	str = push_str(server, str, (t_pos){x, y}, cmd);
 	return (str);
 }
 
-char *get_map_objects_left_right(t_server *server, char *str, t_pos pos)
+char *get_map_objects_left_right(t_server *server, char *str, t_pos pos, t_message *cmd)
 {
 	int x;
 	int y;
@@ -81,6 +94,6 @@ char *get_map_objects_left_right(t_server *server, char *str, t_pos pos)
 		y = pos.y;
 		x = pos.x;
 	}
-	str = push_str(server, str, (t_pos){x, y});
+	str = push_str(server, str, (t_pos){x, y}, cmd);
 	return (str);
 }

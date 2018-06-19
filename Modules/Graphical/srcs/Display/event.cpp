@@ -41,6 +41,13 @@ int Graphical::Core::keyManager(sf::Event &event)
 	return (0);
 };
 
+void Graphical::Core::resetView()
+{
+	sf::View view = _sfml->getScreen().getView();
+	view.setCenter((_sfml->getWindow().getSize().x - _sfml->getMargin().x) / 2.0f, _sfml->getWindow().getSize().y / 2.0f);
+	_sfml->getScreen().setView(view);
+}
+
 void Graphical::Core::mouseEvent(const sf::Event &event, const bool &move)
 {
 	(void) event;
@@ -65,9 +72,8 @@ void Graphical::Core::mouseEvent(const sf::Event &event, const bool &move)
 		mousePos.y = static_cast<int>(mousePos.y - (view.getSize().y / 2));
 		if (move)
 			view.move(mousePos.x, mousePos.y);
-	} else if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
-		view.setCenter((_sfml->getWindow().getSize().x - _sfml->getMargin().x) / 2.0f, _sfml->getWindow().getSize().y / 2.0f);
-	}
+	} else if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
+		return resetView();
 	_sfml->getScreen().setView(view);
 }
 
@@ -81,7 +87,7 @@ int Graphical::Core::manageEvent()
 			_sfml->close();
 		else if (event.type == sf::Event::KeyPressed)
 			keyManager(event);
-		else if (_type == GAME && event.type == sf::Event::Resized) {
+		else if (event.type == sf::Event::Resized) {
 			_sfml->getWindow().setView(sf::View(sf::FloatRect(0, 0, event.size.width, event.size.height)));
 			_sfml->setScreen({_sfml->getWindow().getSize().x - _sfml->getMargin().x, _sfml->getWindow().getSize().y});
 		} else if (_type == GAME && event.type == sf::Event::MouseWheelScrolled)

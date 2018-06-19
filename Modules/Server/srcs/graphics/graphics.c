@@ -43,6 +43,7 @@ char *is_graphical(t_server *server, t_message *cmd)
 				"bct %d %d %ld %ld %ld %ld %ld %ld %ld\n", f, i,
 				c.food, c.linemate, c.deraumere, c.sibur,
 				c.mendiane, c.phiras, c.thystame);
+			usleep(200);
 		}
 
 	}

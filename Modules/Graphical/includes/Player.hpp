@@ -39,7 +39,7 @@ namespace Graphical {
 		void setLevel(const std::size_t &level) { _level = level; };
 		const int &getId() const { return _id; };
 		const Pos<int> &getPosition() const { return _pos; };
-		const int &getRotation() const { return _rotation; };
+		const orientation &getRotation() const { return _rotation; };
 		const std::size_t &getLevel() const { return _level; };
 		const std::string &getTeam() const { return _team; };
 		void addResource(int id, std::size_t nb) { _resources[id] += nb; };

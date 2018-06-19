@@ -45,14 +45,16 @@ typedef struct s_message {
 } t_message;
 
 typedef struct s_egg {
-	bool ready;
-	long long finish_date;
+	size_t id;
+	t_team *team;
 	t_pos pos;
+	long long finish_date;
 	struct s_egg *next;
 } t_egg;
 
 typedef struct s_server {
 	t_opts *opts;
+	t_egg *eggs;
 	t_inventory **map;
 	t_client *clients;
 	t_graphical_client *graphical_client;

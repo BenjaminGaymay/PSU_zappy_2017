@@ -18,7 +18,7 @@ int add_client(t_server *server)
 	t_client *new = calloc(1, sizeof(*new));
 
 	if (!new)
-		return (FCT_FAILED("malloc"), ERROR);
+		return (FCT_FAILED("calloc"), ERROR);
 	client_sin_len = sizeof(client_sin);
 	new->request_number = 0;
 	new->team = NULL;

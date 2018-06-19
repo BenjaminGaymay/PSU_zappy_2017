@@ -27,6 +27,7 @@ SRCS	=	./srcs/main.c				\
 		./srcs/game/parser.c			\
 		./srcs/game/move.c			\
 		./srcs/game/take_object.c		\
+		./srcs/game/manage_eggs.c		\
 		./srcs/game/eject.c			\
 		./srcs/game/broadcast.c			\
 		./srcs/game/fork.c			\

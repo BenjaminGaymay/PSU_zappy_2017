@@ -43,6 +43,8 @@ static int read_on_client(t_server *server, t_client *client)
 		buffer[size] = '\0';
 		tmp = strtok(buffer, "\n");
 		while (tmp && client->request_number < 10) {
+			if (strcmp(tmp, "GRAPHICS") == 0)
+				return (is_graphical(server, client), ERROR);
 			if (!client->team)
 				find_team(server, client, tmp);
 			else if (add_message_in_list(server, client, tmp) == ERROR)

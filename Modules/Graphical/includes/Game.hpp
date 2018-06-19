@@ -2,45 +2,39 @@
 ** EPITECH PROJECT, 2018
 ** student
 ** File description:
-** 11/06/18
+** 15/06/18
 */
 #pragma once
 
-#include <memory>
-#include <vector>
-#include "Player.hpp"
-#include "Sfml.hpp"
-#include "Communication.hpp"
+#include <map>
+#include <unordered_map>
 #include "Map.hpp"
-#include "Egg.hpp"
+#include "Cristals.hpp"
+#include "Eggs.hpp"
+#include "Foods.hpp"
+#include "Player.hpp"
 
 namespace Graphical {
 	class Game {
 	public:
-		enum GAME_MOD {
-			MENU,
-			GAME,
-			EXIT
-		};
-		Game() { _type = MENU; };
-		~Game() = default;
+		inline void setMapper(std::unique_ptr<Map> map) { _mapper = std::move(map); };
+		inline const std::unique_ptr<Map> &getMapper() const { return _mapper; };
+		inline void setCristals(std::unique_ptr<Cristals> cristals) { _animatedCristals = std::move(cristals); };
+		inline const std::unique_ptr<Cristals> &getCristals() const { return _animatedCristals; };
+		inline void setAnimatedEggs(std::unique_ptr<Eggs> eggs) { _animatedEggs = std::move(eggs); };
+		inline const std::unique_ptr<Eggs> &getAnimatedEggs() const { return _animatedEggs; };
+		inline void setAnimatedFoods(std::unique_ptr<Foods> foods) { _animatedFoods = std::move(foods); };
+		inline const std::unique_ptr<Foods> &getAnimatedFoods() const { return _animatedFoods; };
 		inline void addPlayer(std::unique_ptr<Player> player) { _players.emplace_back(std::move(player)); };
-		inline void setDisplayer(std::unique_ptr<Sfml> sfml) { _sfml = std::move(sfml); };
-		inline void setCommunication(std::unique_ptr<Communication> com) { _com = std::move(com); };
-		void initCommunication();
-		inline void setMap(std::unique_ptr<Map> map) { _map = std::move(map); };
-		inline const std::unique_ptr<Communication> &getCommunication() const { return _com; };
-		inline const std::unique_ptr<Sfml> &getDisplayer() const { return _sfml; };
-		inline const std::unique_ptr<Map> &getMap() const { return _map; };
-		void printGame();
-		std::map<GAME_MOD, sf::FloatRect> createButtons();
-		void printMenu();
-		int loop();
-		void initPtrFunction();
-		int manageFd();
-		int readServer();
-		int manageEvent();
-		int keyManager(sf::Event &event);
+		inline std::unique_ptr<Player> &getPlayer(const int &id)
+		{
+			static std::unique_ptr<Player> empty;
+
+			for (auto &player : _players)
+				if (player->getId() == id)
+					return player;
+			return empty;
+		};
 		/* FUNCTION PTR_FUNCTION COMMUNICATION */
 		int setSize(const std::vector<std::string> &array);
 		int setCase(const std::vector<std::string> &array);
@@ -60,6 +54,8 @@ namespace Graphical {
 		int setEgg(const std::vector<std::string> &array);
 		int setEggHatching(const std::vector<std::string> &array);
 		int setEndGame(const std::vector<std::string> &array);
+		/*int setInitCom(const std::vector<std::string> &array);*/
+		void getSizeServer(std::unique_ptr<Communication> &com);
 		/* TOOLS */
 		void addPlayerToTeam(const std::string &team, const int &playerId)
 		{
@@ -68,8 +64,13 @@ namespace Graphical {
 		};
 		void addATeam(const std::string &team)
 		{
-			if (!isTeamExist(team))
+			static int id = 0;
+
+			if (!isTeamExist(team)) {
+				_teamsId[team] = id;
 				_teams[team] = std::vector<int>();
+				++id;
+			}
 
 		};
 		void removeATeam(const std::string &team)
@@ -82,7 +83,7 @@ namespace Graphical {
 			}
 		}
 		inline const std::vector<int> &getATeam(const std::string &team) { return _teams[team]; };
-		inline const std::map<std::string, std::vector<int>> &getTeams() const { return _teams; };
+		inline const std::unordered_map<std::string, std::vector<int>> &getTeams() const { return _teams; };
 		inline bool isTeamExist(const std::string &team) { return _teams.find(team) != _teams.end(); };
 		const std::unique_ptr<Player> &isPlayerExist(const int &id)
 		{
@@ -117,23 +118,29 @@ namespace Graphical {
 			}
 
 		}
-		void dropStone(const char &id, const float &scale, const float &x, const float &y);
-		float findMapScale(const Pos &pos);
-		void printMap(const std::vector<std::unique_ptr<Case>> &map);
-		Graphical::Pos getEntityPos(const char &block);
-		void initFilters();
-		std::map<int, sf::FloatRect> printFilters();
-		sf::FloatRect createFilter(const int &id, const float &x, const float &y, const Pos &margin, const float &padding);
-		long eventFilters(const std::map<int, sf::FloatRect> &filters);
+		sf::Color getColor(const std::string &team)
+		{
+			std::unordered_map<int, sf::Color> colors {
+					{0, sf::Color::Cyan},
+					{1, sf::Color::Green},
+					{2, sf::Color::Yellow},
+					{3, sf::Color::Blue},
+					{4, sf::Color::Magenta},
+					{5, sf::Color::Red},
+			};
+			int id = _teamsId[team];
+			if (colors.find(id) == colors.end())
+				return sf::Color::Transparent;
+			return colors[_teamsId[team]];
+		}
 	private:
+		std::unique_ptr<Map> _mapper;
+		std::unique_ptr<Cristals> _animatedCristals;
+		std::unique_ptr<Eggs> _animatedEggs;
+		std::unique_ptr<Foods> _animatedFoods;
 		std::vector<std::unique_ptr<Player>> _players;
-		std::unique_ptr<Sfml> _sfml;
-		std::unique_ptr<Communication> _com;
-		std::unique_ptr<Map> _map;
-		GAME_MOD _type;
-		std::map<std::string, std::function<int(const std::vector<std::string> &)>> _ptr_function;
-		std::map<std::string, std::vector<int>> _teams; /* team name, player id*/
+		std::unordered_map<std::string, std::vector<int>> _teams; /* team name, player id*/
+		std::unordered_map<std::string, int> _teamsId;
 		std::vector<std::unique_ptr<Egg>> _eggs;
-		std::map<int, bool> _filters;
 	};
 }

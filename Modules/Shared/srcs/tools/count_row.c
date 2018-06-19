@@ -8,6 +8,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <ctype.h>
+#include <string.h>
+#include <stdio.h>
 
 size_t count_row(char **array)
 {
@@ -19,6 +21,15 @@ size_t count_row(char **array)
 	return (lenght);
 }
 
+size_t tablen(char **tab)
+{
+	size_t i = 0;
+
+	if (!tab) return (i);
+	for (; tab[i]; i++);
+	return (i);
+}
+
 bool is_number(char *s)
 {
 	if (!s)
@@ -27,4 +38,23 @@ bool is_number(char *s)
 		if (!isdigit(s[i]))
 			return (false);
 	return (true);
+}
+
+void insert(char *subject, const char *insert, int pos) {
+	char buf[4096] = {};
+
+	strncpy(buf, subject, pos);
+	int len = strlen(buf);
+	strcpy(buf+len, insert);
+	len += strlen(insert);
+	strcpy(buf+len, subject+pos);
+
+	strcpy(subject, buf);
+}
+
+void replace_str(char *str, const char *find, const char *rep)
+{
+	for (int i = 0; str[i]; i++)
+		if (strncmp(&str[i], find, strlen(find)) == 0)
+			insert(str, rep, i + 1);
 }

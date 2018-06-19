@@ -17,10 +17,7 @@ namespace Graphical {
 			FULLSCREEN,
 			WINDOW,
 		};
-		Sfml()
-		{
-			addFont("birdy", _fontPath + "birdy.ttf");
-		};
+		Sfml() = default;
 
 		~Sfml()
 		{
@@ -53,15 +50,15 @@ namespace Graphical {
 			_screen.create(size.x, size.y);
 		}
 		bool isOpen() { return _window.isOpen(); };
+
 		void clear()
 		{
 			_window.clear();
 			_screen.clear();
 		};
-		void display()
+		void displayScreen()
 		{
 			_window.draw(sf::Sprite(_screen.getTexture()));
-			_window.display();
 			_screen.display();
 		};
 		void createBlocks();
@@ -71,16 +68,23 @@ namespace Graphical {
 						  std::map<const int, std::unique_ptr<sf::Sprite>> &sprites,
 						  std::map<const int, std::unique_ptr<sf::Texture>> &textures);
 		std::unique_ptr<sf::Font> &getFont(const std::string &name);
-		void addFont(const std::string &key, const std::string &maccro);
-		void addFont(const std::string &key, std::unique_ptr<sf::Font> &font);
-		std::unique_ptr<sf::Sprite> &getBlock(const int &id) { return _blocks[id]; };
+		void createFont(const std::string &key, const std::string &maccro);
+		void createFont(const std::string &key, std::unique_ptr<sf::Font> &font);
+		std::unique_ptr<sf::Sprite> &getBlock(const int &id)
+		{
+			if (!_blocks[id])
+				throw std::logic_error("getBlock: Texture not found !");
+			return _blocks[id];
+		};
 		void text(const std::string &font_name, const std::string &line, const std::size_t &size, const sf::Color &textColor,  const sf::Vector2f &position);
 		std::unique_ptr<sf::Text> getText(const std::string &font_name, const std::string &line, const std::size_t &size, const sf::Color &textColor, const sf::Vector2f &position);
 		const mod &getWindowType() const { return _windowType; };
 		void mouseScrollEvent(sf::Event &event);
-		void mouseEvent(sf::Event &event);
 		void resetView();
-		const Pos &getMargin() const { return _margin; };
+		const Pos<int> &getMargin() const { return _margin; };
+		const Pos<int> &getMousePosition() const { return _mouse; };
+		void setMousePosition(const Pos<int> &pos) { _mouse = pos; };
+		const float &getZoomRank() const { return _zoom; };
 	private:
 		std::map<const int, std::unique_ptr<sf::Sprite>> _blocks;
 		std::map<const int, std::unique_ptr<sf::Texture>> _textures;
@@ -89,7 +93,9 @@ namespace Graphical {
 		sf::RenderWindow _window;
 		sf::RenderTexture _screen;
 		float _zoom = 1;
-		const Pos _margin = {50, 0};
+		float _zoomRank = 1;
+		Pos<int> _mouse{};
+		const Pos<int> _margin = {100, 0};
 		mod _windowType;
 		const std::string _picturePath = "assets/pictures/";
 		const std::string _fontPath = "assets/fonts/";

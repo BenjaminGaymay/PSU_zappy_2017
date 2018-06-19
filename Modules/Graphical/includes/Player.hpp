@@ -12,7 +12,7 @@
 namespace Graphical {
 	class Player {
 	public:
-		Player(const int &id, const Graphical::Pos &pos, const int &rota, const std::size_t &level, const std::string &team)
+		Player(const int &id, const Pos<int> &pos, const int &rota, const std::size_t &level, const std::string &team)
 				: _id(id), _pos(pos), _rotation(rota), _level(level), _team(team)
 		{
 			for (std::size_t i = 0 ; i < _size ; ++i)
@@ -21,7 +21,7 @@ namespace Graphical {
 
 		~Player() = default;
 
-		void setPosition(const Graphical::Pos &pos)
+		void setPosition(const Graphical::Pos<int> &pos)
 		{
 			/*if (_pos.x == pos.x && _pos.y != pos.y)
 				_rotation = pos.y > _pos.y ? 180 : 0;
@@ -32,14 +32,14 @@ namespace Graphical {
 		void setRotation(const int &rotation) { _rotation = rotation; };
 		void setLevel(const std::size_t &level) { _level = level; };
 		const int &getId() const { return _id; };
-		const Pos &getPosition() const { return _pos; };
+		const Pos<int> &getPosition() const { return _pos; };
 		const int &getRotation() const { return _rotation; };
 		const std::size_t &getLevel() const { return _level; };
 		const std::string &getTeam() const { return _team; };
 		void addResource(int id, std::size_t nb) { _resources[id] += nb; };
 	private:
 		const int _id;
-		Pos _pos;
+		Pos<int> _pos;
 		int _rotation;
 		std::size_t _level;
 		const std::string _team;

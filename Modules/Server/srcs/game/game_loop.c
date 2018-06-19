@@ -46,6 +46,7 @@ int game_loop(t_server *server)
 		read_all_messages(server, server->messages);
 		send_responses(server, server->messages);
 		remove_finished_actions(server);
+		spawn_object(server);
 	}
 	return (SUCCESS);
 }

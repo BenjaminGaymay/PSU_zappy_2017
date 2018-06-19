@@ -19,7 +19,7 @@ char *comma(const t_get_type tab[7], char *str, int nb)
 	return (str);
 }
 
-char *players_pos(t_server *server, char *str, t_pos pos, t_message *cmd)
+char *players_pos(t_server *server, char *str, t_pos pos)
 {
 	t_client *tmp = server->clients;
 
@@ -28,6 +28,7 @@ char *players_pos(t_server *server, char *str, t_pos pos, t_message *cmd)
 			asprintf(&str, "%s player", str);
 		tmp = tmp->next;
 	}
+
 	return (str);
 }
 
@@ -42,7 +43,7 @@ char *push_str(t_server *server, char *str, t_pos pos, t_message *cmd)
 	{server->map[pos.y][pos.x].phiras, "phiras"},
 	{server->map[pos.y][pos.x].thystame, "thystame"}};
 
-	str = players_pos(server, str, pos, cmd);
+	str = players_pos(server, str, pos);
 	str = comma(tab, str, 0);
 	for (int i = 0; i < 7;++i)
 		if (tab[i].x > 0) {
@@ -56,7 +57,8 @@ char *push_str(t_server *server, char *str, t_pos pos, t_message *cmd)
 	return (++x, str);
 }
 
-char *get_map_objects_top_bot(t_server *server, char *str, t_pos pos, t_message *cmd)
+char *get_map_objects_top_bot(t_server *server,
+				char *str, t_pos pos, t_message *cmd)
 {
 	int x;
 	int y;
@@ -77,7 +79,8 @@ char *get_map_objects_top_bot(t_server *server, char *str, t_pos pos, t_message 
 	return (str);
 }
 
-char *get_map_objects_left_right(t_server *server, char *str, t_pos pos, t_message *cmd)
+char *get_map_objects_left_right(t_server *server,
+				char *str, t_pos pos, t_message *cmd)
 {
 	int x;
 	int y;

@@ -10,9 +10,15 @@
 #include "Tools.hpp"
 
 namespace Graphical {
+	enum orientation {
+		NORTH = 1,
+		EST,
+		SOUTH,
+		WEST,
+	};
 	class Player {
 	public:
-		Player(const int &id, const Pos<int> &pos, const int &rota, const std::size_t &level, const std::string &team)
+		Player(const int &id, const Pos<int> &pos, const orientation &rota, const std::size_t &level, const std::string &team)
 				: _id(id), _pos(pos), _rotation(rota), _level(level), _team(team)
 		{
 			for (std::size_t i = 0 ; i < _size ; ++i)
@@ -29,7 +35,7 @@ namespace Graphical {
 				_rotation = pos.x > _pos.x ? 90 : 270;*/
 			_pos = pos;
 		};
-		void setRotation(const int &rotation) { _rotation = rotation; };
+		void setRotation(const orientation &rotation) { _rotation = rotation; };
 		void setLevel(const std::size_t &level) { _level = level; };
 		const int &getId() const { return _id; };
 		const Pos<int> &getPosition() const { return _pos; };
@@ -42,7 +48,7 @@ namespace Graphical {
 	private:
 		const int _id;
 		Pos<int> _pos;
-		int _rotation;
+		orientation _rotation;
 		std::size_t _level;
 		const std::string _team;
 		std::map<int, std::size_t> _resources;

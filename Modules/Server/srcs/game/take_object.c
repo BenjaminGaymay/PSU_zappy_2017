@@ -46,6 +46,8 @@ char *take_obj(t_server *server, t_message *cmd)
 			time_until_finish(TAKE_TIME, server->opts->freq);
 			*(tab[i].inv) += 1;
 			*(tab[i].x) -= 1;
+			asprintf(&server->messages->graphics_message, "pgt %li %i",
+					 cmd->owner->player_id, 1);
 			return (asprintf(&str, "ok"), free(tab),
 			free(line), str);
 		}
@@ -68,6 +70,8 @@ char *set_obj(t_server *server, t_message *cmd)
 			time_until_finish(SET_TIME, server->opts->freq);
 			*(tab[i].inv) -= 1;
 			*(tab[i].x) += 1;
+			asprintf(&server->messages->graphics_message, "pdr %li %i",
+					 cmd->owner->player_id, 1);
 			return (asprintf(&str, "ok"), free(tab),
 			free(line), str);
 		}

@@ -48,7 +48,7 @@ sf::FloatRect Graphical::Core::createFilter(const std::size_t &totalElem, const 
 std::map<int, sf::FloatRect> Graphical::Core::printFilters()
 {
 	std::map<int, sf::FloatRect> buttons;
-	const std::size_t filterNb = 7;
+	const std::size_t filterNb = 8;
 	Pos<int> margin = _sfml->getMargin();
 	margin.x /= 2;
 	float x = _sfml->getWindow().getSize().x - margin.x;
@@ -56,6 +56,8 @@ std::map<int, sf::FloatRect> Graphical::Core::printFilters()
 	float y = 0;
 
 	buttons[13] = createFilter(filterNb, 13, x, y, margin, padding);
+	y += 1;
+	buttons[25] = createFilter(filterNb, 25, x, y, margin, padding);
 	y += 1;
 	buttons[18] = createFilter(filterNb, (_filters[18] ? 18 : 19), x, y, margin, padding);
 	y += 1;
@@ -83,6 +85,10 @@ void Graphical::Core::manageEventFiltersResult()
 			if (filter.first != 13 && filter.first != 18)
 				filter.second = true;
 		_filters[12] = false;
+	}
+	if (_filters[25]) {
+		resetView();
+		_filters[25] = false;
 	}
 }
 

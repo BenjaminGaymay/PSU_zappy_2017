@@ -10,7 +10,7 @@
 #include <memory>
 #include <map>
 #include <vector>
-#include <SFML/Graphics/Rect.h>
+#include <SFML/Graphics.hpp>
 #include "Tools.hpp"
 #include "Egg.hpp"
 
@@ -71,9 +71,9 @@ namespace Graphical {
 			}
 		};
 
-		void setSize(const Pos<int> &size) { _size = size; };
-		const Pos<int> &getSize() const { return _size; };
-		const std::vector<std::unique_ptr<Case>> &getMap() const { return _map; };
+		inline void setSize(const Pos<int> &size) { _size = size; };
+		inline const Pos<int> &getSize() const { return _size; };
+		inline const std::vector<std::unique_ptr<Case>> &getMap() const { return _map; };
 		const std::unique_ptr<Case> &getCase(const Pos<int> &pos) const
 		{
 			static std::unique_ptr<Case> notFound = nullptr;

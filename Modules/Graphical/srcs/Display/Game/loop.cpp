@@ -39,6 +39,7 @@ void Graphical::Core::initFilters()
 	_filters[7] = true;
 	_filters[8] = true;
 	_filters[12] = false;
+	_filters[25] = false;
 }
 
 int Graphical::Core::initAudios()

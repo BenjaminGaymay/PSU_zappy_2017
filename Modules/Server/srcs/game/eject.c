@@ -7,6 +7,7 @@
 
 #include "client.h"
 #include "manage_time.h"
+#include "communication.h"
 
 static void move_eject(t_opts *opts, t_client *client, size_t look)
 {
@@ -28,26 +29,10 @@ static void move_eject(t_opts *opts, t_client *client, size_t look)
 	}
 }
 
-static int add_eject_response(t_server *server, t_client *client, size_t look)
-{
-	t_message *new = calloc(1, sizeof(*new));
-
-	if (!new)
-		return (FCT_FAILED("malloc"), ERROR);
-	new->owner = client;
-	new->request = NULL;
-	asprintf(&new->response, "Eject: %ld", look);
-	new->broadcast = NULL;
-	new->finish_date = 0;
-	new->send = false;
-	new->next = server->messages;
-	server->messages = new;
-	return (SUCCESS);
-}
-
 char *eject(t_server *server, t_message *cmd)
 {
 	char *str;
+	char *tmp;
 	t_client *client = server->clients;
 
 	cmd->finish_date = time_until_finish(EJECT_TIME, server->opts->freq);
@@ -56,7 +41,8 @@ char *eject(t_server *server, t_message *cmd)
 		&& client->pos.y == cmd->owner->pos.y
 		&& client->pos.x == cmd->owner->pos.x) {
 			move_eject(server->opts, client, cmd->owner->look);
-			add_eject_response(server, client, cmd->owner->look);
+			asprintf(&tmp, "Eject: %ld", cmd->owner->look);
+			add_special_response(server, client, tmp);
 		}
 		client = client->next;
 	}

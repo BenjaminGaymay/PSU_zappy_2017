@@ -29,6 +29,7 @@ namespace Graphical {
 		{
 			_type = SPLASH_INTRO;
 			_move = false;
+			_antiSpam = std::chrono::system_clock::now().time_since_epoch().count();
 		};
 		~Core() = default;
 		inline void setDisplayer(std::shared_ptr<Sfml> sfml) { _sfml = std::move(sfml); };
@@ -82,6 +83,7 @@ namespace Graphical {
 		int initFonts();
 		std::unique_ptr<sf::Sprite> &createSplashIntro(const int &id);
 		void manageEventFiltersResult();
+		void printPlayersPage();
 		void printPlayers();
 		void printPlayerInfo(std::unique_ptr<Player> &player, const int &padding, const Pos<float> &pos);
 		void printPlayerInventory(std::unique_ptr<Player> &player, const int &padding, const Pos<float> &pos);
@@ -96,5 +98,6 @@ namespace Graphical {
 		bool _move;
 		std::string _team;
 		Pos<int> _caseSelected;
+		long _antiSpam;
 	};
 }

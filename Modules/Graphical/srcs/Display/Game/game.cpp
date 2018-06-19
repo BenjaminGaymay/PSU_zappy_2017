@@ -141,15 +141,14 @@ void Graphical::Core::printGame()
 	printInventoryCases();
 	printMap(_game->getMapper()->getMap());
 	auto buttons = printFilters();
-	static long last = 0;
 
 
 	std::chrono::system_clock::time_point time = std::chrono::system_clock::now();
 	long now = time.time_since_epoch().count() ;
 
-	if (now > last) {
+	if (now > _antiSpam) {
 		auto antiSpam = eventFilters(buttons);
 		if (antiSpam > 0)
-			last = now + antiSpam;
+			_antiSpam = now + antiSpam;
 	}
 }

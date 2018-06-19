@@ -13,6 +13,7 @@
 #include "macro.h"
 #include "commands.h"
 #include "tools.h"
+#include "ai_list.h"
 
 static char **get_data_from_look(const char *tmp)
 {
@@ -26,16 +27,18 @@ static char **get_data_from_look(const char *tmp)
 	return (tab);
 }
 
-static void find_forward(const char **tab, const t_ai *ai, bool *no_res)
+static void find_forward(const char **tab, t_ai *ai, bool *no_res)
 {
 	size_t i = 0;
 	size_t j = 2;
-	char t[4096];
+	char *t;
 
 	while (i < tablen((char **)tab)) {
 		if (strcmp(tab[i], "") != 0) {
-			dprintf(ai->fd, FORWARD);
-			read(ai->fd, t, 4096);
+			send_command(ai, FORWARD);
+			t = readline(ai->fd);
+			printf("%s\n", t);
+			exit(0);
 			*no_res = false;
 			break;
 		}
@@ -50,15 +53,15 @@ static int take_object(char **cmd, t_ai *ai)
 		"mendiane", "phiras", "thystame", "food", NULL};
 	char **tab = str_to_tab(cmd[0], " ");
 	char msg[100];
-	char t[4096];
+	char *t;
 
 	for (int i = 0; tab[i]; i++) {
 		for (int j = 0; objects[j]; j++) {
 			if (strcmp(tab[i], objects[j]) == 0) {
-				sprintf(msg, "Take %s\n", tab[i]);
-				printf(msg);
-				dprintf(ai->fd, msg);
-				read(ai->fd, t, 4096);
+				sprintf(msg, "Take %s", tab[i]);
+				send_command(ai, msg);
+				t = readline(ai->fd);
+				printf("%s\n", t);
 				return (SUCCESS);
 			}
 		}
@@ -68,19 +71,16 @@ static int take_object(char **cmd, t_ai *ai)
 
 int look_for_ressources(t_ai *ai, const char *tmp)
 {
-	static int first = 0;
 	char **tab = get_data_from_look(tmp);
 	bool no_res = true;
 	int random_dir = rand() % 2;
 	char t[4096];
 
-	if (first <= 1)
-		return (first++, SUCCESS);
 	if (strcmp(tab[0], "") != 0)
-		return take_object(tab, ai);
+		return (take_object(tab, ai));
 	find_forward((const char **)tab, ai, &no_res);
 	if (no_res == false) {
-		dprintf(ai->fd, random_dir == 0 ? TURN_LEFT : TURN_RIGHT);
+		send_command(ai, random_dir == 0 ? TURN_LEFT : TURN_RIGHT);
 		read(ai->fd, t, 4096);
 	}
 	return (SUCCESS);
@@ -88,12 +88,20 @@ int look_for_ressources(t_ai *ai, const char *tmp)
 
 int run_ai(t_ai *ai)
 {
+	char *res;
+
 	if (receipt_welcome(ai))
 		return (ERROR);
+	send_command(ai, LOOK);
 	while (true) {
-		try_incantation(ai);
-		dprintf(ai->fd, LOOK);
-		manage_sockets(ai);
+		if (listlen(ai->list) < 10) {
+			// try_incantation(ai);
+			// send_command(ai, LOOK);
+			// res = readline(ai->fd);
+			// look_for_ressources(ai, res);
+			// free(res);
+			wait_for_response(ai);
+		}
 	}
 	return (SUCCESS);
 }

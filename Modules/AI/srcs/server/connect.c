@@ -26,8 +26,7 @@ static int read_socket(t_ai *ai)
 		tmp = strtok(buffer, "\n");
 		while (tmp) {
 			printf("RESPONSE: %s\n", tmp);
-			if (ai->state == AI_LOOK)
-				look_for_ressources(ai, tmp);
+			look_for_ressources(ai, tmp);
 			tmp = strtok(NULL, "\n");
 		}
 	}
@@ -58,8 +57,11 @@ int connect_to_server(t_opts_ai *opt)
 
 	if (fd == FD_ERROR)
 		return (FCT_FAILED("create_socket"), ERROR);
-	ai.state = AI_LOOK;
 	ai.fd = fd;
+	ai.level = 0;
 	ai.opts = opt;
+	for (int i = 0; i < INVENT_SIZE; i++)
+		ai.inv[i] = 0;
+	ai.list = NULL;
 	return (run_ai(&ai));
 }

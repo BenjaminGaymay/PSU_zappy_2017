@@ -19,13 +19,18 @@ SRCS	= 	./srcs/main.c					\
 	  	./srcs/arguments/arguments.c			\
 	  	./srcs/arguments/args_fct.c			\
 	  	./srcs/server/connect.c				\
+		./srcs/server/response.c			\
 		./srcs/ai/ai.c					\
 		./srcs/ai/incantation.c				\
 		./srcs/ai/begin_connection.c			\
+		./srcs/ai/send_commands.c			\
+		./srcs/ai/ai_list.c				\
 		$(SHARED)/srcs/connection/sockets.c		\
 		$(SHARED)/srcs/tools/array_tools.c		\
 		$(SHARED)/srcs/tools/count_row.c		\
-		$(SHARED)/srcs/tools/string_tools.c
+		$(SHARED)/srcs/tools/string_tools.c		\
+		$(SHARED)/srcs/tools/init_struct.c		\
+		$(SHARED)/srcs/tools/get_next_line.c
 
 OBJS	= 	$(SRCS:.c=.o)
 

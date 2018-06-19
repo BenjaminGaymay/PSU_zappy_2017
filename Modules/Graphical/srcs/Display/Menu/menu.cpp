@@ -41,9 +41,10 @@ void Graphical::Core::printMenu()
 	sf::Vector2f position(sf::Mouse::getPosition(_sfml->getWindow()));
 
 	if (!sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) return ;
-	for (auto &button : buttons)
+	for (auto &button : buttons) {
 		if (button.second.contains(position)) {
 			_music->addEvent(Music::SOUND, Music::PLAY, "select");
 			_type = button.first;
 		}
+	}
 }

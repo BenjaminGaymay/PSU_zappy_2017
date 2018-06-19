@@ -39,6 +39,8 @@ void Graphical::Core::initFilters()
 	_filters[7] = true;
 	_filters[8] = true;
 	_filters[12] = false;
+	_filters[25] = false;
+	_filters[26] = !_music->isMute(); //audio on
 }
 
 int Graphical::Core::initAudios()
@@ -78,7 +80,7 @@ int Graphical::Core::loop()
 		clear();
 		switch (_type) {
 			case SPLASH_INTRO: printSplash(17, 0.8f); break;
-			case PLAYERS_INFO: printPlayers(); break;
+			case PLAYERS_INFO: printPlayersPage(); break;
 			case MENU: printMenu(); break;
 			case GAME: printGame(); break;
 			case EXIT: _sfml->close();

@@ -42,11 +42,11 @@ namespace Graphical {
 		std::vector<std::string> readFd(int fd)
 		{
 			std::vector<std::string> array;
-			static char buffer[4096];
+			static char buffer[8192];
 			ssize_t size;
 			char *tmp = nullptr;
 
-			size = read(fd, buffer, 4096);
+			size = read(fd, buffer, 8192);
 			if (size > 0) {
 				buffer[size] = '\0';
 				tmp = strtok(buffer, "\n");

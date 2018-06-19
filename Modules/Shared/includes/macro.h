@@ -51,4 +51,5 @@
 #define TAKE_TIME 7
 #define SET_TIME 7
 #define EJECT_TIME 7
-
+#define EGG_TIME 42
+#define HATCH_TIME 600

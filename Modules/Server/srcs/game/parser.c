@@ -16,7 +16,7 @@ static t_ptr_action *get_ptr_actions(void){
 		{inventory, "Inventory"},
 		{broadcast, "Broadcast "},
 		{connect_number, "Connect_nbr"},
-		// {fork_cmd, "Fork"},
+		{fork_cmd, "Fork"},
 		{eject, "Eject"},
 		{take_obj, "Take "},
 		{set_obj, "Set "},

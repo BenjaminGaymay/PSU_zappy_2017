@@ -59,4 +59,6 @@ void Graphical::Sfml::createBlocks()
 	createSprite(23, _picturePath + "food_animated.png", _blocks, _textures);
 	createSprite(24, _picturePath + "player_empty.png", _blocks, _textures);
 	createSprite(25, _picturePath + "lopo.png", _blocks, _textures);
+	createSprite(26, _picturePath + "unmute.png", _blocks, _textures);
+	createSprite(27, _picturePath + "mute.png", _blocks, _textures);
 }

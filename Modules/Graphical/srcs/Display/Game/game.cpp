@@ -48,7 +48,7 @@ sf::FloatRect Graphical::Core::createFilter(const std::size_t &totalElem, const 
 std::map<int, sf::FloatRect> Graphical::Core::printFilters()
 {
 	std::map<int, sf::FloatRect> buttons;
-	const std::size_t filterNb = 8;
+	const std::size_t filterNb = 9;
 	Pos<int> margin = _sfml->getMargin();
 	margin.x /= 2;
 	float x = _sfml->getWindow().getSize().x - margin.x;
@@ -56,6 +56,8 @@ std::map<int, sf::FloatRect> Graphical::Core::printFilters()
 	float y = 0;
 
 	buttons[13] = createFilter(filterNb, 13, x, y, margin, padding);
+	y += 1;
+	buttons[26] = createFilter(filterNb, (!_filters[26] ? 26 : 27), x, y, margin, padding);
 	y += 1;
 	buttons[25] = createFilter(filterNb, 25, x, y, margin, padding);
 	y += 1;
@@ -80,10 +82,14 @@ void Graphical::Core::manageEventFiltersResult()
 		_type = MENU;
 		_filters[13] = false;
 	}
-	if (_filters[12]) {
-		for (auto &filter : _filters)
-			if (filter.first != 13 && filter.first != 18)
+	if ((_filters[26] && _music->isMute()) ||
+		(!_filters[26] && !_music->isMute()))
+		_music->addEvent(Music::AUDIO, Music::SWAP, "");
+	if (_filters[12]) { //reset all filter
+		for (auto &filter : _filters) {
+			if (filter.first != 13 && filter.first != 18 && filter.first != 26)
 				filter.second = true;
+		}
 		_filters[12] = false;
 	}
 	if (_filters[25]) {
@@ -102,7 +108,7 @@ long Graphical::Core::eventFilters(const std::map<int, sf::FloatRect> &buttons)
 	for (auto &button : buttons) {
 		if (button.second.contains(position)) {
 			_music->addEvent(Music::SOUND, Music::PLAY, "select");
-			_filters[button.first] = !_filters[button.first] && true;
+			_filters[button.first] = !_filters[button.first];
 			result = 300000000; // antispam
 		}
 	}

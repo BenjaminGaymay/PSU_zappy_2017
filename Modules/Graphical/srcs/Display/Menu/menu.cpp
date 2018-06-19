@@ -28,9 +28,14 @@ std::map<Graphical::Core::GAME_MOD, sf::FloatRect> Graphical::Core::createButton
 	y = sprite->getTexture()->getSize().y * scale;
 
 	positions[GAME] = createButton(sprite, sf::Vector2f((width / 2.0f) - (x / 2.0f), ((height / 2.0f) - y) - (y / 2.0f)));
+	positions[NO_SOUND] = createButton(sprite, sf::Vector2f((width / 2.0f) - (x / 2.0f), ((height / 2.0f)) - (y / 2.0f)));
 	positions[EXIT] = createButton(sprite, sf::Vector2f((width / 2.0f) - (x / 2.0f), ((height / 2.0f) + y) - (y / 2.0f)));
 
 	_sfml->text("birdy", "PLAY", 50, sf::Color::White, sf::Vector2f((width / 2.0f) - (50), ((height / 2.0f) - y) - (y / 2)));
+	if (_music->isMute())
+		_sfml->text("birdy", "MUTE", 50, sf::Color::White, sf::Vector2f((width / 2.0f) - (50), ((height / 2.0f)) - (y / 2)));
+	else
+		_sfml->text("birdy", "UNMUTE", 50, sf::Color::White, sf::Vector2f((width / 2.0f) - (50), ((height / 2.0f)) - (y / 2)));
 	_sfml->text("birdy", "EXIT", 50, sf::Color::White, sf::Vector2f((width / 2.0f) - (50), ((height / 2.0f) + y) - (y / 2)));
 	return positions;
 }
@@ -39,12 +44,18 @@ void Graphical::Core::printMenu()
 {
 	std::map<GAME_MOD, sf::FloatRect> buttons = createButtons();
 	sf::Vector2f position(sf::Mouse::getPosition(_sfml->getWindow()));
+	long antiSpam = std::chrono::system_clock::now().time_since_epoch().count();
 
-	if (!sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) return ;
+	if (!sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) ||
+			antiSpam < _antiSpam + 300000000) return ;
 	for (auto &button : buttons) {
 		if (button.second.contains(position)) {
+			_antiSpam = std::chrono::system_clock::now().time_since_epoch().count() + 300000000;
 			_music->addEvent(Music::SOUND, Music::PLAY, "select");
-			_type = button.first;
+			if (button.first == GAME || button.first == EXIT)
+				_type = button.first;
+			else
+				_music->addEvent(Music::AUDIO, Music::SWAP, "", 50);
 		}
 	}
 }

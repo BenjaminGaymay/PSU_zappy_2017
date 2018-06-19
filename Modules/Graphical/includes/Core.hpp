@@ -24,6 +24,7 @@ namespace Graphical {
 			MENU,
 			GAME,
 			EXIT,
+			NO_SOUND,
 		};
 		Core()
 		{

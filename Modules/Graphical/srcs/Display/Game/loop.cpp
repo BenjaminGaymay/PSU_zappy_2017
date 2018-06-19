@@ -40,6 +40,7 @@ void Graphical::Core::initFilters()
 	_filters[8] = true;
 	_filters[12] = false;
 	_filters[25] = false;
+	_filters[26] = !_music->isMute(); //audio on
 }
 
 int Graphical::Core::initAudios()

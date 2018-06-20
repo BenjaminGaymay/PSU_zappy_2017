@@ -61,14 +61,14 @@ void Graphical::Core::printTeams()
 {
 	const std::size_t filterNb = (_game->getTeams().size() > 10 ? _game->getTeams().size() : 10);
 	Pos<int> margin = _sfml->getMargin();
-	margin.x = 300;
+	margin.x = 400;
 	margin.x /= 2;
 	float padding = static_cast<float>(_sfml->getWindow().getSize().y) / filterNb;
 	float x = _sfml->getWindow().getSize().x - margin.x;
 	float y = 0;
 	auto size = static_cast<std::size_t>(padding / 4);
 
-	_sfml->text("birdy", "Team list:", size, sf::Color::White, {x - 100, (y * size) + (y * padding)});
+	_sfml->text("birdy", "Team list:", size, sf::Color::White, {x - 160, (y * size) + (y * padding)});
 	for (auto &team : _game->getTeams()) {
 		createIcon(filterNb, 15, x, y, margin, padding);
 		createIcon(filterNb, 28, x, y, margin, padding, _game->getColor(team.first));

@@ -12,7 +12,7 @@ int Graphical::Core::manageFd()
 {
 	auto array = _com->readFd(_com->getSocket());
 	for (auto &line : array) {
-		std::cerr << "Reçu:" << line << std::endl;
+		//std::cerr << "Reçu:" << line << std::endl;
 		auto command = Graphical::explode(line, ' ');
 		auto aFunction = _ptr_function[command[0]];
 		if (aFunction) {

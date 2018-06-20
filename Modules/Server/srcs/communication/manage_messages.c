@@ -21,7 +21,6 @@ int add_message_in_list(t_server *server, t_client *client, const char *request)
 		return (FCT_FAILED("strdup"), ERROR);
 	new->response = NULL;
 	new->finish_date = DEFAULT_VALUE;
-	new->send = false;
 	new->graphics_message = NULL;
 	new->next = NULL;
 	if (server->messages)
@@ -42,7 +41,6 @@ int add_special_response(t_server *server, t_client *client, char *response)
 	new->graphics_message = NULL;
 	new->response = response;
 	new->finish_date = 0;
-	new->send = false;
 	new->next = server->messages;
 	server->messages = new;
 	return (SUCCESS);
@@ -58,8 +56,10 @@ void read_all_messages(t_server *server, t_message *messages)
 	}
 }
 
-void remove_messages(t_server *server, t_message *message)
+t_message *remove_messages(t_server *server, t_message *message)
 {
+	t_message *next = message->next;
+
 	if (message == server->messages)
 		server->messages = message->next;
 	if (message->request && message->owner) {
@@ -69,22 +69,7 @@ void remove_messages(t_server *server, t_message *message)
 	free(message->request);
 	free(message->response);
 	free(message);
-}
-
-void remove_finished_actions(t_server *server)
-{
-	t_message *action = server->messages;
-	t_message *tmp = server->messages;
-
-	while (action) {
-		if (action->finish_date != DEFAULT_VALUE &&
-				is_finish(action->finish_date)) {
-			tmp = action->next;
-			remove_messages(server, action);
-			action = tmp;
-		} else
-			action = action->next;
-	}
+	return (next);
 }
 
 void send_message_to_graphics(t_graphical_client *clients, const char *msg)
@@ -97,18 +82,19 @@ void send_message_to_graphics(t_graphical_client *clients, const char *msg)
 	}
 }
 
-void send_responses(const t_server *server, t_message *responses)
+void send_responses(t_server *server, t_message *responses)
 {
 	t_message *tmp = responses;
 
 	while (tmp) {
-		if (tmp->response && !tmp->send && tmp->owner) {
+		if (tmp->response && tmp->owner &&
+		tmp->finish_date != DEFAULT_VALUE && is_finish(tmp->finish_date)) {
 			dprintf(tmp->owner->socket, "%s\n", tmp->response);
-			tmp->send = true;
 			if (tmp->graphics_message)
 				send_message_to_graphics(server->graphical_client, tmp->graphics_message);
-		}
-		tmp = tmp->next;
+			tmp = remove_messages(server, tmp);
+		} else
+			tmp = tmp->next;
 	}
 }
 

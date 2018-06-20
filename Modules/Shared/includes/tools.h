@@ -36,7 +36,17 @@ typedef struct s_elevation {
 	size_t thystame;
 } t_elevation;
 
-static const t_elevation g_elevation[] = {
+typedef enum {
+	EL_PLAYER,
+	EL_LINEMATE,
+	EL_DERAUMERE,
+	EL_SIBUR,
+	EL_MENDIANE,
+	EL_PHIRAS,
+	EL_THYSTAME
+} e_element;
+
+static const size_t g_elevation[7][7] = {
 	{1, 1, 0, 0, 0, 0, 0},
 	{2, 1, 1, 1, 0, 0, 0},
 	{2, 2, 0, 1, 0, 2, 0},

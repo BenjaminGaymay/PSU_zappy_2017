@@ -53,3 +53,4 @@
 #define EJECT_TIME 7
 #define EGG_TIME 42
 #define HATCH_TIME 600
+#define INCANTATION_TIME 300

@@ -20,7 +20,7 @@ static t_ptr_action *get_ptr_actions(void){
 		{eject, "Eject"},
 		{take_obj, "Take "},
 		{set_obj, "Set "},
-		// {incantation, "Incantation"},
+		{incantation, "Incantation"},
 		{NULL, NULL}
 	};
 
@@ -40,7 +40,7 @@ void parse_command(t_server *server, t_message *command)
 			break;
 		}
 	}
-	if (!command->response) {
+	if (!command->response && !server->map[cmd->owner->pos.y][cmd->owner->pos.x].incantation) {
 		command->finish_date = 0;
 		asprintf(&command->response, "ko");
 	}

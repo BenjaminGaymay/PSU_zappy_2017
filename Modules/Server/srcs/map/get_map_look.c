@@ -28,6 +28,7 @@ char *players_pos(t_server *server, char *str, t_pos pos)
 			asprintf(&str, "%s player", str);
 		tmp = tmp->next;
 	}
+
 	return (str);
 }
 
@@ -56,7 +57,8 @@ char *push_str(t_server *server, char *str, t_pos pos, t_message *cmd)
 	return (++x, str);
 }
 
-char *get_map_objects_top_bot(t_server *server, char *str, t_pos pos, t_message *cmd)
+char *get_map_objects_top_bot(t_server *server,
+				char *str, t_pos pos, t_message *cmd)
 {
 	int x;
 	int y;
@@ -77,7 +79,8 @@ char *get_map_objects_top_bot(t_server *server, char *str, t_pos pos, t_message 
 	return (str);
 }
 
-char *get_map_objects_left_right(t_server *server, char *str, t_pos pos, t_message *cmd)
+char *get_map_objects_left_right(t_server *server,
+				char *str, t_pos pos, t_message *cmd)
 {
 	int x;
 	int y;

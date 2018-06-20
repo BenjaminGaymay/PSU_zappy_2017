@@ -31,6 +31,7 @@ SRCS	=	./srcs/main.c				\
 		./srcs/game/incantation.c		\
 		./srcs/game/eject.c			\
 		./srcs/game/broadcast.c			\
+		./srcs/game/spawn_object.c		\
 		./srcs/game/fork.c			\
 		./srcs/map/look.c			\
 		./srcs/map/get_map_look.c		\

@@ -60,6 +60,11 @@ typedef struct s_server {
 	int socket;
 } t_server;
 
+typedef struct s_time {
+	long long time;
+	int loop_time;
+} t_time;
+
 size_t count_row(char **array);
 bool add_team_member(t_server *server, char *team_name);
 bool remove_team_member(t_server *server, char *team_name);
@@ -67,3 +72,5 @@ bool init_team(t_server *server);
 
 char *get_map_objects_top_bot(t_server *, char *, t_pos, t_message *cmd);
 char *get_map_objects_left_right(t_server *, char *, t_pos, t_message *cmd);
+
+void spawn_object(t_server *server);

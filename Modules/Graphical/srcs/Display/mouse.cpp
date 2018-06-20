@@ -7,15 +7,6 @@
 
 #include "Sfml.hpp"
 
-void Graphical::Sfml::resetView()
-{
-	sf::View view = _screen.getView();
-
-	_zoom = 1;
-	view.setSize(_window.getSize().x, _window.getSize().y);
-	_screen.setView(view);
-}
-
 void Graphical::Sfml::mouseScrollEvent(sf::Event &event)
 {
 	sf::View view = _screen.getView();

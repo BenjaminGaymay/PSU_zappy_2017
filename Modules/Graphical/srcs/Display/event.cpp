@@ -45,6 +45,17 @@ void Graphical::Core::resetView()
 {
 	sf::View view = _sfml->getScreen().getView();
 	view.setCenter((_sfml->getWindow().getSize().x - _sfml->getMargin().x) / 2.0f, _sfml->getWindow().getSize().y / 2.0f);
+
+	/*float pad = 0.1f;
+	if (_sfml->getZoomRank() > 1)
+		pad = -0.1f;*/
+	/*std::cerr << "START:" << _sfml->getZoomRank() << std::endl;
+	while (_sfml->getZoomRank() != 1) {
+		view.zoom(1 + pad);
+		_sfml->setZoomRank(_sfml->getZoomRank() + pad);
+		std::cerr << "STEP:" << _sfml->getZoomRank() << std::endl;
+		usleep(5000);
+	}*/
 	_sfml->getScreen().setView(view);
 }
 

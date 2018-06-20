@@ -13,33 +13,19 @@
 #include "macro.h"
 #include "commands.h"
 
-static int find_forward(t_ai *ai, const char **tab)
-{
-	size_t i = 0;
-	size_t j = 2;
-
-	while (i < tablen((char **)tab)) {
-		if (strcmp(tab[i], "") != 0) {
-			send_command(ai, FORWARD);
-			// wait_for_response(ai);
-			break;
-		}
-		i += j;
-		j += 2;
-	}
-	return (SUCCESS);
-}
-
 int look_around(t_ai *ai, char *s)
 {
 	char **tab = get_data_from_look(s);
 	int dir = rand() % 2;
 
+	if (!tab)
+		return (FAILURE);
 	ai->inv[EL_PLAYER] = count_substr(tab[0], "player");
 	if (strcmp(tab[0], "player") == 0)
 		ai->state = dir == 0 ? AI_MOVE : AI_TURN;
 	else
 		ai->state = AI_TAKE;
+	free_tab(tab);
 	if (ai->look)
 		free(ai->look);
 	ai->look = strdup(s);

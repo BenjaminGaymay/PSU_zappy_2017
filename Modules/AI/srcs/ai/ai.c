@@ -88,12 +88,18 @@ int look_for_ressources(t_ai *ai, const char *tmp)
 
 	if (strcmp(tab[0], "") != 0)
 		return (take_object(tab, ai));
-	// find_forward((const char **)tab, ai, &no_res);
 	if (no_res == false) {
 		send_command(ai, random_dir == 0 ? TURN_LEFT : TURN_RIGHT);
 		read(ai->fd, t, 4096);
 	}
 	return (SUCCESS);
+}
+
+void delete_ai(t_ai *ai)
+{
+	delete_list(ai->list);
+	free(ai->look);
+	close(ai->fd);
 }
 
 int run_ai(t_ai *ai)
@@ -111,10 +117,11 @@ int run_ai(t_ai *ai)
 		return (ERROR);
 	while (ai->run) {
 		if (listlen(ai->list) < 10)
-			for (int i = 0; i < 4; i++)
+			for (int i = 0; i < 5; i++)
 				if (ai->state == arr[i].state)
 					arr[i].fct(ai);
 		wait_for_response(ai);
 	}
+	delete_ai(ai);
 	return (SUCCESS);
 }

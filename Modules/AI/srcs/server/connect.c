@@ -50,6 +50,18 @@ int manage_sockets(t_ai *ai)
 
 }
 
+static void init_ai(t_ai *ai, const int fd, t_opts_ai *opt)
+{
+	ai->fd = fd;
+	ai->level = 0;
+	ai->opts = opt;
+	for (int i = 0; i < INVENT_SIZE; i++)
+		ai->inv[i] = 0;
+	ai->list = NULL;
+	ai->look = NULL;
+	ai->run = true;
+}
+
 int connect_to_server(t_opts_ai *opt)
 {
 	t_ai ai;
@@ -57,13 +69,6 @@ int connect_to_server(t_opts_ai *opt)
 
 	if (fd == FD_ERROR)
 		return (FCT_FAILED("create_socket"), ERROR);
-	ai.fd = fd;
-	ai.level = 0;
-	ai.opts = opt;
-	for (int i = 0; i < INVENT_SIZE; i++)
-		ai.inv[i] = 0;
-	ai.list = NULL;
-	ai.look = NULL;
-	ai.run = true;
+	init_ai(&ai, fd, opt);
 	return (run_ai(&ai));
 }

@@ -23,7 +23,7 @@ int drop_needed_items(int fd, size_t *inv)
 	};
 
 	for (int i = 0; i < INVENT_SIZE; i++) {
-
+		return (SUCCESS);
 	}
 	return (SUCCESS);
 }

@@ -18,6 +18,7 @@
 #define SUCCESS 0
 #define ERROR 84
 #define FAILED 1
+#define FAILURE 1
 #define COMMAND_SIZE_SERVER 7
 #define COMMAND_SIZE_AI 4
 #define DEFAULT_VALUE -1

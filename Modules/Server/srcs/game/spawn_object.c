@@ -69,7 +69,6 @@ void spawn_object(t_server *server)
 			timing[i].time = time_until_finish(
 			timing[i].loop_time, server->opts->freq);
 			add_in_map(server, i);
-			//print_map(server->map, server->opts->y, server->opts->x);
 		}
 	}
 }

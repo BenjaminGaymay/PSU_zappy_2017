@@ -15,12 +15,14 @@ RM	= 	rm -f
 
 SRCS	=	./srcs/main.c					\
 		./srcs/arguments/args_fct.c			\
+		./srcs/arguments/others_args_fct.c		\
 		./srcs/arguments/arguments.c			\
 		./srcs/map/create_map.c				\
 		./srcs/clients/manage_clients.c			\
 		./srcs/clients/get_client_inventory.c		\
 		./srcs/clients/manage_team.c			\
 		./srcs/communication/socket_infos.c		\
+		./srcs/communication/add_messages.c		\
 		./srcs/communication/manage_messages.c		\
 		./srcs/communication/graphic_clients.c		\
 		./srcs/communication/graphic_socket_infos.c	\

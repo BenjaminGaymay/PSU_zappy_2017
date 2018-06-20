@@ -15,7 +15,9 @@ static size_t clients_on_cell(t_server *server, t_pos *pos, size_t level)
 	size_t nb_players = 0;
 
 	while (tmp) {
-		if (tmp->pos.x == pos->x && tmp->pos.y == pos->y && tmp->level == level)
+		if (tmp->pos.x == pos->x &&
+		tmp->pos.y == pos->y &&
+		tmp->level == level)
 			nb_players += 1;
 		tmp = tmp->next;
 	}
@@ -51,11 +53,14 @@ bool is_inventory_complete(t_server *server, t_client *player)
 char *incantation(t_server *server, t_message *cmd)
 {
 	if (is_inventory_complete(server, cmd->owner)) {
-		cmd->finish_date = time_until_finish(INCANTATION_TIME, server->opts->freq);
-		server->map[cmd->owner->pos.y][cmd->owner->pos.x].incantation = true;
+		cmd->finish_date = time_until_finish(
+			INCANTATION_TIME, server->opts->freq);
+		server->map[cmd->owner->pos.y][
+			cmd->owner->pos.x].incantation = true;
 	} else {
 		cmd->finish_date = 0;
-		server->map[cmd->owner->pos.y][cmd->owner->pos.x].incantation = false;
+		server->map[cmd->owner->pos.y][
+			cmd->owner->pos.x].incantation = false;
 	}
 	return (NULL);
 }

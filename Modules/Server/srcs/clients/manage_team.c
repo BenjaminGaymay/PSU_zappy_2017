@@ -65,13 +65,18 @@ void find_team(t_server *server, t_client *client, const char *name)
 
 	for (int i = 0 ; teams[i] ; i++) {
 		nb_players = player_in_team(server, teams[i]);
-		if (strcmp(teams[i]->name, name) == 0 && nb_players < server->opts->max_clients) {
-			if (!find_free_egg(server, teams[i]) && nb_players != 0)
+		if (strcmp(teams[i]->name, name) == 0 &&
+		nb_players < server->opts->max_clients) {
+			if (!find_free_egg(server, teams[i]) &&
+			nb_players != 0)
 				break;
 			client->team = teams[i];
-			dprintf(client->socket, "%ld\n", places_in_client_team(server, client));
-			dprintf(client->socket, "%d %d\n", server->opts->x, server->opts->y);
-			client->last_eat = time_until_finish(LIFE_TIME, server->opts->freq);
+			dprintf(client->socket, "%ld\n",
+				places_in_client_team(server, client));
+			dprintf(client->socket, "%d %d\n",
+				server->opts->x, server->opts->y);
+			client->last_eat = time_until_finish(LIFE_TIME,
+				server->opts->freq);
 			break;
 		}
 	}

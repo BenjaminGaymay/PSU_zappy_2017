@@ -10,7 +10,8 @@
 #include "client.h"
 #include "game.h"
 
-static t_client *player_starving_to_death(t_server *server, t_client *dead_man)
+static t_client *player_starving_to_death(t_server *server,
+					t_client *dead_man)
 {
 	t_client *save;
 
@@ -30,7 +31,8 @@ static void lost_lives(t_server* server, t_client *clients)
 	while (tmp) {
 		if (is_finish(tmp->last_eat)) {
 			tmp->inventory.food -= 1;
-			tmp->last_eat = time_until_finish(LIFE_TIME, server->opts->freq);
+			tmp->last_eat = time_until_finish(
+				LIFE_TIME, server->opts->freq);
 			tmp = player_starving_to_death(server, tmp);
 		} else
 			tmp = tmp->next;
@@ -42,14 +44,18 @@ static void check_incantations_state(t_server *server, t_message *messages)
 	t_message *tmp = messages;
 
 	while (tmp) {
-		if (strcmp(tmp->request, "Incantation") == 0 && !tmp->response && tmp->owner &&
-		server->map[tmp->owner->pos.y][tmp->owner->pos.x].incantation &&
+		if (strcmp(tmp->request, "Incantation") == 0 &&
+		!tmp->response && tmp->owner && server->map[
+			tmp->owner->pos.y][tmp->owner->pos.x].incantation &&
 		is_inventory_complete(server, tmp->owner)) {
-			asprintf(&tmp->response, "Elevation underway Current level: %ld", tmp->owner->level + 1);
+			asprintf(&tmp->response,
+				"Elevation underway Current level: %ld",
+				tmp->owner->level + 1);
 			reset_inventory(tmp->owner);
 			tmp->owner->level += 1;
-		} else if (strcmp(tmp->request, "Incantation") == 0 && !tmp->response && tmp->owner &&
-				!is_inventory_complete(server, tmp->owner))
+		} else if (strcmp(tmp->request, "Incantation") == 0 &&
+		!tmp->response && tmp->owner &&
+		!is_inventory_complete(server, tmp->owner))
 			asprintf(&tmp->response, "ko");
 		tmp = tmp->next;
 	}

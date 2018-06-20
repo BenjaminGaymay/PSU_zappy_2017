@@ -42,31 +42,26 @@ static void reset_all_sockets(t_server *server, fd_set *fd_read)
 	}
 }
 
-static int read_on_client(t_server *server, t_client *client)
+static int read_on_client(t_server *srv, t_client *cli)
 {
 	static char buffer[4096];
 	int size;
-	char *tmp = NULL;
 
-	size = read(client->socket, buffer, 4096);
-	if (size > 0) {
-		buffer[size] = '\0';
-		tmp = strtok(buffer, "\n");
-		while (tmp && client->request_number < 10) {
-			if (strcmp(tmp, "GRAPHIC") == 0)
-				return (is_graphical(server, client), ERROR);
-			if (!client->team)
-				find_team(server, client, tmp);
-			else if (add_message_in_list(server, client, tmp) == ERROR)
-				return (ERROR);
-			else
-				client->request_number += 1;
-			tmp = strtok(NULL, "\n");
-		}
+	size = read(cli->socket, buffer, 4096);
+	buffer[size] = '\0';
+	for (char *tmp = strtok(buffer, "\n") ; tmp &&
+	cli->request_number < 10 ; tmp = strtok(NULL, "\n")) {
+		if (strcmp(tmp, "GRAPHIC") == 0)
+			return (is_graphical(srv, cli), ERROR);
+		if (!cli->team)
+			find_team(srv, cli, tmp);
+		else if (add_message_in_list(srv,
+			cli, tmp) == ERROR)
+			return (ERROR);
+		else
+			cli->request_number += 1;
 	}
-	else
-		return (remove_client(server, client, true), ERROR);
-	return (SUCCESS);
+	return (size > 0 ? SUCCESS : (remove_client(srv, cli, true), ERROR));
 }
 
 static int are_clients_written(t_server *server, fd_set *fd_read)
@@ -78,13 +73,14 @@ static int are_clients_written(t_server *server, fd_set *fd_read)
 		if (FD_ISSET(client_g->socket, fd_read)) {
 			fprintf(stderr, "Client graphic ecris\n");
 			client_g = (read_on_client_g(server, client_g) == ERROR
-						? server->graphical_client : client_g->next);
+				? server->graphical_client : client_g->next);
 		} else
 			client_g = client_g->next;
 	}
 	while (tmp) {
 		if (FD_ISSET(tmp->socket, fd_read))
-			tmp = (read_on_client(server, tmp) == ERROR ? server->clients : tmp->next);
+			tmp = (read_on_client(server, tmp) == ERROR ?
+			server->clients : tmp->next);
 		else
 			tmp = tmp->next;
 	}

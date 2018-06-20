@@ -14,7 +14,7 @@ static t_client *player_starving_to_death(t_server *server, t_client *dead_man)
 {
 	t_client *save;
 
-	if (dead_man->team && dead_man->lives <= 0) {
+	if (dead_man->team && dead_man->inventory.food == 0) {
 		save = dead_man->next;
 		remove_client(server, dead_man, true);
 		return (save);
@@ -29,7 +29,7 @@ static void lost_lives(t_server* server, t_client *clients)
 
 	while (tmp) {
 		if (is_finish(tmp->last_eat)) {
-			tmp->lives -= 1;
+			tmp->inventory.food -= 1;
 			tmp->last_eat = time_until_finish(LIFE_TIME, server->opts->freq);
 			tmp = player_starving_to_death(server, tmp);
 		} else

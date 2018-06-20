@@ -26,7 +26,6 @@ typedef struct s_client {
 	size_t request_number;
 	t_inventory inventory;
 	t_pos pos;
-	char lives;
 	long long last_eat;
 	size_t level;
 	size_t look;

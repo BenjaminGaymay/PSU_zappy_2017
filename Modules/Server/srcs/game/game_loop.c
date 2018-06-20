@@ -37,6 +37,24 @@ static void lost_lives(t_server* server, t_client *clients)
 	}
 }
 
+static void check_incantations_state(t_server *server, t_message *messages)
+{
+	t_message *tmp = messages;
+
+	while (tmp) {
+		if (strcmp(tmp->request, "Incantation") == 0 && !tmp->response && tmp->owner &&
+		server->map[tmp->owner->pos.y][tmp->owner->pos.x].incantation &&
+		is_inventory_complete(server, tmp->owner)) {
+			asprintf(&tmp->response, "Elevation underway Current level: %ld", tmp->owner->level + 1);
+			reset_inventory(tmp->owner);
+			tmp->owner->level += 1;
+		} else if (strcmp(tmp->request, "Incantation") == 0 && !tmp->response && tmp->owner &&
+				!is_inventory_complete(server, tmp->owner))
+			asprintf(&tmp->response, "ko");
+		tmp = tmp->next;
+	}
+}
+
 int game_loop(t_server *server)
 {
 	while (1) {
@@ -44,6 +62,7 @@ int game_loop(t_server *server)
 			return (ERROR);
 		lost_lives(server, server->clients);
 		read_all_messages(server, server->messages);
+		check_incantations_state(server, server->messages);
 		send_responses(server, server->messages);
 		spawn_object(server);
 	}

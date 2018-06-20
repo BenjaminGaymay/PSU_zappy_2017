@@ -40,7 +40,7 @@ void parse_command(t_server *server, t_message *command)
 			break;
 		}
 	}
-	if (!command->response && !server->map[cmd->owner->pos.y][cmd->owner->pos.x].incantation) {
+	if (!command->response && strcmp("Incantation", command->request) != 0) {
 		command->finish_date = 0;
 		asprintf(&command->response, "ko");
 	}

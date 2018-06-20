@@ -22,6 +22,17 @@ static size_t clients_on_cell(t_server *server, t_pos *pos, size_t level)
 	return (nb_players);
 }
 
+void reset_inventory(t_client *player)
+{
+	player->inventory.deraumere = 0;
+	player->inventory.linemate = 0;
+	player->inventory.mendiane = 0;
+	player->inventory.phiras = 0;
+	player->inventory.sibur = 0;
+	player->inventory.thystame = 0;
+	player->inventory.incantation = false;
+}
+
 bool is_inventory_complete(t_server *server, t_client *player)
 {
 	t_inventory inv = player->inventory;
@@ -39,11 +50,12 @@ bool is_inventory_complete(t_server *server, t_client *player)
 
 char *incantation(t_server *server, t_message *cmd)
 {
-	char *response;
-
-	cmd->finish_date = time_until_finish(INCANTATION_TIME, server->opts->freq);
-	if (is_inventory_complete(server, cmd->owner))
+	if (is_inventory_complete(server, cmd->owner)) {
+		cmd->finish_date = time_until_finish(INCANTATION_TIME, server->opts->freq);
 		server->map[cmd->owner->pos.y][cmd->owner->pos.x].incantation = true;
-	// asprintf(&response, "Elevation underway Current level: %ld", cmd->owner->level + 1), response
+	} else {
+		cmd->finish_date = 0;
+		server->map[cmd->owner->pos.y][cmd->owner->pos.x].incantation = false;
+	}
 	return (NULL);
 }

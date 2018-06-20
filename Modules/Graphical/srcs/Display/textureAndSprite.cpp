@@ -61,4 +61,5 @@ void Graphical::Sfml::createBlocks()
 	createSprite(25, _picturePath + "lopo.png", _blocks, _textures);
 	createSprite(26, _picturePath + "unmute.png", _blocks, _textures);
 	createSprite(27, _picturePath + "mute.png", _blocks, _textures);
+	createSprite(28, _picturePath + "team.png", _blocks, _textures);
 }

@@ -36,6 +36,7 @@ typedef struct s_ai {
 	size_t inv[7];
 	char *look;
 	t_state state;
+	bool run;
 	t_request *list;
 } t_ai;
 

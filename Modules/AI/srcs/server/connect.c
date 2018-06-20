@@ -64,5 +64,6 @@ int connect_to_server(t_opts_ai *opt)
 		ai.inv[i] = 0;
 	ai.list = NULL;
 	ai.look = NULL;
+	ai.run = true;
 	return (run_ai(&ai));
 }

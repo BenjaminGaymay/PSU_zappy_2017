@@ -294,7 +294,7 @@ int Graphical::Game::setEndGame(const std::vector<std::string> &array)
 int Graphical::Core::setInitCom(const std::vector<std::string> &array)
 {
 	(void) array;
-	if (!_com->sendToFd(_com->getSocket(), "GRAPHICS"))
+	if (!_com->sendToFd(_com->getSocket(), "GRAPHIC"))
 		throw std::logic_error("Server is closed.");
 	return 0;
 }

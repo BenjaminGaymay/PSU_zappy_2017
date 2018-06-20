@@ -57,9 +57,28 @@ void Graphical::Core::printPlayers()
 	}
 }
 
-void Graphical::Core::printPlayersPage()
+void Graphical::Core::printTeams()
 {
+	const std::size_t filterNb = (_game->getTeams().size() > 10 ? _game->getTeams().size() : 10);
+	Pos<int> margin = _sfml->getMargin();
+	margin.x = 300;
+	margin.x /= 2;
+	float padding = static_cast<float>(_sfml->getWindow().getSize().y) / filterNb;
+	float x = _sfml->getWindow().getSize().x - margin.x;
+	float y = 0;
+	auto size = static_cast<std::size_t>(padding / 4);
 
+	_sfml->text("birdy", "Team list:", size, sf::Color::White, {x - 100, (y * size) + (y * padding)});
+	for (auto &team : _game->getTeams()) {
+		createIcon(filterNb, 15, x, y, margin, padding);
+		createIcon(filterNb, 28, x, y, margin, padding, _game->getColor(team.first));
+		_sfml->text("birdy", team.first, size, sf::Color::Yellow, {x, y * padding});
+		y += 1;
+	}
+}
+
+void Graphical::Core::printButtons()
+{
 	const std::size_t filterNb = 10;
 	Pos<int> margin = _sfml->getMargin();
 	margin.x /= 2;
@@ -67,7 +86,6 @@ void Graphical::Core::printPlayersPage()
 	float x = _sfml->getWindow().getSize().x - margin.x;
 	float y = 0;
 
-	printPlayers();
 	auto &sprite = createIcon(filterNb, 15, x, y, margin, padding);
 	createIcon(filterNb, 13, x, y, margin, padding);
 	sf::Vector2f position(sf::Mouse::getPosition(_sfml->getWindow()));
@@ -76,5 +94,11 @@ void Graphical::Core::printPlayersPage()
 		_antiSpam = std::chrono::system_clock::now().time_since_epoch().count() + 1000000000;
 		_type = GAME;
 	}
+}
 
+void Graphical::Core::printPlayersPage()
+{
+	printPlayers();
+	printButtons();
+	printTeams();
 }

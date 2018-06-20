@@ -21,7 +21,6 @@ static t_ptr_action *get_ptr_actions(void){
 		{take_obj, "Take "},
 		{set_obj, "Set "},
 		// {incantation, "Incantation"},
-		{is_graphical, "GRAPHIC"},
 		{NULL, NULL}
 	};
 

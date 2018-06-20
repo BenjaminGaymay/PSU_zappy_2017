@@ -86,6 +86,8 @@ namespace Graphical {
 		void manageEventFiltersResult();
 		void printPlayersPage();
 		void printPlayers();
+		void printTeams();
+		void printButtons();
 		void printPlayerInfo(std::unique_ptr<Player> &player, const int &padding, const Pos<float> &pos);
 		void printPlayerInventory(std::unique_ptr<Player> &player, const int &padding, const Pos<float> &pos);
 		void resetView();

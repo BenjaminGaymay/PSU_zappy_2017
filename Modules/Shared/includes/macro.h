@@ -24,6 +24,8 @@
 #define ERR_FC -1
 #define FD_ERROR -1
 
+#define INVENT_SIZE 7
+
 #define FCT_FAILED(s) fprintf(stderr, "Error: %s failed.\n", s)
 #define NOT_NUMBER(n) fprintf(stderr, "Error: %s must be a valid number.\n", n)
 

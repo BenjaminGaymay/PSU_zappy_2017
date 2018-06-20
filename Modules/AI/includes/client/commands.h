@@ -7,18 +7,18 @@
 
 #pragma once
 
-#define FORWARD "Forward\n"
-#define TURN_RIGHT "Right\n"
-#define TURN_LEFT "Left\n"
+#define FORWARD "Forward"
+#define TURN_RIGHT "Right"
+#define TURN_LEFT "Left"
 
-#define LOOK "Look\n"
-#define INVENTORY "Inventory\n"
+#define LOOK "Look"
+#define INVENTORY "Inventory"
 #define BROADCAST_TEXT "Broadcast "
 
-#define UNSUED_SLOTS "Connect_nbr\n"
-#define FORK_PLAYER "Fork\n"
-#define EJECT_FROM_TILE "Eject\n"
+#define UNSUED_SLOTS "Connect_nbr"
+#define FORK_PLAYER "Fork"
+#define EJECT_FROM_TILE "Eject"
 
 #define TAKE_OBJ "Take "
 #define SET_OBJ "Set "
-#define START_INCANTATION "Incantation\n"
+#define START_INCANTATION "Incantation"

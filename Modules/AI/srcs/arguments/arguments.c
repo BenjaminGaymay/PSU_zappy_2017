@@ -10,6 +10,7 @@
 #include <stdbool.h>
 #include "arguments_ai.h"
 #include "macro.h"
+#include "ai.h"
 
 bool check_commands(t_opts_ai *opt)
 {
@@ -37,17 +38,26 @@ static void populate_options(t_opts_ai *opt)
 	opt->machine = NULL;
 }
 
+static int check_cmd(char **av, t_args *args, t_opts_ai *opt, t_vec2d *vec)
+{
+	if (strcmp(av[vec->x], args[vec->y].flag) == 0 &&
+		args[vec->y].function(&av[vec->x + 1], opt) == ERROR)
+		return (ERROR);
+	return (SUCCESS);
+}
+
 int manage_commands(char **av, t_opts_ai *opt)
 {
 	t_args *args = populate_args();
+	t_vec2d vec;
 
 	populate_options(opt);
 	if (!args)
 		return (ERROR);
-	for (int i = 1; av[i]; i++)
-		for (int j = 0; j < COMMAND_SIZE_AI; j++)
-			if (strcmp(av[i], args[j].flag) == 0)
-				args[j].function(&av[i+1], opt);
+	for (vec.x = 1; av[vec.x]; vec.x++)
+		for (vec.y = 0; vec.y < COMMAND_SIZE_AI; vec.y++)
+			if (check_cmd(av, args, opt, &vec) == ERROR)
+				return (free(args), ERROR);
 	free(args);
 	return (SUCCESS);
 }

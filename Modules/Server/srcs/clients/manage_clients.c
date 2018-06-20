@@ -27,7 +27,7 @@ int add_client(t_server *server)
 		&client_sin_len);
 	new->occupied = false;
 	new->last_eat = DEFAULT_VALUE;
-	new->inventory = (t_inventory){0, 0, 0, 0, 0, 0, 10};
+	new->inventory = (t_inventory){0, 0, 0, 0, 0, 0, 10, 0};
 	new->level = 1;
 	new->pos = (t_pos){rand() % server->opts->x , rand() % server->opts->y};
 	new->look = 1;

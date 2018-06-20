@@ -15,6 +15,9 @@ void add_in_map(t_server *server, int i)
 	t_pos pos = {rand() % server->opts->x, rand() % server->opts->y};
 	size_t **tab;
 
+	while (server->map[pos.y][pos.x].incantation == true) {
+		pos = (t_pos){rand() % server->opts->x, rand() % server->opts->y};
+	}
 	tab = malloc(sizeof(size_t) * 8);
 	tab[0] = &server->map[pos.y][pos.x].food;
 	tab[1] = &server->map[pos.y][pos.x].linemate;

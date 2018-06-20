@@ -9,6 +9,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 typedef struct s_inventory {
 	size_t linemate;
@@ -18,6 +19,7 @@ typedef struct s_inventory {
 	size_t phiras;
 	size_t thystame;
 	size_t food;
+	bool incantation;
 } t_inventory;
 
 typedef struct s_get_type {

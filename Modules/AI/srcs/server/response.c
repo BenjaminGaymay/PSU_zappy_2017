@@ -150,6 +150,8 @@ static int process_response(t_ai *ai, char *str)
 	};
 	char *data = get_nth_data(ai->list, listlen(ai->list) - 1);
 
+	if (strcmp(str, "dead") == 0)
+		exit(0);
 	if (!data)
 		return (ERROR);
 	for (int i = 0; response[i].msg; i++) {

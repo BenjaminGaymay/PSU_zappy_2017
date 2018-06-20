@@ -47,5 +47,20 @@
 #define FORWARD_TIME 7
 #define RIGHT_TIME 7
 #define LEFT_TIME 7
+#define BROADCAST_TIME 7
 #define INVENTORY_TIME 1
 #define LIFE_TIME 126
+#define TAKE_TIME 7
+#define SET_TIME 7
+#define EJECT_TIME 7
+#define EGG_TIME 42
+#define HATCH_TIME 600
+#define INCANTATION_TIME 300
+
+#define SPAWN_FOOD 20
+#define SPAWN_LINEMATE 30
+#define SPAWN_DERAUMERE 40
+#define SPAWN_SIBUR 50
+#define SPAWN_MENDIANE 60
+#define SPAWN_PHIRAS 70
+#define SPAWN_THYSTAME 80

@@ -9,32 +9,27 @@
 #include "manage_time.h"
 #include "communication.h"
 
-int add_client(t_server *server)
+int add_client(t_server *srv)
 {
 	static size_t id = 0;
 	struct sockaddr_in client_sin;
-	socklen_t client_sin_len;
 	t_client *new = calloc(1, sizeof(*new));
 
 	if (!new)
-		return (FCT_FAILED("malloc"), ERROR);
-	client_sin_len = sizeof(client_sin);
+		return (FCT_FAILED("calloc"), ERROR);
 	new->request_number = 0;
 	new->team = NULL;
 	new->player_id = id++;
-	new->socket = accept(server->socket, (struct sockaddr *)&client_sin,
-		&client_sin_len);
+	new->socket = accept(srv->socket, (struct sockaddr *)&client_sin,
+		&(socklen_t){sizeof(client_sin)});
 	new->occupied = false;
-	new->lives = 10;
 	new->last_eat = DEFAULT_VALUE;
-	new->inventory = (t_inventory){0, 0, 0, 0, 0, 0, 0};
+	new->inventory = (t_inventory){0, 0, 0, 0, 0, 0, 10, 0};
 	new->level = 1;
-	new->pos = (t_pos){0, 0};
-	new->look = 0;
-	new->next = server->clients;
-	server->clients = new;
+	new->pos = (t_pos){rand() % srv->opts->x , rand() % srv->opts->y};
+	new->look = 1;
 	dprintf(new->socket, "WELCOME\n");
-	return (SUCCESS);
+	return (new->next = srv->clients, srv->clients = new, SUCCESS);
 }
 
 void unlink_client_messages(t_server *server, t_client *client)
@@ -42,7 +37,7 @@ void unlink_client_messages(t_server *server, t_client *client)
 	t_message *tmp = server->messages;
 
 	while (tmp) {
-		if (tmp->owner->player_id == client->player_id)
+		if (tmp->owner && tmp->owner->player_id == client->player_id)
 			tmp->owner = NULL;
 		tmp = tmp->next;
 	}

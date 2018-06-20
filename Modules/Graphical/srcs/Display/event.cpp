@@ -32,7 +32,6 @@ int Graphical::Core::keyManager(sf::Event &event)
 	switch (event.key.code) {
 		case sf::Keyboard::Tab: switchResolution();	break;
 		case sf::Keyboard::Escape : _type = MENU; break;
-		case sf::Keyboard::Space : _move = !_move; break;
 		case sf::Keyboard::Left : moveMapView({-1, 0}); break;
 		case sf::Keyboard::Right : moveMapView({1, 0}); break;
 		case sf::Keyboard::Down : moveMapView({0, 1}); break;
@@ -41,6 +40,24 @@ int Graphical::Core::keyManager(sf::Event &event)
 	}
 	return (0);
 };
+
+void Graphical::Core::resetView()
+{
+	sf::View view = _sfml->getScreen().getView();
+	view.setCenter((_sfml->getWindow().getSize().x - _sfml->getMargin().x) / 2.0f, _sfml->getWindow().getSize().y / 2.0f);
+
+	float pad = 0.1f;
+	if (_sfml->getZoomRank() > 0)
+		pad = -0.1f;
+	while (_sfml->getZoomRank() != 0) {
+		view.zoom(1 + pad);
+		if (pad < 0)
+			_sfml->setZoomRank(_sfml->getZoomRank() - 1);
+		else
+			_sfml->setZoomRank(_sfml->getZoomRank() + 1);
+	}
+	_sfml->getScreen().setView(view);
+}
 
 void Graphical::Core::mouseEvent(const sf::Event &event, const bool &move)
 {
@@ -66,9 +83,8 @@ void Graphical::Core::mouseEvent(const sf::Event &event, const bool &move)
 		mousePos.y = static_cast<int>(mousePos.y - (view.getSize().y / 2));
 		if (move)
 			view.move(mousePos.x, mousePos.y);
-	} else if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
-		view.setCenter((_sfml->getWindow().getSize().x - _sfml->getMargin().x) / 2.0f, _sfml->getWindow().getSize().y / 2.0f);
-	}
+	} else if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
+		return resetView();
 	_sfml->getScreen().setView(view);
 }
 
@@ -82,7 +98,7 @@ int Graphical::Core::manageEvent()
 			_sfml->close();
 		else if (event.type == sf::Event::KeyPressed)
 			keyManager(event);
-		else if (_type == GAME && event.type == sf::Event::Resized) {
+		else if (event.type == sf::Event::Resized) {
 			_sfml->getWindow().setView(sf::View(sf::FloatRect(0, 0, event.size.width, event.size.height)));
 			_sfml->setScreen({_sfml->getWindow().getSize().x - _sfml->getMargin().x, _sfml->getWindow().getSize().y});
 		} else if (_type == GAME && event.type == sf::Event::MouseWheelScrolled)

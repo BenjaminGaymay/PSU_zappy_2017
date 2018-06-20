@@ -15,21 +15,30 @@ namespace Graphical {
 		enum audioType {
 			SOUND,
 			MUSIC,
+			AUDIO,
 		};
 
 		enum audioActionType {
 			CREATE,
 			PLAY,
 			STOP,
+			ON,
+			OFF,
+			SWAP,
 			//PAUSE,
 		};
-		typedef struct {
+		typedef struct MusicEvent {
 			audioType audio;
 			audioActionType action;
 			std::string index;
 			float volume;
+			MusicEvent() = default;
+			MusicEvent(const audioType &audio_, const audioActionType &action_, const std::string &index_, const float &volume_)
+					: audio(audio_), action(action_), index (index_), volume(volume_) {};
+			~MusicEvent() = default;
+
 		} MusicEvent;
-		Music() = default;
+		Music() : _audio(true) {};
 		~Music()
 		{
 			destroySounds();
@@ -58,12 +67,39 @@ namespace Graphical {
 			}
 		}
 
+		void audioStatus(const audioActionType &action, const MusicEvent &event)
+		{
+			(void) event;
+			switch (action) {
+				case ON: _audio = true; break;
+				case OFF: _audio = false; break;
+				case SWAP: _audio = !_audio; break;
+				default: break;
+			}
+			if (!_audio) {
+				for (auto &music : _musics)
+					if (music.second->getStatus() == sf::Music::Playing)
+						music.second->pause();
+				for (auto &sound : _sounds)
+					if (sound.second->getStatus() == sf::Sound::Playing)
+						sound.second->pause();
+			} else {
+				for (auto &music : _musics)
+					if (music.second->getStatus() == sf::Music::Paused)
+						music.second->play();
+				for (auto &sound : _sounds)
+					if (sound.second->getStatus() == sf::Sound::Paused)
+						sound.second->play();
+			}
+		}
+
 		void audioManager()
 		{
 			for (auto &event : _events) {
 				switch (event.audio) {
 					case SOUND: soundManager(event.action, event); break;
 					case MUSIC:	musicManager(event.action, event); break;
+					case AUDIO: audioStatus(event.action, event); break;
 					default: break;
 				}
 			}
@@ -158,13 +194,11 @@ namespace Graphical {
 
 		void addEvent(const audioType &audio, const audioActionType &action, const std::string &index, const std::size_t &volume = 100)
 		{
-			MusicEvent event;
-			event.audio = audio;
-			event.action = action;
-			event.index = index;
-			event.volume = volume;
+			MusicEvent event(audio, action, index, volume);
+
 			_events.emplace_back(event);
 		}
+		const bool &isMute() const { return _audio; };
 	private:
 		const std::string _path = "assets/audio/";
 		const std::string _sound = "sounds/";
@@ -173,5 +207,6 @@ namespace Graphical {
 		std::map<std::string, std::unique_ptr<sf::Sound>> _sounds;
 		std::map<std::string, std::unique_ptr<sf::Music>> _musics;
 		std::vector<MusicEvent> _events;
+		bool _audio;
 	};
 }

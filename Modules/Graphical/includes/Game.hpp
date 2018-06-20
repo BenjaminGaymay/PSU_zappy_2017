@@ -6,14 +6,35 @@
 */
 #pragma once
 
+#include <map>
+#include <unordered_map>
 #include "Map.hpp"
+#include "Cristals.hpp"
+#include "Eggs.hpp"
+#include "Foods.hpp"
+#include "Player.hpp"
 
 namespace Graphical {
 	class Game {
 	public:
 		inline void setMapper(std::unique_ptr<Map> map) { _mapper = std::move(map); };
 		inline const std::unique_ptr<Map> &getMapper() const { return _mapper; };
+		inline void setCristals(std::unique_ptr<Cristals> cristals) { _animatedCristals = std::move(cristals); };
+		inline const std::unique_ptr<Cristals> &getCristals() const { return _animatedCristals; };
+		inline void setAnimatedEggs(std::unique_ptr<Eggs> eggs) { _animatedEggs = std::move(eggs); };
+		inline const std::unique_ptr<Eggs> &getAnimatedEggs() const { return _animatedEggs; };
+		inline void setAnimatedFoods(std::unique_ptr<Foods> foods) { _animatedFoods = std::move(foods); };
+		inline const std::unique_ptr<Foods> &getAnimatedFoods() const { return _animatedFoods; };
 		inline void addPlayer(std::unique_ptr<Player> player) { _players.emplace_back(std::move(player)); };
+		inline std::unique_ptr<Player> &getPlayer(const int &id)
+		{
+			static std::unique_ptr<Player> empty;
+
+			for (auto &player : _players)
+				if (player->getId() == id)
+					return player;
+			return empty;
+		};
 		/* FUNCTION PTR_FUNCTION COMMUNICATION */
 		int setSize(const std::vector<std::string> &array);
 		int setCase(const std::vector<std::string> &array);
@@ -43,8 +64,13 @@ namespace Graphical {
 		};
 		void addATeam(const std::string &team)
 		{
-			if (!isTeamExist(team))
+			static int id = 0;
+
+			if (!isTeamExist(team)) {
+				_teamsId[team] = id;
 				_teams[team] = std::vector<int>();
+				++id;
+			}
 
 		};
 		void removeATeam(const std::string &team)
@@ -57,7 +83,7 @@ namespace Graphical {
 			}
 		}
 		inline const std::vector<int> &getATeam(const std::string &team) { return _teams[team]; };
-		inline const std::map<std::string, std::vector<int>> &getTeams() const { return _teams; };
+		inline const std::unordered_map<std::string, std::vector<int>> &getTeams() const { return _teams; };
 		inline bool isTeamExist(const std::string &team) { return _teams.find(team) != _teams.end(); };
 		const std::unique_ptr<Player> &isPlayerExist(const int &id)
 		{
@@ -92,10 +118,29 @@ namespace Graphical {
 			}
 
 		}
+		sf::Color getColor(const std::string &team)
+		{
+			std::unordered_map<int, sf::Color> colors {
+					{0, sf::Color::Cyan},
+					{1, sf::Color::Green},
+					{2, sf::Color::Yellow},
+					{3, sf::Color::Blue},
+					{4, sf::Color::Magenta},
+					{5, sf::Color::Red},
+			};
+			int id = _teamsId[team];
+			if (colors.find(id) == colors.end())
+				return sf::Color::Transparent;
+			return colors[_teamsId[team]];
+		}
 	private:
 		std::unique_ptr<Map> _mapper;
+		std::unique_ptr<Cristals> _animatedCristals;
+		std::unique_ptr<Eggs> _animatedEggs;
+		std::unique_ptr<Foods> _animatedFoods;
 		std::vector<std::unique_ptr<Player>> _players;
-		std::map<std::string, std::vector<int>> _teams; /* team name, player id*/
+		std::unordered_map<std::string, std::vector<int>> _teams; /* team name, player id*/
+		std::unordered_map<std::string, int> _teamsId;
 		std::vector<std::unique_ptr<Egg>> _eggs;
 	};
 }

@@ -108,18 +108,10 @@ int run_ai(t_ai *ai)
 	if (receipt_welcome(ai))
 		return (ERROR);
 	while (true) {
-		if (listlen(ai->list) < 10) {
-			for (int i = 0; i < 4; i++) {
+		if (listlen(ai->list) < 10)
+			for (int i = 0; i < 4; i++)
 				if (ai->state == arr[i].state)
 					arr[i].fct(ai);
-			}
-		}
-		// if (listlen(ai->list) < 10) {
-		// 	if (ai->state == LOOK)
-		// 		send_command(ai, AI_LOOK);
-		// 	send_command(ai, INVENTORY);
-		// 	find_forward(ai);
-		// }
 		wait_for_response(ai);
 	}
 	return (SUCCESS);

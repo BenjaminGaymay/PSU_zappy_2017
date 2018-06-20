@@ -33,11 +33,14 @@ int Graphical::Core::initGraphisms()
 void Graphical::Core::initFilters()
 {
 	_filters[13] = false;
+	_filters[18] = false;
 	_filters[11] = true;
 	_filters[2] = true;
 	_filters[7] = true;
 	_filters[8] = true;
 	_filters[12] = false;
+	_filters[25] = false;
+	_filters[26] = !_music->isMute(); //audio on
 }
 
 int Graphical::Core::initAudios()
@@ -60,6 +63,9 @@ int Graphical::Core::initAll()
 	initGraphisms();
 	initFilters();
 	initAudios();
+	_game->setCristals(std::make_unique<Graphical::Cristals>(_sfml, 20));
+	_game->setAnimatedEggs(std::make_unique<Graphical::Eggs>(_sfml, 21));
+	_game->setAnimatedFoods(std::make_unique<Graphical::Foods>(_sfml, 23));
 	return 0;
 }
 
@@ -73,7 +79,8 @@ int Graphical::Core::loop()
 		readServer();
 		clear();
 		switch (_type) {
-			case SPLASH_INTRO: printSplashIntro(17, 0.8f); break;
+			case SPLASH_INTRO: printSplash(17, 0.8f); break;
+			case PLAYERS_INFO: printPlayersPage(); break;
 			case MENU: printMenu(); break;
 			case GAME: printGame(); break;
 			case EXIT: _sfml->close();

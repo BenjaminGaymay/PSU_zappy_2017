@@ -17,7 +17,11 @@ namespace Graphical {
 			FULLSCREEN,
 			WINDOW,
 		};
-		Sfml() {};
+		Sfml()
+		{
+			_zoomRank = 0;
+			_zoom = 1.0f;
+		};
 
 		~Sfml()
 		{
@@ -70,16 +74,21 @@ namespace Graphical {
 		std::unique_ptr<sf::Font> &getFont(const std::string &name);
 		void createFont(const std::string &key, const std::string &maccro);
 		void createFont(const std::string &key, std::unique_ptr<sf::Font> &font);
-		std::unique_ptr<sf::Sprite> &getBlock(const int &id) { return _blocks[id]; };
+		std::unique_ptr<sf::Sprite> &getBlock(const int &id)
+		{
+			if (!_blocks[id])
+				throw std::logic_error("getBlock: Texture not found !");
+			return _blocks[id];
+		};
 		void text(const std::string &font_name, const std::string &line, const std::size_t &size, const sf::Color &textColor,  const sf::Vector2f &position);
 		std::unique_ptr<sf::Text> getText(const std::string &font_name, const std::string &line, const std::size_t &size, const sf::Color &textColor, const sf::Vector2f &position);
-		const mod &getWindowType() const { return _windowType; };
 		void mouseScrollEvent(sf::Event &event);
-		void resetView();
-		const Pos &getMargin() const { return _margin; };
-		const Pos &getMousePosition() const { return _mouse; };
-		void setMousePosition(const Pos &pos) { _mouse = pos; };
-		const float &getZoomRank() const { return _zoom; };
+		inline const mod &getWindowType() const { return _windowType; };
+		inline const Pos<int> &getMargin() const { return _margin; };
+		inline const Pos<int> &getMousePosition() const { return _mouse; };
+		inline void setMousePosition(const Pos<int> &pos) { _mouse = pos; };
+		inline void setZoomRank(const int &zoomRank) { _zoomRank = zoomRank; };
+		inline const int &getZoomRank() const { return _zoomRank; };
 	private:
 		std::map<const int, std::unique_ptr<sf::Sprite>> _blocks;
 		std::map<const int, std::unique_ptr<sf::Texture>> _textures;
@@ -87,10 +96,10 @@ namespace Graphical {
 		std::map<const int, std::unique_ptr<sf::Sprite>> _buttons;
 		sf::RenderWindow _window;
 		sf::RenderTexture _screen;
-		float _zoom = 1;
-		float _zoomRank = 1;
-		Pos _mouse{};
-		const Pos _margin = {100, 0};
+		float _zoom;
+		int _zoomRank;
+		Pos<int> _mouse{};
+		const Pos<int> _margin = {100, 0};
 		mod _windowType;
 		const std::string _picturePath = "assets/pictures/";
 		const std::string _fontPath = "assets/fonts/";

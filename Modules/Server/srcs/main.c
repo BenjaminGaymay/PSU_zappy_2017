@@ -32,6 +32,7 @@ static void clear_server(t_server *server)
 	remove_map(server->map, server->opts->y);
 	// Free clients graphiques
 	// Free opts->teams
+	// Free eggs
 	free(server->opts);
 	close(server->socket);
 }
@@ -45,14 +46,15 @@ static bool check_valid_options(t_opts *opt)
 		opt->max_clients == DEFAULT_VALUE));
 }
 
-int main(int ac, char **av)
+int main(const int ac, char **av)
 {
 	t_opts *opts = init_opts();
-	t_server server = {opts, NULL, NULL, NULL, NULL, DEFAULT_VALUE};
+	t_server server = {opts, NULL, NULL, NULL, NULL, NULL, DEFAULT_VALUE};
 
 	if (manage_command(ac, av, server.opts) == ERROR ||
 		!check_valid_options(server.opts))
-		return (free(opts), fprintf(stderr, "Bad arguments.\n"),  ERROR);
+		return (free(opts), ERROR);
+	srand(time(NULL));
 	server.socket = create_socket(server.opts->port, INADDR_ANY, SERVER);
 	server.map = create_map(server.opts->y, server.opts->x);
 	game_loop(&server);

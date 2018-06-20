@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2018
 ** PSU_zappy_2017
 ** File description:
-** socket_infos
+** graphic_socket_infos
 */
 
 #include "communication.h"

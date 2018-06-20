@@ -1,8 +1,8 @@
 /*
 ** EPITECH PROJECT, 2018
-** student
+** PSU_zappy_2017
 ** File description:
-** 20/06/18
+** graphic_clients
 */
 
 #include "server.h"

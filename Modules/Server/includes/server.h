@@ -38,7 +38,6 @@ typedef struct s_message {
 	char *request;
 	char *response;
 	char *graphics_message;
-	bool send;
 	long long finish_date;
 	struct s_message *next;
 } t_message;

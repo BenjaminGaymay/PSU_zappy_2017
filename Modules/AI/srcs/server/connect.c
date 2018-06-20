@@ -63,5 +63,6 @@ int connect_to_server(t_opts_ai *opt)
 	for (int i = 0; i < INVENT_SIZE; i++)
 		ai.inv[i] = 0;
 	ai.list = NULL;
+	ai.look = NULL;
 	return (run_ai(&ai));
 }

@@ -45,7 +45,7 @@ static void put_in_inventory(size_t *inv, char **tmp)
 	}
 }
 
-static void get_number_player(t_ai *ai, size_t *inv)
+static void get_number_player(t_ai *ai)
 {
 	char *res = NULL;
 	char **tmp = NULL;
@@ -54,7 +54,8 @@ static void get_number_player(t_ai *ai, size_t *inv)
 	res = readline(ai->fd);
 	tmp = str_to_tab(res, ",");
 	tmp[0] = lstrip(tmp[0], "[ ");
-	inv[EL_PLAYER] = count_substr(tmp[0], "player");
+	ai->inv[EL_PLAYER] = count_substr(tmp[0], "player");
+	free_tab(tmp);
 }
 
 static size_t *parse_inventory(t_ai *ai, char *buf)
@@ -67,8 +68,10 @@ static size_t *parse_inventory(t_ai *ai, char *buf)
 		tab[i] = lstrip(tab[i], "[ ");
 		tmp = str_to_tab(tab[i], " ");
 		put_in_inventory(inv, tmp);
+		free_tab(tmp);
 	}
-	get_number_player(ai, inv);
+	free_tab(tab);
+	get_number_player(ai);
 	return (inv);
 }
 

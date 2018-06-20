@@ -64,6 +64,8 @@ void show_tab(char **);
 
 char *lstrip(char *, char *);
 char *rstrip(char *, char *);
+char *lstrip_m(char *, char *);
+char *rstrip_m(char *, char *);
 char char_to_upper(char);
 void str_to_upper(char *);
 int count_words(char *, char *);

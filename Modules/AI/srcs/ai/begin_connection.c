@@ -36,8 +36,7 @@ static int receipt_infos(t_ai *ai)
 		tmp = str_to_tab(buf, " ");
 		ai->opts->dim.x = atoi(tmp[0]);
 		ai->opts->dim.y = atoi(tmp[1]);
-		free(buf);
-		return (SUCCESS);
+		return (free_tab(tmp), free(buf), SUCCESS);
 	}
 	return (ERROR);
 }

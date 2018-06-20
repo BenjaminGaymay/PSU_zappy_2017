@@ -13,38 +13,46 @@
 #include "macro.h"
 #include "commands.h"
 #include "tools.h"
-#include "ai_list.h"
 
-static char **get_data_from_look(const char *tmp)
+char **get_data_from_look(const char *str)
 {
-	char **tab;
+	char **tab = NULL;
+	char *tmp = NULL;
 
-	tmp = lstrip(rstrip((char *)tmp, "]"), "[");
+	if (!str)
+		return (NULL);
+	tmp = strdup(str);
 	replace_str((char *)tmp, ",,", " ");
 	tab = str_to_tab((char *)tmp, ",");
-	for (int i = 0; tab[i]; i++)
-		tab[i] = lstrip(tab[i], " ");
+	for (int i = 0; tab[i]; i++) {
+		tab[i] = lstrip_m(tab[i], "[ ");
+		tab[i] = rstrip_m(tab[i], "] ");
+	}
+	free(tmp);
 	return (tab);
 }
 
-static void find_forward(const char **tab, t_ai *ai, bool *no_res)
+static void find_forward(t_ai *ai)
 {
+	char **tab = get_data_from_look(ai->look);
 	size_t i = 0;
 	size_t j = 2;
-	char *t;
 
-	while (i < tablen((char **)tab)) {
-		if (strcmp(tab[i], "") != 0) {
-			send_command(ai, FORWARD);
-			t = readline(ai->fd);
-			printf("%s\n", t);
-			exit(0);
-			*no_res = false;
-			break;
-		}
-		i += j;
-		j += 2;
-	}
+	if (!tab)
+		return;
+	if (strlen(tab[0]) > 0)
+		send_command(ai, FORWARD);
+	free_tab(tab);
+	return;
+	// while (i < tablen((char **)tab)) {
+	// 	if (strcmp(tab[i], "") != 0) {
+	// 		send_command(ai, FORWARD);
+	// 		break;
+	// 	}
+	// 	i += j;
+	// 	j += 2;
+	// }
+	// free_tab(tab);
 }
 
 static int take_object(char **cmd, t_ai *ai)
@@ -78,7 +86,7 @@ int look_for_ressources(t_ai *ai, const char *tmp)
 
 	if (strcmp(tab[0], "") != 0)
 		return (take_object(tab, ai));
-	find_forward((const char **)tab, ai, &no_res);
+	// find_forward((const char **)tab, ai, &no_res);
 	if (no_res == false) {
 		send_command(ai, random_dir == 0 ? TURN_LEFT : TURN_RIGHT);
 		read(ai->fd, t, 4096);
@@ -88,20 +96,31 @@ int look_for_ressources(t_ai *ai, const char *tmp)
 
 int run_ai(t_ai *ai)
 {
-	char *res;
+	t_associate_state arr[] = {
+		{AI_LOOK, look_cmd},
+		{AI_TAKE, take_cmd},
+		{AI_MOVE, move_cmd},
+		{AI_INCANT, incant_cmd},
+		{AI_TURN, turn_cmd}
+	};
 
+	ai->state = AI_LOOK;
 	if (receipt_welcome(ai))
 		return (ERROR);
-	send_command(ai, LOOK);
 	while (true) {
 		if (listlen(ai->list) < 10) {
-			// try_incantation(ai);
-			// send_command(ai, LOOK);
-			// res = readline(ai->fd);
-			// look_for_ressources(ai, res);
-			// free(res);
-			wait_for_response(ai);
+			for (int i = 0; i < 4; i++) {
+				if (ai->state == arr[i].state)
+					arr[i].fct(ai);
+			}
 		}
+		// if (listlen(ai->list) < 10) {
+		// 	if (ai->state == LOOK)
+		// 		send_command(ai, AI_LOOK);
+		// 	send_command(ai, INVENTORY);
+		// 	find_forward(ai);
+		// }
+		wait_for_response(ai);
 	}
 	return (SUCCESS);
 }

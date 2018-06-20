@@ -17,7 +17,7 @@
 void send_command(t_ai *ai, const char *msg)
 {
 	dprintf(ai->fd, "%s\n", msg);
-	printf("Command : [%s]\n", msg);
+	printf("[!] Command : [%s]\n", msg);
 	add_in_list(&ai->list, msg);
 }
 

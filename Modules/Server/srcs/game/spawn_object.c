@@ -14,6 +14,8 @@ void add_in_map(t_server *server, int i)
 {
 	t_pos pos = {rand() % server->opts->x, rand() % server->opts->y};
 	size_t **tab;
+	t_inventory aCase = server->map[pos.y][pos.x];
+	char *msg = NULL;
 
 	while (server->map[pos.y][pos.x].incantation == true) {
 		pos = (t_pos){rand() % server->opts->x, rand() % server->opts->y};
@@ -27,6 +29,10 @@ void add_in_map(t_server *server, int i)
 	tab[5] = &server->map[pos.y][pos.x].phiras;
 	tab[6] = &server->map[pos.y][pos.x].thystame;
 	*(tab[i]) += 1;
+	asprintf(&msg, "bct %d %d %ld %ld %ld %ld %ld %ld %ld", pos.x, pos.y,
+			 aCase.food, aCase.linemate, aCase.deraumere, aCase.sibur,
+			 aCase.mendiane, aCase.phiras, aCase.thystame);
+	send_to_graphics(server, msg);
 	free(tab);
 }
 

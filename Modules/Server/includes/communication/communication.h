@@ -20,3 +20,4 @@ void remove_messages(t_server *, t_message *);
 void remove_all_messages(t_server *);
 void parse_command(t_server *, t_message *);
 void unlink_client_messages(t_server *, t_client *);
+void send_to_graphics(t_server *server, char *msg);

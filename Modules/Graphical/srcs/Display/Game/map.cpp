@@ -10,13 +10,13 @@
 Graphical::Pos<int> Graphical::Core::getEntityPos(const int &block)
 {
 	static std::map<char, Pos<int>> map = {
-			{1, {0, 0}},
-			{2, {1, 0}},
-			{3, {2, 0}},
-			{4, {0, 1}},
-			{5, {2, 2}},
-			{6, {2, 1}},
-			{7, {0, 2}},
+			{0, {0, 0}},
+			{1, {1, 0}},
+			{2, {2, 0}},
+			{3, {0, 1}},
+			{4, {2, 2}},
+			{5, {2, 1}},
+			{6, {0, 2}},
 			{8, {1, 2}},
 			{24, {1, 1}},
 			{11, {1, 1}},
@@ -103,9 +103,9 @@ void Graphical::Core::printCaseInventory(const std::unique_ptr<Case> &block)
 		_sfml->text("birdy", std::to_string(block->getResource(i)), 20, sf::Color::White, {x, y * padding});
 		y += 1;
 	}
-	if (block->getResource(7) > 0)
+	if (block->getResource(0) > 0)
 		createIcon(filterNb, 7, x, y, margin, padding);
-	_sfml->text("birdy", std::to_string(block->getResource(7)), 20, sf::Color::White, {x, y * padding});
+	_sfml->text("birdy", std::to_string(block->getResource(0)), 20, sf::Color::White, {x, y * padding});
 	y += 1;
 	if (!block->getEggsId().empty())
 		createIcon(filterNb, 8, x, y, margin, padding);
@@ -136,9 +136,7 @@ void Graphical::Core::printMap(const std::vector<std::unique_ptr<Case>> &map)
 			printCaseInventory(block);
 		if (_filters[2]) {
 			for (auto &resource : block->getResources()) {
-				if(resource.first >= 7)
-					break;
-				if (resource.second > 0)
+				if (resource.second > 0 && resource.first > 0 && resource.first < 7)
 					dropStone(resource.first, scale, x, y);
 			}
 			/*dropStone(1, scale, x, y);
@@ -148,7 +146,7 @@ void Graphical::Core::printMap(const std::vector<std::unique_ptr<Case>> &map)
 			dropStone(5, scale, x, y);
 			dropStone(6, scale, x, y);*/
 		}
-		if (_filters[7] && block->getResource(7) > 0)
+		if (_filters[7] && block->getResource(0) > 0)
 			dropFood(7, scale, x, y);
 		if (_filters[8] && !block->getEggsId().empty())
 			dropEgg(8, scale, x, y);

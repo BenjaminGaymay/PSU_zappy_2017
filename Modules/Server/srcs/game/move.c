@@ -27,8 +27,8 @@ char *forward(t_server *server, t_message *cmd)
 		<= 0 ? server->opts->x : cmd->owner->pos.x) - 1));
 		default: break;}
 	asprintf(&server->messages->graphics_message, "ppo %li %i %i %li",
-			 cmd->owner->player_id, cmd->owner->pos.x,
-			 cmd->owner->pos.y, cmd->owner->look + 1);
+			cmd->owner->player_id, cmd->owner->pos.x,
+			cmd->owner->pos.y, cmd->owner->look + 1);
 	return (asprintf(&str, "ok"), str);
 }
 
@@ -39,8 +39,8 @@ char *right(t_server *server, t_message *cmd)
 	cmd->finish_date = time_until_finish(RIGHT_TIME, server->opts->freq);
 	cmd->owner->look += (cmd->owner->look >= 3 ? -3 : 1);
 	asprintf(&server->messages->graphics_message, "ppo %li %i %i %li",
-			 cmd->owner->player_id, cmd->owner->pos.x,
-			 cmd->owner->pos.y, cmd->owner->look + 1);
+			cmd->owner->player_id, cmd->owner->pos.x,
+			cmd->owner->pos.y, cmd->owner->look + 1);
 	return (asprintf(&str, "ok"), str);
 }
 
@@ -51,7 +51,7 @@ char *left(t_server *server, t_message *cmd)
 	cmd->finish_date = time_until_finish(LEFT_TIME, server->opts->freq);
 	cmd->owner->look -= (cmd->owner->look <= 0 ? -3 : 1);
 	asprintf(&server->messages->graphics_message, "ppo %li %i %i %li",
-			 cmd->owner->player_id, cmd->owner->pos.x,
-			 cmd->owner->pos.y, cmd->owner->look + 1);
+			cmd->owner->player_id, cmd->owner->pos.x,
+			cmd->owner->pos.y, cmd->owner->look + 1);
 	return (asprintf(&str, "ok"), str);
 }

@@ -14,10 +14,10 @@ void add_in_map(t_server *server, int i)
 {
 	t_pos pos = {rand() % server->opts->x, rand() % server->opts->y};
 	size_t **tab;
+	char *msg = NULL;
 
-	while (server->map[pos.y][pos.x].incantation == true) {
-		pos = (t_pos){rand() % server->opts->x, rand() % server->opts->y};
-	}
+	while (server->map[pos.y][pos.x].incantation == true)
+	pos = (t_pos){rand() % server->opts->x, rand() % server->opts->y};
 	tab = malloc(sizeof(size_t) * 8);
 	tab[0] = &server->map[pos.y][pos.x].food;
 	tab[1] = &server->map[pos.y][pos.x].linemate;
@@ -27,6 +27,9 @@ void add_in_map(t_server *server, int i)
 	tab[5] = &server->map[pos.y][pos.x].phiras;
 	tab[6] = &server->map[pos.y][pos.x].thystame;
 	*(tab[i]) += 1;
+	asprintf(&msg, "bct %d %d %li %li %li %li %li %li %li", pos.x, pos.y,
+		*tab[0], *tab[1], *tab[2], *tab[3], *tab[4], *tab[5], *tab[6]);
+	send_to_graphics(server, msg);
 	free(tab);
 }
 
@@ -66,6 +69,7 @@ void spawn_object(t_server *server)
 			timing[i].time = time_until_finish(
 			timing[i].loop_time, server->opts->freq);
 			add_in_map(server, i);
+			//print_map(server->map, server->opts->y, server->opts->x);
 		}
 	}
 }

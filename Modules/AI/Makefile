@@ -26,6 +26,7 @@ SRCS	= 	./srcs/main.c					\
 		./srcs/ai/send_commands.c			\
 		./srcs/ai/ai_list.c				\
 		./srcs/ai/state_ai.c				\
+		./srcs/ai/dump_list.c				\
 		$(SHARED)/srcs/connection/sockets.c		\
 		$(SHARED)/srcs/tools/array_tools.c		\
 		$(SHARED)/srcs/tools/count_row.c		\

@@ -93,10 +93,6 @@ int try_incantation(t_ai *ai)
 			send_command(ai, START_INCANTATION);
 			// drop_needed_items(ai->fd, inv);
 		}
-		for (int i = 0; i < 7; i++) {
-			printf("%ld   ", inv[i]);
-		}
-		printf("\n");
 		return (SUCCESS);
 	}
 	return (ERROR);

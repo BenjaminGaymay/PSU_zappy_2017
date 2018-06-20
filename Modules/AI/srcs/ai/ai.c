@@ -22,6 +22,8 @@ char **get_data_from_look(const char *str)
 	if (!str)
 		return (NULL);
 	tmp = strdup(str);
+	if (!tmp)
+		return (NULL);
 	replace_str((char *)tmp, ",,", " ");
 	tab = str_to_tab((char *)tmp, ",");
 	for (int i = 0; tab[i]; i++) {
@@ -32,28 +34,28 @@ char **get_data_from_look(const char *str)
 	return (tab);
 }
 
-static void find_forward(t_ai *ai)
-{
-	char **tab = get_data_from_look(ai->look);
-	size_t i = 0;
-	size_t j = 2;
+// static void find_forward(t_ai *ai)
+// {
+// 	char **tab = get_data_from_look(ai->look);
+// 	// size_t i = 0;
+// 	// size_t j = 2;
 
-	if (!tab)
-		return;
-	if (strlen(tab[0]) > 0)
-		send_command(ai, FORWARD);
-	free_tab(tab);
-	return;
-	// while (i < tablen((char **)tab)) {
-	// 	if (strcmp(tab[i], "") != 0) {
-	// 		send_command(ai, FORWARD);
-	// 		break;
-	// 	}
-	// 	i += j;
-	// 	j += 2;
-	// }
-	// free_tab(tab);
-}
+// 	if (!tab)
+// 		return;
+// 	if (strlen(tab[0]) > 0)
+// 		send_command(ai, FORWARD);
+// 	free_tab(tab);
+// 	return;
+// 	// while (i < tablen((char **)tab)) {
+// 	// 	if (strcmp(tab[i], "") != 0) {
+// 	// 		send_command(ai, FORWARD);
+// 	// 		break;
+// 	// 	}
+// 	// 	i += j;
+// 	// 	j += 2;
+// 	// }
+// 	// free_tab(tab);
+// }
 
 static int take_object(char **cmd, t_ai *ai)
 {
@@ -86,12 +88,18 @@ int look_for_ressources(t_ai *ai, const char *tmp)
 
 	if (strcmp(tab[0], "") != 0)
 		return (take_object(tab, ai));
-	// find_forward((const char **)tab, ai, &no_res);
 	if (no_res == false) {
 		send_command(ai, random_dir == 0 ? TURN_LEFT : TURN_RIGHT);
 		read(ai->fd, t, 4096);
 	}
 	return (SUCCESS);
+}
+
+void delete_ai(t_ai *ai)
+{
+	delete_list(ai->list);
+	free(ai->look);
+	close(ai->fd);
 }
 
 int run_ai(t_ai *ai)
@@ -107,12 +115,13 @@ int run_ai(t_ai *ai)
 	ai->state = AI_LOOK;
 	if (receipt_welcome(ai))
 		return (ERROR);
-	while (true) {
+	while (ai->run) {
 		if (listlen(ai->list) < 10)
-			for (int i = 0; i < 4; i++)
+			for (int i = 0; i < 5; i++)
 				if (ai->state == arr[i].state)
 					arr[i].fct(ai);
 		wait_for_response(ai);
 	}
+	delete_ai(ai);
 	return (SUCCESS);
 }

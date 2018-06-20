@@ -45,6 +45,8 @@ char **str_to_tab(char *str, const char *delimiter)
 	char *tmp = NULL;
 	int i = 0;
 
+	if (!str || !delimiter)
+		return (NULL);
 	tab = calloc(count_words(str, (char *)delimiter) + 2, sizeof(char *));
 	if (!tab)
 		return (FCT_FAILED("calloc"), NULL);

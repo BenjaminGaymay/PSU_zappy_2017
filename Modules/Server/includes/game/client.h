@@ -10,6 +10,7 @@
 #include "server.h"
 
 int add_client(t_server *);
+void remove_client_g(t_server *, t_graphical_client *, bool);
 void remove_client(t_server *, t_client *, bool);
 void remove_all_clients(t_client *);
 int player_in_team(t_server *, t_team *);

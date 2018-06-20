@@ -10,6 +10,7 @@
 #include "server.h"
 #include "client.h"
 
+int read_on_client_g(t_server *server, t_graphical_client *client);
 int add_message_in_list(t_server *, t_client *, const char *);
 int add_special_response(t_server *, t_client *, char *);
 void remove_finished_actions(t_server *);

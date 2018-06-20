@@ -13,32 +13,33 @@ SHARED	=	../Shared
 
 RM	= 	rm -f
 
-SRCS	=	./srcs/main.c				\
-		./srcs/arguments/args_fct.c		\
-		./srcs/arguments/arguments.c		\
-		./srcs/map/create_map.c			\
-		./srcs/clients/manage_clients.c		\
-		./srcs/clients/get_client_inventory.c	\
-		./srcs/clients/manage_team.c		\
-		./srcs/communication/socket_infos.c	\
-		./srcs/communication/manage_messages.c	\
-		./srcs/communication/graphic_clients.c	\
-		./srcs/game/game_loop.c			\
-		./srcs/game/manage_time.c		\
-		./srcs/game/parser.c			\
-		./srcs/game/move.c			\
-		./srcs/game/take_object.c		\
-		./srcs/game/manage_eggs.c		\
-		./srcs/game/eject.c			\
-		./srcs/game/broadcast.c			\
-		./srcs/game/spawn_object.c		\
-		./srcs/game/fork.c			\
-		./srcs/map/look.c			\
-		./srcs/map/get_map_look.c		\
-		./srcs/graphics/graphics.c		\
-		$(SHARED)/srcs/connection/sockets.c	\
-		$(SHARED)/srcs/tools/array_tools.c	\
-		$(SHARED)/srcs/tools/count_row.c	\
+SRCS	=	./srcs/main.c					\
+		./srcs/arguments/args_fct.c			\
+		./srcs/arguments/arguments.c			\
+		./srcs/map/create_map.c				\
+		./srcs/clients/manage_clients.c			\
+		./srcs/clients/get_client_inventory.c		\
+		./srcs/clients/manage_team.c			\
+		./srcs/communication/socket_infos.c		\
+		./srcs/communication/graphic_socket_infos.c	\
+		./srcs/communication/manage_messages.c		\
+		./srcs/communication/graphic_clients.c		\
+		./srcs/game/game_loop.c				\
+		./srcs/game/manage_time.c			\
+		./srcs/game/parser.c				\
+		./srcs/game/move.c				\
+		./srcs/game/take_object.c			\
+		./srcs/game/manage_eggs.c			\
+		./srcs/game/eject.c				\
+		./srcs/game/broadcast.c				\
+		./srcs/game/spawn_object.c			\
+		./srcs/game/fork.c				\
+		./srcs/map/look.c				\
+		./srcs/map/get_map_look.c			\
+		./srcs/graphics/graphics.c			\
+		$(SHARED)/srcs/connection/sockets.c		\
+		$(SHARED)/srcs/tools/array_tools.c		\
+		$(SHARED)/srcs/tools/count_row.c		\
 		$(SHARED)/srcs/tools/string_tools.c
 
 OBJS	=	$(SRCS:.c=.o)

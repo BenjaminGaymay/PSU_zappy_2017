@@ -36,29 +36,6 @@ char **get_data_from_look(const char *str)
 	return (tab);
 }
 
-// static void find_forward(t_ai *ai)
-// {
-// 	char **tab = get_data_from_look(ai->look);
-// 	// size_t i = 0;
-// 	// size_t j = 2;
-
-// 	if (!tab)
-// 		return;
-// 	if (strlen(tab[0]) > 0)
-// 		send_command(ai, FORWARD);
-// 	free_tab(tab);
-// 	return;
-// 	// while (i < tablen((char **)tab)) {
-// 	// 	if (strcmp(tab[i], "") != 0) {
-// 	// 		send_command(ai, FORWARD);
-// 	// 		break;
-// 	// 	}
-// 	// 	i += j;
-// 	// 	j += 2;
-// 	// }
-// 	// free_tab(tab);
-// }
-
 static int take_object(char **cmd, t_ai *ai)
 {
 	static const char *objects[] = {"linemate", "deraumere", "sibur",
@@ -118,6 +95,7 @@ int run_ai(t_ai *ai)
 	if (receipt_welcome(ai))
 		return (ERROR);
 	while (ai->run) {
+		usleep(rand() % 5000 + 1000);
 		if (listlen(ai->list) < 10)
 			for (int i = 0; i < 5; i++)
 				if (ai->state == arr[i].state)

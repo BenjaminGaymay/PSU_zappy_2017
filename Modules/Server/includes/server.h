@@ -45,6 +45,7 @@ typedef struct s_message {
 
 typedef struct s_egg {
 	size_t id;
+	t_client *hen;
 	t_team *team;
 	t_pos pos;
 	long long finish_date;

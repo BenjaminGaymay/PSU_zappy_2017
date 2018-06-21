@@ -65,3 +65,8 @@
 #define SPAWN_MENDIANE 60
 #define SPAWN_PHIRAS 70
 #define SPAWN_THYSTAME 80
+
+#define SEND_TEAM "tna %s\n"
+#define SEND_CELL "bct %d %d %ld %ld %ld %ld %ld %ld %ld\n"
+#define SEND_EGG "enw %ld %ld %d %d\n"
+#define SEND_CLIENT "pnw #%ld %d %d %ld %ld %s\n"

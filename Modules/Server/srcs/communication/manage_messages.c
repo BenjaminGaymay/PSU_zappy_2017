@@ -20,13 +20,19 @@ void read_all_messages(t_server *server, t_message *messages)
 
 t_message *remove_messages(t_server *server, t_message *message)
 {
+	t_message *tmp = server->messages;
 	t_message *next = message->next;
 
-	if (message == server->messages)
-		server->messages = message->next;
 	if (message->request && message->owner) {
 		message->owner->request_number -= 1;
 		message->owner->occupied = false;
+	}
+	if (message->id == server->messages->id)
+		server->messages = message->next;
+	else {
+		while (tmp->next && tmp->next->id != message->id)
+			tmp = tmp->next;
+		tmp->next = message->next;
 	}
 	free(message->request);
 	free(message->response);

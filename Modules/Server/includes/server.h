@@ -34,6 +34,7 @@ typedef struct s_client {
 } t_client;
 
 typedef struct s_message {
+	size_t id;
 	t_client *owner;
 	char *request;
 	char *response;

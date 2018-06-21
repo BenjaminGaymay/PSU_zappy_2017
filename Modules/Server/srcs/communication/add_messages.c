@@ -7,10 +7,23 @@
 
 #include "communication.h"
 
+static void push_back_message(t_server *server, t_message *message)
+{
+	t_message *tmp = server->messages;
+
+	if (server->messages) {
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = message;
+	}
+	else
+		server->messages = message;
+}
+
 int add_message_in_list(t_server *server, t_client *client,
 			const char *request)
 {
-	static t_message *last_message = NULL;
+	static size_t id = 0;
 	t_message *new = calloc(1, sizeof(*new));
 
 	if (!new)
@@ -20,14 +33,12 @@ int add_message_in_list(t_server *server, t_client *client,
 	if (!new->request)
 		return (FCT_FAILED("strdup"), ERROR);
 	new->response = NULL;
+	new->id = id++;
 	new->finish_date = DEFAULT_VALUE;
 	new->graphics_message = NULL;
 	new->next = NULL;
-	if (server->messages)
-		last_message->next = new;
-	else
-		server->messages = new;
-	return (last_message = new, SUCCESS);
+	push_back_message(server, new);
+	return (SUCCESS);
 }
 
 int add_special_response(t_server *server, t_client *client, char *response)

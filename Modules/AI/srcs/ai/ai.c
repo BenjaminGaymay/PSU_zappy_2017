@@ -26,6 +26,8 @@ char **get_data_from_look(const char *str)
 		return (NULL);
 	replace_str((char *)tmp, ",,", " ");
 	tab = str_to_tab((char *)tmp, ",");
+	if (!tab)
+		return (NULL);
 	for (int i = 0; tab[i]; i++) {
 		tab[i] = lstrip_m(tab[i], "[ ");
 		tab[i] = rstrip_m(tab[i], "] ");

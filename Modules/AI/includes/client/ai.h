@@ -71,3 +71,10 @@ int take_cmd(t_ai *);
 int move_cmd(t_ai *);
 int incant_cmd(t_ai *);
 int turn_cmd(t_ai *);
+
+int inventory(t_ai *, char *);
+int look_around(t_ai *, char *);
+int turn(t_ai *, char *);
+int pass(t_ai *, char *);
+int forward(t_ai *, char *);
+int broadcast(t_ai *, char *);

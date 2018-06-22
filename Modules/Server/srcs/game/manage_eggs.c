@@ -18,6 +18,7 @@ int add_egg(t_server *server, t_client *hen)
 	new->finish_date = time_until_finish(HATCH_TIME, server->opts->freq);
 	new->id = id;
 	new->pos = hen->pos;
+	new->hen = hen;
 	new->team = hen->team;
 	new->next = server->eggs;
 	server->eggs = new;

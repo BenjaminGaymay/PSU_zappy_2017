@@ -25,14 +25,17 @@ int take_cmd(t_ai *ai)
 	if (!ai->look)
 		return (ERROR);
 	tab = get_data_from_look(ai->look);
+	if (!tab)
+		return (ERROR);
 	tmp = str_to_tab(tab[0], " ");
+	if (!tmp)
+		return (ERROR);
 	for (i = 0; tmp[i] && strcmp(tmp[i], "player") == 0; i++);
 	if (tmp[i] != NULL) {
 		sprintf(cmd, "Take %s", tmp[i]);
 		send_command(ai, cmd);
 	}
-	ai->state = AI_LOOK;
-	return (SUCCESS);
+	return (free_tab(tab), free_tab(tmp), ai->state = AI_LOOK, SUCCESS);
 }
 
 int move_cmd(t_ai *ai)

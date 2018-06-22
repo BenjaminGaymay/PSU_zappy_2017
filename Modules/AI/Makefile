@@ -20,12 +20,15 @@ SRCS	= 	./srcs/main.c					\
 	  	./srcs/arguments/args_fct.c			\
 	  	./srcs/server/connect.c				\
 		./srcs/server/response.c			\
+		./srcs/server/handle_response.c			\
 		./srcs/ai/ai.c					\
 		./srcs/ai/incantation.c				\
 		./srcs/ai/begin_connection.c			\
 		./srcs/ai/send_commands.c			\
 		./srcs/ai/ai_list.c				\
 		./srcs/ai/state_ai.c				\
+		./srcs/ai/dump_list.c				\
+		./srcs/ai/inventory.c				\
 		$(SHARED)/srcs/connection/sockets.c		\
 		$(SHARED)/srcs/tools/array_tools.c		\
 		$(SHARED)/srcs/tools/count_row.c		\

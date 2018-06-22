@@ -18,6 +18,7 @@
 #define SUCCESS 0
 #define ERROR 84
 #define FAILED 1
+#define FAILURE 1
 #define COMMAND_SIZE_SERVER 7
 #define COMMAND_SIZE_AI 4
 #define DEFAULT_VALUE -1
@@ -64,3 +65,8 @@
 #define SPAWN_MENDIANE 60
 #define SPAWN_PHIRAS 70
 #define SPAWN_THYSTAME 80
+
+#define SEND_TEAM "tna %s\n"
+#define SEND_CELL "bct %d %d %ld %ld %ld %ld %ld %ld %ld\n"
+#define SEND_EGG "enw %ld %ld %d %d\n"
+#define SEND_CLIENT "pnw #%ld %d %d %ld %ld %s\n"

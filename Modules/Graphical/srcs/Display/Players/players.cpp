@@ -31,7 +31,7 @@ void Graphical::Core::printPlayerInventory(std::unique_ptr<Player> &player, cons
 		auto i = static_cast<int>(index);
 		createIcon(nbCases, 15, (index + 2) * padding, pos.y, {static_cast<int>(pos.x), 0}, padding);
 		createIcon(nbCases, 22, (index + 2) * padding, pos.y, {static_cast<int>(pos.x), 0}, padding, _game->getCristals()->getColor(i));
-		std::cerr << i << ":" << player->getResource(i) << std::endl;
+//		std::cerr << i << ":" << player->getResource(i) << std::endl;
 		_sfml->text("birdy", std::to_string(player->getResource(i)), static_cast<std::size_t >(padding / 4), sf::Color::White, {
 				static_cast<float>((i + 2) * padding), pos.y * padding});
 	}

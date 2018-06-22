@@ -45,7 +45,6 @@ void send_message_to_graphics(t_graphical_client *clients, const char *msg)
 	t_graphical_client *tmp = clients;
 
 	while (tmp) {
-		fprintf(stderr, "Je envoie au graphisme:%s\n", msg);
 		dprintf(tmp->socket, "%s\n", msg);
 		tmp = tmp->next;
 	}

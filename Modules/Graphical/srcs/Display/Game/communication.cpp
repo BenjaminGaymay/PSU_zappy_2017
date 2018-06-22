@@ -232,7 +232,7 @@ int Graphical::Game::setPlayerCollecting(const std::vector<std::string> &array)
 	if (!player) {
 		std::cerr << "Player not found" << std::endl;
 		return 1;
-	}.
+	}
 	player->addResource(resourceId, 1);
 	const std::unique_ptr<Case> &aCase = _mapper->getCase(player->getPosition());
 	if (!aCase) {

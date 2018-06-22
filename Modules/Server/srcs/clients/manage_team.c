@@ -5,6 +5,7 @@
 ** manage_team
 */
 
+#include <communication.h>
 #include "eggs.h"
 #include "manage_time.h"
 
@@ -77,6 +78,9 @@ void find_team(t_server *server, t_client *client, const char *name)
 				server->opts->x, server->opts->y);
 			client->last_eat = time_until_finish(LIFE_TIME,
 				server->opts->freq);
+			char *msg = NULL;
+			asprintf(&msg, "pnw %li %i %i %li %li %s", client->player_id, client->pos.x, client->pos.y, client->look, client->level, client->team->name);
+			send_to_graphics(server, msg);
 			break;
 		}
 	}

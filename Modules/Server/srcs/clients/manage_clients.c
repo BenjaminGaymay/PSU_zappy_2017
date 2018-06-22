@@ -47,6 +47,7 @@ void remove_client(t_server *server, t_client *client, bool close_fd)
 {
 	t_client *tmp = server->clients;
 	t_client *save = client;
+	char *msg = NULL;
 
 	unlink_client_messages(server, save);
 	if (client->player_id == tmp->player_id)
@@ -57,6 +58,8 @@ void remove_client(t_server *server, t_client *client, bool close_fd)
 		tmp->next = client->next;
 	}
 	if (close_fd && is_fd_open(client->socket)) {
+		asprintf(&msg, "pdi %li", client->player_id);
+		send_to_graphics(server, msg);
 		dprintf(client->socket, "dead\n");
 		close(client->socket);
 	}

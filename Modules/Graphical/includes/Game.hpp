@@ -100,6 +100,7 @@ namespace Graphical {
 			for (auto elem = _players.begin() ; elem != _players.end() ; ++elem) {
 				auto &player = *elem;
 				if (player->getId() == id) {
+					_mapper->getCase(player->getPosition())->removePlayer(player->getId());
 					_players.erase(elem);
 					return ;
 				}

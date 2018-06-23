@@ -18,13 +18,14 @@ char **get_data_from_look(const char *str)
 {
 	char **tab = NULL;
 	char *tmp = NULL;
+	char *tmp2 = NULL;
 
 	if (!str)
 		return (NULL);
 	tmp = strdup(str);
 	if (!tmp)
 		return (NULL);
-	replace_str((char *)tmp, ",,", " ");
+	tmp2 = replace(tmp, ",,", ", ,");
 	tab = str_to_tab((char *)tmp, ",");
 	if (!tab)
 		return (NULL);
@@ -33,6 +34,7 @@ char **get_data_from_look(const char *str)
 		tab[i] = rstrip_m(tab[i], "] ");
 	}
 	free(tmp);
+	free(tmp2);
 	return (tab);
 }
 

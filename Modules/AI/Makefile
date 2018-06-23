@@ -34,7 +34,8 @@ SRCS	= 	./srcs/main.c					\
 		$(SHARED)/srcs/tools/count_row.c		\
 		$(SHARED)/srcs/tools/string_tools.c		\
 		$(SHARED)/srcs/tools/init_struct.c		\
-		$(SHARED)/srcs/tools/get_next_line.c
+		$(SHARED)/srcs/tools/get_next_line.c		\
+		$(SHARED)/srcs/tools/replace.c
 
 OBJS	= 	$(SRCS:.c=.o)
 

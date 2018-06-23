@@ -12,7 +12,7 @@ char *comma(const t_get_type tab[7], char *str, int nb)
 {
 	for (int i = nb; i < 7;++i) {
 		if (tab[i].x > 0 && strlen(str) > 2) {
-			asprintf(&str, "%s ", str);
+			str = mallocat(str, " ", "");
 			break;
 		}
 	}
@@ -25,10 +25,9 @@ char *players_pos(t_server *server, char *str, t_pos pos)
 
 	while (tmp) {
 		if (tmp->pos.x == pos.x && tmp->pos.y == pos.y)
-			asprintf(&str, "%s player", str);
+			str = mallocat(str, " player", "");
 		tmp = tmp->next;
 	}
-
 	return (str);
 }
 
@@ -47,12 +46,11 @@ char *push_str(t_server *server, char *str, t_pos pos, t_message *cmd)
 	for (int i = 0; i < 7;++i)
 		if (tab[i].x > 0) {
 		for (size_t j = 0; j < tab[i].x; ++j)
-		j + 1 < tab[i].x ? asprintf(&str, "%s%s ", str, tab[i].str)
-		: asprintf(&str, "%s%s", str, tab[i].str);
+		str = mallocat(str, tab[i].str, (j + 1 < tab[i].x ? " " : ""));
 		str = comma(tab, str, i + 1);
 		}
 	if (x < (int)(3 * cmd->owner->level + (2 * (cmd->owner->level - 1))))
-		asprintf(&str, "%s,", str);
+		str = mallocat(str, ",", "");
 	else
 		x = -1;
 	return (++x, str);

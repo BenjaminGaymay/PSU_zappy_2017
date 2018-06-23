@@ -48,8 +48,7 @@ static void check_incantations_state(t_server *server, t_message *messages)
 		!tmp->response && tmp->owner && is_finish(tmp->finish_date)) {
 			if (server->map[tmp->owner->pos.y][tmp->owner->pos.x].incantation &&
 			is_inventory_complete(server, tmp->owner)) {
-				asprintf(&tmp->response,
-				"Current level: %ld",
+				asprintf(&tmp->response, "Current level: %ld",
 				++tmp->owner->level);
 				reset_inventory(tmp->owner);
 				if (tmp->owner->level == MAX_LEVEL)

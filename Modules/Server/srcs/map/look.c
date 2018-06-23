@@ -77,6 +77,5 @@ char *look(t_server *server, t_message *cmd)
 	cmd->finish_date = time_until_finish(LOOK_TIME, server->opts->freq);
 	asprintf(&str, "[");
 	str = (*fct[direction])(server, str, pos, cmd);
-	asprintf(&str, "%s ]", str);
-	return (str);
+	return (mallocat(str, " ]", ""));
 }

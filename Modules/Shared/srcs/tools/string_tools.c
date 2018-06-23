@@ -92,3 +92,21 @@ int count_words(char *str, char *delimiter)
 	}
 	return (count);
 }
+
+char *mallocat(char *dest, const char *src, const char *endline)
+{
+	int f = 0;
+	char *new = calloc(strlen(dest) + strlen(src) + strlen(endline) + 1,
+			sizeof(*new));
+
+	if (!new)
+		return (NULL);
+	for (int i = 0 ; dest[i] ; i++, f++)
+		new[f] = dest[i];
+	for (int i = 0 ; src[i] ; i++, f++)
+		new[f] = src[i];
+	for (int i = 0 ; endline[i] ; i++, f++)
+		new[f] = endline[i];
+	free(dest);
+	return (new);
+}

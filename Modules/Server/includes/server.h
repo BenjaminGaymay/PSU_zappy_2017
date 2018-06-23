@@ -10,6 +10,7 @@
 #include <stdbool.h>
 #include "macro.h"
 #include "arguments_server.h"
+#include "tools.h"
 #include "sockets.h"
 #include "map.h"
 

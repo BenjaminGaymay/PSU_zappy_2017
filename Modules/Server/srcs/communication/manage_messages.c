@@ -34,6 +34,8 @@ t_message *remove_messages(t_server *server, t_message *message)
 			tmp = tmp->next;
 		tmp->next = message->next;
 	}
+	if (message->graphics_message)
+		free(message->graphics_message);
 	free(message->request);
 	free(message->response);
 	free(message);
@@ -63,7 +65,9 @@ void send_responses(t_server *server, t_message *responses)
 				send_message_to_graphics(
 		server->graphical_client, tmp->graphics_message);
 			tmp = remove_messages(server, tmp);
-		} else
+		} else if (!tmp->owner)
+			tmp = remove_messages(server, tmp);
+		else
 			tmp = tmp->next;
 	}
 }

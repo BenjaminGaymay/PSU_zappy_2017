@@ -49,7 +49,7 @@ char *take_obj(t_server *server, t_message *cmd)
 			return (asprintf(&str, "ok"), free(tab),
 			free(line), str);
 		}
-	return (asprintf(&str, "ko"), free(tab), free(line), NULL);
+	return (free(tab), free(line), NULL);
 }
 
 char *set_obj(t_server *server, t_message *cmd)

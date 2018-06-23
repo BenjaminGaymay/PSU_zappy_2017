@@ -46,8 +46,10 @@ char *push_str(t_server *server, char *str, t_pos pos, t_message *cmd)
 	str = comma(tab, players_pos(server, str, pos), 0);
 	for (int i = 0; i < 7;++i)
 		if (tab[i].x > 0) {
-			asprintf(&str, "%s%s", str, tab[i].str);
-			str = comma(tab, str, i + 1);
+		for (size_t j = 0; j < tab[i].x; ++j)
+		j + 1 < tab[i].x ? asprintf(&str, "%s%s ", str, tab[i].str)
+		: asprintf(&str, "%s%s", str, tab[i].str);
+		str = comma(tab, str, i + 1);
 		}
 	if (x < (int)(3 * cmd->owner->level + (2 * (cmd->owner->level - 1))))
 		asprintf(&str, "%s,", str);

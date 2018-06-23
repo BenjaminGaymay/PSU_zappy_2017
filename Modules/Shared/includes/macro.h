@@ -25,6 +25,7 @@
 #define ERR_FC -1
 #define FD_ERROR -1
 
+#define MAX_LEVEL 9
 #define INVENT_SIZE 7
 
 #define FCT_FAILED(s) fprintf(stderr, "Error: %s failed.\n", s)

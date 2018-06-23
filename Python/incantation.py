@@ -16,6 +16,17 @@ class Incantation:
         ]
 
     def compare_ressources(self, inventory, level):
+        """
+        Compare ressources of inventory to the level's one
+
+        Args:
+            inventory (dict): content of the bot's inventory
+            level (int): level of the bot
+
+        Returns:
+            bool: has ressources to evolve
+        """
+
         level -= 1
         return inventory['player'] == self.ressources[level][0] and \
                inventory['linemate'] == self.ressources[level][1] and \
@@ -26,13 +37,24 @@ class Incantation:
                inventory['thystame'] == self.ressources[level][6]
 
     def missing_ressoures(self, inventory, level):
+        """
+        Returns missing ressources to evolve
+
+        Args:
+            inventory (dict): inventory
+            level (int): level
+
+        Returns:
+            dict: needed res
+        """
+
         level -= 1
-        return [
-            self.ressources[level][0] - inventory['player'],
-            self.ressources[level][1] - inventory['linemate'],
-            self.ressources[level][2] - inventory['deraumere'],
-            self.ressources[level][3] - inventory['sibur'],
-            self.ressources[level][4] - inventory['mendiane'],
-            self.ressources[level][5] - inventory['phiras'],
-            self.ressources[level][6] - inventory['thystame']
-        ]
+        return {
+            'player': self.ressources[level][0] - inventory['player'],
+            'linemate': self.ressources[level][1] - inventory['linemate'],
+            'deraumere': self.ressources[level][2] - inventory['deraumere'],
+            'sibur': self.ressources[level][3] - inventory['sibur'],
+            'mendiane': self.ressources[level][4] - inventory['mendiane'],
+            'phiras': self.ressources[level][5] - inventory['phiras'],
+            'thystame': self.ressources[level][6] - inventory['thystame']
+        }

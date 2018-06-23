@@ -31,15 +31,6 @@ class Ai:
 
         return self.alive
 
-    def update_look(self, data):
-        """
-        Update look
-
-        Args:
-            data (str): vision informations
-        """
-
-        print(data)
 
     def add_cmd(self, cmd):
         """
@@ -64,3 +55,20 @@ class Ai:
         Check if the bot can perform an incantation
         """
         return self.incantation.compare_ressources(self.inventory.bag, self.level)
+
+
+    def update_look(self, data):
+        """
+        Update look
+        Args:
+            data (str): data
+        """
+        if not data:
+            return False
+        data = data.replace('[', '') \
+                   .replace(']', '') \
+                   .split(',')
+        nb_player = data[0].count('player')
+        self.inventory.bag['player'] = nb_player
+        self.look = data
+        return True

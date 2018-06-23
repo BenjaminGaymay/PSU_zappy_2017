@@ -71,7 +71,8 @@ class Zappy:
         Returns:
             str: response of the server
         """
-        res = self.connect.recv_response()
+        # res = self.connect.recv_response()
+        res = self.connect.recv_all()
         if 'dead' in res:
             print('Dead :(')
             print('\nDisconnected from {}:{}'.format(self.opt.machine, self.opt.port))
@@ -93,12 +94,8 @@ class Zappy:
         Look for ressources
         """
         self.send(macro.LOOK)
-        res = self.recv().replace('[', '') \
-                         .replace(']', '') \
-                         .split(',')
-        nb_player = res[0].count('player')
-        self.bot.inventory.bag['player'] = nb_player
-        self.bot.look = res
+        res = self.recv()
+        self.bot.update_look(res)
 
 
     def search_food(self):
@@ -109,7 +106,6 @@ class Zappy:
             bool: take food or not
         """
 
-        print(self.bot.look)
         nb_food = self.bot.look[0].count('food')
         if nb_food > 0:
             for i in range(nb_food):
@@ -132,9 +128,17 @@ class Zappy:
         """
         Search for minerals
         """
-        pprint(self.bot.incantation.missing_ressoures(self.bot.inventory.bag, self.bot.level))
-        pass
 
+        needed_res = self.bot.incantation.missing_ressoures(self.bot.inventory.bag, self.bot.level)
+        res = [x.replace('[', '').replace(']', '') for x in self.bot.look]
+        for key, value in needed_res.items():
+            if key in res[0] and key != 'player':
+                nb_el = res[0].count(key)
+                for _i in range(min(nb_el, value)):
+                    self.send('Take {}'.format(key))
+                    _res = self.recv()
+
+        return True
 
     def run(self):
         """
@@ -164,12 +168,17 @@ class Zappy:
             time.sleep(0.25)
             self.refresh_invent()
             self.look_around()
-            pprint(self.bot.inventory.bag)
+            # pprint(self.bot.inventory.bag)
+            print(self.bot.level)
             if self.bot.inventory.bag['food'] < 10:
                 self.search_food()
             else:
                 self.search_minerals()
             if self.bot.check_incantation():
                 self.send(macro.INCANTATION)
+                if self.recv() == 'ko':
+                    print('Incantation failed :(')
+                else:
+                    self.bot.level += 1
 
         return macro.SUCCESS

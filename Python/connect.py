@@ -4,9 +4,16 @@
  Hold connection with server
 """
 
-import os
 import socket
 import macro
+
+
+import logging
+
+LOG_FORMAT = '%(levelname)s: (%(asctime)s) [%(relativeCreated)dms]\t-\t%(message)s'
+logging.basicConfig(filename="zappy.log", level=logging.DEBUG, filemode='w', format=LOG_FORMAT)
+LOGGER = logging.getLogger()
+
 
 class Connect:
     """
@@ -40,6 +47,7 @@ class Connect:
         Args:
             cmd (str): command to be sent
         """
+        LOGGER.info(cmd)
         self.socket.send(cmd.encode())
 
     def recv_response(self):
@@ -48,4 +56,18 @@ class Connect:
         """
         res = self.socket.recv(macro.BUFF_SIZE).decode().split('\n')
         res = list(filter(None, res))
+        LOGGER.info(res)
         return res[0] if len(res) == 1 else res
+
+    def recv_all(self):
+        """
+        Receive all data from a response
+        """
+
+        data = b''
+        while True:
+            tmp = self.socket.recv(macro.BUFF_SIZE)
+            data += tmp
+            if len(tmp) < macro.BUFF_SIZE:
+                break
+        return data.decode()

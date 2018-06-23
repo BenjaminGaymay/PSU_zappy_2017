@@ -42,11 +42,14 @@ class Inventory:
         Args:
             data (string): Data sent by the server
         """
-        data = data.replace('[', '')   \
-                   .replace(']', '')   \
+        print(data)
+        data = data.replace('[', '')    \
+                   .replace(']', '')    \
                    .replace(', ', ',')  \
                    .replace(' ,', ',')  \
+                   .strip()             \
                    .split(',')
+        print(data)
         for elem in data:
             tmp = elem.split(' ')
             try:

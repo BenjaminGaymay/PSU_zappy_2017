@@ -45,11 +45,11 @@ char *take_obj(t_server *server, t_message *cmd)
 			*(tab[i].inv) += 1;
 			*(tab[i].x) -= 1;
 			asprintf(&server->messages->graphics_message,
-			"pgt %li %i", cmd->owner->player_id, 1);
+			"pgt %li %li", cmd->owner->player_id, *tab[i].inv);
 			return (asprintf(&str, "ok"), free(tab),
 			free(line), str);
 		}
-	return (asprintf(&str, "ko"), free(tab), free(line), NULL);
+	return (free(tab), free(line), NULL);
 }
 
 char *set_obj(t_server *server, t_message *cmd)

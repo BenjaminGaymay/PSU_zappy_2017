@@ -15,4 +15,5 @@ void send_to_graphics(t_server *server, char *msg)
 		dprintf(tmp->socket, "%s\n", msg);
 		tmp = tmp->next;
 	}
+	free(msg);
 }

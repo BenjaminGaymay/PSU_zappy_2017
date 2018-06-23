@@ -67,8 +67,6 @@ namespace Graphical {
 		const bool &getMovePossibility() { return _move; };
 		void printCaseInventory(const std::unique_ptr<Case> &block);
 		void mouseEvent(const sf::Event &event, const bool &move);
-		void setGraphicTeam(const std::string &team) { _team = team; };
-		const std::string &getGraphicTeam() const { return _team; };
 		void printInventoryCases();
 		void printToolbar();
 		void display();
@@ -100,7 +98,6 @@ namespace Graphical {
 		std::map<std::string, std::function<int(const std::vector<std::string> &)>> _ptr_function;
 		std::map<int, bool> _filters;
 		bool _move;
-		std::string _team;
 		Pos<int> _caseSelected;
 		long _antiSpam;
 	};

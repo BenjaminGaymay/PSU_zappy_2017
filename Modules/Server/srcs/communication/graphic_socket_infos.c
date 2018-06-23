@@ -6,6 +6,7 @@
 */
 
 #include "communication.h"
+#include "sockets.h"
 #include "client.h"
 
 void remove_client_g(t_server *serv, t_graphical_client *client, bool close_fd)

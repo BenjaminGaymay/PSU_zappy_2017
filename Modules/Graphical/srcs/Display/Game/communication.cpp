@@ -106,7 +106,6 @@ int Graphical::Game::setPlayerPosition(const std::vector<std::string> &array)
 	Pos<int> pos(std::stoi(array[1]), std::stoi(array[2]));
 	orientation rotation = static_cast<orientation>(std::stoi(array[3]));
 
-	std::cerr << "PPO" << std::endl;
 	const std::unique_ptr<Player> &player = isPlayerExist(id);
 	if (!player) {
 		std::cerr << "Player not found" << std::endl;

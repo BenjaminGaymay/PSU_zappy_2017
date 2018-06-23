@@ -25,6 +25,7 @@
 #define ERR_FC -1
 #define FD_ERROR -1
 
+#define MAX_LEVEL 9
 #define INVENT_SIZE 7
 
 #define FCT_FAILED(s) fprintf(stderr, "Error: %s failed.\n", s)
@@ -69,4 +70,4 @@
 #define SEND_TEAM "tna %s\n"
 #define SEND_CELL "bct %d %d %ld %ld %ld %ld %ld %ld %ld\n"
 #define SEND_EGG "enw %ld %ld %d %d\n"
-#define SEND_CLIENT "pnw #%ld %d %d %ld %ld %s\n"
+#define SEND_CLIENT "pnw %ld %d %d %ld %ld %s\n"

@@ -6,9 +6,10 @@
 */
 
 #include <malloc.h>
-#include "communication.h"
+#include "eggs.h"
 #include "game.h"
 #include "client.h"
+#include "communication.h"
 
 static t_opts *init_opts(void)
 {
@@ -27,12 +28,12 @@ static t_opts *init_opts(void)
 
 static void clear_server(t_server *server)
 {
-	remove_all_clients(server->clients);
 	remove_all_messages(server);
+	remove_all_eggs(server->eggs);
+	remove_all_clients(server->clients);
+	remove_all_graphics_clients(server->graphical_client);
 	remove_map(server->map, server->opts->y);
-	// Free clients graphiques
-	// Free opts->teams
-	// Free eggs
+	remove_all_teams(server->opts->teams);
 	free(server->opts);
 	close(server->socket);
 }
@@ -49,7 +50,7 @@ static bool check_valid_options(t_opts *opt)
 int main(const int ac, char **av)
 {
 	t_opts *opts = init_opts();
-	t_server server = {opts, NULL, NULL, NULL, NULL, NULL, DEFAULT_VALUE};
+	t_server server = {opts, NULL, NULL, NULL, NULL, NULL, DEFAULT_VALUE, true};
 
 	if (manage_command(ac, av, server.opts) == ERROR ||
 		!check_valid_options(server.opts))

@@ -100,9 +100,7 @@ class Zappy:
         Look for ressources
         """
         self.send(macro.LOOK)
-        res = self.recv()
-        print(res)
-        self.bot.update_look(res)
+        self.bot.update_look(self.recv())
 
 
     def search_food(self):
@@ -128,7 +126,9 @@ class Zappy:
                 return False if self.recv() == 'ko' else True
             i += j
             j += 2
-        self.send(random.choice(['Right', 'Left']))
+        self.send(random.choice([macro.RIGHT, macro.LEFT]))
+        self.send(macro.FORWARD)
+        self.recv()
         return True if self.recv() == 'ok' else False
 
 
@@ -145,7 +145,11 @@ class Zappy:
                 for _i in range(min(nb_el, value)):
                     self.send('Take {}'.format(key))
                     _res = self.recv()
-        self.ask_for_help(needed_res)
+        self.send(macro.FORWARD)
+        self.send(random.choice([macro.RIGHT, macro.LEFT]))
+        self.recv()
+        self.recv()
+        # self.ask_for_help(needed_res)
         return True
 
 

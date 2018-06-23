@@ -55,6 +55,7 @@ CFLAGS += 	-W -Wall -Wextra
 
 all: 		$(NAME)
 		cp $(NAME) ../..
+		cp python_ai.sh ../../zappy_ai && chmod +x ../../zappy_ai
 
 $(NAME):	$(OBJS)
 		@$(CC) $(OBJS) -o $(NAME) $(LDFLAGS) && \

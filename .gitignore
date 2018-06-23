@@ -59,3 +59,4 @@ fontconfig/
 \.editorconfig
 
 Python/__pycache__/
+__pycache__

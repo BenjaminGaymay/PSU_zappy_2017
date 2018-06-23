@@ -5,7 +5,9 @@
 ** main
 */
 
+#include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 #include "macro.h"
 #include "arguments_ai.h"
 #include "server.h"
@@ -15,12 +17,11 @@ int main(int ac, char **av)
 {
 	t_opts_ai opt;
 
-	printf("%ld\n", g_elevation[6].player);
 	(void)ac;
+	srand(time(NULL));
 	manage_commands(av, &opt);
 	if (check_commands(&opt) == false)
 		return (printf("Bad parameters.\n"), ERROR);
 	connect_to_server(&opt);
-	printf("port : %d\nname : %s\nmachine : %s\n", opt.port, opt.name, opt.machine);
-	return (0);
+	return (SUCCESS);
 }

@@ -17,7 +17,11 @@ namespace Graphical {
 			FULLSCREEN,
 			WINDOW,
 		};
-		Sfml() = default;
+		Sfml()
+		{
+			_zoomRank = 0;
+			_zoom = 1.0f;
+		};
 
 		~Sfml()
 		{
@@ -83,8 +87,8 @@ namespace Graphical {
 		inline const Pos<int> &getMargin() const { return _margin; };
 		inline const Pos<int> &getMousePosition() const { return _mouse; };
 		inline void setMousePosition(const Pos<int> &pos) { _mouse = pos; };
-		inline void setZoomRank(const float &zoomRank) { _zoomRank = zoomRank; };
-		inline const float &getZoomRank() const { return _zoomRank; };
+		inline void setZoomRank(const int &zoomRank) { _zoomRank = zoomRank; };
+		inline const int &getZoomRank() const { return _zoomRank; };
 	private:
 		std::map<const int, std::unique_ptr<sf::Sprite>> _blocks;
 		std::map<const int, std::unique_ptr<sf::Texture>> _textures;
@@ -92,8 +96,8 @@ namespace Graphical {
 		std::map<const int, std::unique_ptr<sf::Sprite>> _buttons;
 		sf::RenderWindow _window;
 		sf::RenderTexture _screen;
-		float _zoom = 1.0f;
-		float _zoomRank = 1.0f;
+		float _zoom;
+		int _zoomRank;
 		Pos<int> _mouse{};
 		const Pos<int> _margin = {100, 0};
 		mod _windowType;

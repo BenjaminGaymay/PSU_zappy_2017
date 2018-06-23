@@ -19,7 +19,7 @@ namespace Graphical {
 	public:
 		explicit Case(const Pos<int> &pos) : _pos(pos.x, pos.y)
 		{
-			for (std::size_t i = 1 ; i <= _size ; ++i) _resources[i] = 0;
+			for (std::size_t i = 0 ; i <= _size ; ++i) _resources[i] = 0;
 		};
 
 		~Case() = default;
@@ -38,7 +38,7 @@ namespace Graphical {
 	private:
 		Pos<int> _pos;
 		std::map<int, std::size_t> _resources;
-		const std::size_t _size = 7;
+		const std::size_t _size = 6;
 		std::vector<int> _eggsId; /* contain id of egg */
 		std::vector<int> _playerId; /* contain id of player */
 	};
@@ -58,14 +58,14 @@ namespace Graphical {
 					Pos<int> pos(x, y);
 					std::unique_ptr<Case> aCase = std::make_unique<Case>(pos);
 					//aCase->addResource(random(generator), 1);
+					/*aCase->addResource(0, 1);
 					aCase->addResource(1, 1);
 					aCase->addResource(2, 1);
 					aCase->addResource(3, 1);
 					aCase->addResource(4, 1);
 					aCase->addResource(5, 1);
 					aCase->addResource(6, 1);
-					aCase->addResource(7, 1);
-					aCase->addEgg(0);
+					aCase->addEgg(0);*/
 					_map.emplace_back(std::move(aCase));
 				}
 			}

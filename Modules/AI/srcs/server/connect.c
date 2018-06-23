@@ -25,15 +25,13 @@ static int read_socket(t_ai *ai)
 		buffer[size] = '\0';
 		tmp = strtok(buffer, "\n");
 		while (tmp) {
-			// tmp = une cmd
 			printf("RESPONSE: %s\n", tmp);
-			if (ai->state == AI_LOOK)
-				look_for_ressources(ai, tmp);
+			look_for_ressources(ai, tmp);
 			tmp = strtok(NULL, "\n");
 		}
 	}
 	else
-		return (ERROR); // SERVER OUT
+		return (ERROR);
 	return (SUCCESS);
 }
 
@@ -52,6 +50,18 @@ int manage_sockets(t_ai *ai)
 
 }
 
+static void init_ai(t_ai *ai, const int fd, t_opts_ai *opt)
+{
+	ai->fd = fd;
+	ai->level = 0;
+	ai->opts = opt;
+	for (int i = 0; i < INVENT_SIZE; i++)
+		ai->inv[i] = 0;
+	ai->list = NULL;
+	ai->look = NULL;
+	ai->run = true;
+}
+
 int connect_to_server(t_opts_ai *opt)
 {
 	t_ai ai;
@@ -59,8 +69,6 @@ int connect_to_server(t_opts_ai *opt)
 
 	if (fd == FD_ERROR)
 		return (FCT_FAILED("create_socket"), ERROR);
-	ai.state = AI_LOOK;
-	ai.fd = fd;
-	ai.opts = opt;
+	init_ai(&ai, fd, opt);
 	return (run_ai(&ai));
 }

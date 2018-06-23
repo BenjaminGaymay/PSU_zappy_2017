@@ -26,7 +26,8 @@ typedef struct s_args {
 	int (*function)(char **, t_opts *);
 } t_args;
 
-int manage_command(int, char **, t_opts *);
+int manage_command(const int, char **, t_opts *);
+void remove_all_teams(t_team **);
 
 int port(char **, t_opts *);
 int width(char **, t_opts *);

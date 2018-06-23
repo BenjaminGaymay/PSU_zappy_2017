@@ -23,10 +23,15 @@ void Graphical::Core::printPlayerInventory(std::unique_ptr<Player> &player, cons
 {
 	auto nbCases = player->getResources().size();
 
+	createIcon(nbCases, 15, (0 + 2) * padding, pos.y, {static_cast<int>(pos.x), 0}, padding);
+	createIcon(nbCases, 7, (0 + 2) * padding, pos.y, {static_cast<int>(pos.x), 0}, padding);
+	_sfml->text("birdy", std::to_string(player->getResource(0)), static_cast<std::size_t >(padding / 4), sf::Color::White, {
+			static_cast<float>((0 + 2) * padding), pos.y * padding});
 	for (std::size_t index = 1 ; index < nbCases ; ++index) {
 		auto i = static_cast<int>(index);
 		createIcon(nbCases, 15, (index + 2) * padding, pos.y, {static_cast<int>(pos.x), 0}, padding);
 		createIcon(nbCases, 22, (index + 2) * padding, pos.y, {static_cast<int>(pos.x), 0}, padding, _game->getCristals()->getColor(i));
+//		std::cerr << i << ":" << player->getResource(i) << std::endl;
 		_sfml->text("birdy", std::to_string(player->getResource(i)), static_cast<std::size_t >(padding / 4), sf::Color::White, {
 				static_cast<float>((i + 2) * padding), pos.y * padding});
 	}
@@ -61,14 +66,14 @@ void Graphical::Core::printTeams()
 {
 	const std::size_t filterNb = (_game->getTeams().size() > 10 ? _game->getTeams().size() : 10);
 	Pos<int> margin = _sfml->getMargin();
-	margin.x = 300;
+	margin.x = 400;
 	margin.x /= 2;
 	float padding = static_cast<float>(_sfml->getWindow().getSize().y) / filterNb;
 	float x = _sfml->getWindow().getSize().x - margin.x;
 	float y = 0;
 	auto size = static_cast<std::size_t>(padding / 4);
 
-	_sfml->text("birdy", "Team list:", size, sf::Color::White, {x - 100, (y * size) + (y * padding)});
+	_sfml->text("birdy", "Team list:", size, sf::Color::White, {x - 160, (y * size) + (y * padding)});
 	for (auto &team : _game->getTeams()) {
 		createIcon(filterNb, 15, x, y, margin, padding);
 		createIcon(filterNb, 28, x, y, margin, padding, _game->getColor(team.first));

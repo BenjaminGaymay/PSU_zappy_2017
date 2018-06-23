@@ -18,11 +18,15 @@
 #define SUCCESS 0
 #define ERROR 84
 #define FAILED 1
+#define FAILURE 1
 #define COMMAND_SIZE_SERVER 7
 #define COMMAND_SIZE_AI 4
 #define DEFAULT_VALUE -1
 #define ERR_FC -1
 #define FD_ERROR -1
+
+#define MAX_LEVEL 9
+#define INVENT_SIZE 7
 
 #define FCT_FAILED(s) fprintf(stderr, "Error: %s failed.\n", s)
 #define NOT_NUMBER(n) fprintf(stderr, "Error: %s must be a valid number.\n", n)
@@ -53,6 +57,7 @@
 #define EJECT_TIME 7
 #define EGG_TIME 42
 #define HATCH_TIME 600
+#define INCANTATION_TIME 300
 
 #define SPAWN_FOOD 20
 #define SPAWN_LINEMATE 30
@@ -61,3 +66,8 @@
 #define SPAWN_MENDIANE 60
 #define SPAWN_PHIRAS 70
 #define SPAWN_THYSTAME 80
+
+#define SEND_TEAM "tna %s\n"
+#define SEND_CELL "bct %d %d %ld %ld %ld %ld %ld %ld %ld\n"
+#define SEND_EGG "enw %ld %ld %d %d\n"
+#define SEND_CLIENT "pnw %ld %d %d %ld %ld %s\n"

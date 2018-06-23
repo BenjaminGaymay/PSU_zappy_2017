@@ -28,7 +28,14 @@ static t_args *populate_args(void)
 	return args;
 }
 
-int manage_command(int ac, char **av, t_opts *opts)
+void remove_all_teams(t_team **teams)
+{
+	for (int i = 0 ; teams[i] ; i++)
+		free(teams[i]);
+	free(teams);
+}
+
+int manage_command(const int ac, char **av, t_opts *opts)
 {
 	t_args *args = populate_args();
 

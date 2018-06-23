@@ -40,8 +40,8 @@ char *eject(t_server *server, t_message *cmd)
 		if (client->player_id != cmd->owner->player_id
 		&& client->pos.y == cmd->owner->pos.y
 		&& client->pos.x == cmd->owner->pos.x) {
-			asprintf(&server->messages->graphics_message, "pex %li",
-					 cmd->owner->player_id);
+			asprintf(&server->messages->graphics_message,
+				"pex %li", cmd->owner->player_id);
 			move_eject(server->opts, client, cmd->owner->look);
 			asprintf(&tmp, "Eject: %ld", cmd->owner->look);
 			add_special_response(server, client, tmp);

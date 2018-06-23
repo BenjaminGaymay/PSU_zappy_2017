@@ -9,32 +9,27 @@
 #include "manage_time.h"
 #include "communication.h"
 
-int add_client(t_server *server)
+int add_client(t_server *srv)
 {
-	srand(time(NULL));
 	static size_t id = 0;
 	struct sockaddr_in client_sin;
-	socklen_t client_sin_len;
 	t_client *new = calloc(1, sizeof(*new));
 
 	if (!new)
 		return (FCT_FAILED("calloc"), ERROR);
-	client_sin_len = sizeof(client_sin);
 	new->request_number = 0;
 	new->team = NULL;
 	new->player_id = id++;
-	new->socket = accept(server->socket, (struct sockaddr *)&client_sin,
-		&client_sin_len);
+	new->socket = accept(srv->socket, (struct sockaddr *)&client_sin,
+		&(socklen_t){sizeof(client_sin)});
 	new->occupied = false;
 	new->last_eat = DEFAULT_VALUE;
 	new->inventory = (t_inventory){0, 0, 0, 0, 0, 0, 10, 0};
 	new->level = 1;
-	new->pos = (t_pos){rand() % server->opts->x , rand() % server->opts->y};
+	new->pos = (t_pos){rand() % srv->opts->x , rand() % srv->opts->y};
 	new->look = 1;
-	new->next = server->clients;
-	server->clients = new;
 	dprintf(new->socket, "WELCOME\n");
-	return (SUCCESS);
+	return (new->next = srv->clients, srv->clients = new, SUCCESS);
 }
 
 void unlink_client_messages(t_server *server, t_client *client)
@@ -52,6 +47,7 @@ void remove_client(t_server *server, t_client *client, bool close_fd)
 {
 	t_client *tmp = server->clients;
 	t_client *save = client;
+	char *msg = NULL;
 
 	unlink_client_messages(server, save);
 	if (client->player_id == tmp->player_id)
@@ -62,6 +58,8 @@ void remove_client(t_server *server, t_client *client, bool close_fd)
 		tmp->next = client->next;
 	}
 	if (close_fd && is_fd_open(client->socket)) {
+		asprintf(&msg, "pdi %li", client->player_id);
+		send_to_graphics(server, msg);
 		dprintf(client->socket, "dead\n");
 		close(client->socket);
 	}

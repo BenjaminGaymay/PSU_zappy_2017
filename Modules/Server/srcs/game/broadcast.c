@@ -42,15 +42,15 @@ char *broadcast(t_server *server, t_message *cmd)
 	cmd->finish_date = time_until_finish(BROADCAST_TIME,
 					server->opts->freq);
 	while (client) {
-		if (cmd->owner->player_id != client->player_id && client->team) {
-			result = switch_directions(server,
-				cmd->owner->pos, client->pos);
-			result = (result + 2 * client->look) % 8;
-			result = (result == 0 ? 8 : result);
-			asprintf(&tmp, "Message %d, %s", result, &cmd->request[11]);
-			add_special_response(server, client, tmp);
-		}
-		client = client->next;
+	if (cmd->owner->player_id != client->player_id && client->team) {
+		result = switch_directions(server,
+		cmd->owner->pos, client->pos);
+		result = (result + 2 * client->look) % 8;
+		result = (result == 0 ? 8 : result);
+		asprintf(&tmp, "Message %d, %s", result, &cmd->request[11]);
+		add_special_response(server, client, tmp);
+	}
+	client = client->next;
 	}
 	return (asprintf(&response, "ok"), response);
 }

@@ -8,6 +8,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include "macro.h"
 #include "tools.h"
 
@@ -29,8 +30,10 @@ int index_in_arr(const char **haystack, const char *needle)
 	return (ERR_FC);
 }
 
-void free_tab(void **tab)
+void free_tab(char **tab)
 {
+	if (!tab)
+		return;
 	for (int i = 0; tab[i]; i++)
 		free(tab[i]);
 	free(tab);
@@ -39,14 +42,23 @@ void free_tab(void **tab)
 char **str_to_tab(char *str, const char *delimiter)
 {
 	char **tab = NULL;
+	char *tmp = NULL;
 	int i = 0;
 
+	if (!str || !delimiter)
+		return (NULL);
 	tab = calloc(count_words(str, (char *)delimiter) + 2, sizeof(char *));
 	if (!tab)
-		return (FCT_FAILED("malloc"), NULL);
-	tab[i] = strtok(str, delimiter);
-	while (tab[i] != NULL)
-		tab[++i] = strtok(NULL, delimiter);
+		return (FCT_FAILED("calloc"), NULL);
+	tmp = strtok(str, delimiter);
+	tab[i] = strdup(tmp);
+	while (tmp != NULL) {
+		tmp = strtok(NULL, delimiter);
+		if (!tmp)
+			break;
+		tab[++i] = strdup(tmp);
+	}
+	tab[i + 1] = NULL;
 	return (tab);
 }
 

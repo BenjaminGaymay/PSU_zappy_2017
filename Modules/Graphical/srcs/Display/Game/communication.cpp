@@ -12,7 +12,7 @@ int Graphical::Core::manageFd()
 {
 	auto array = _com->readFd(_com->getSocket());
 	for (auto &line : array) {
-		std::cerr << "Reçu:" << line << std::endl;
+		//std::cerr << "Reçu:" << line << std::endl;
 		auto command = Graphical::explode(line, ' ');
 		auto aFunction = _ptr_function[command[0]];
 		if (aFunction) {
@@ -45,14 +45,14 @@ int Graphical::Game::setSize(const std::vector<std::string> &array)
 	std::cerr << "setSize" << std::endl;
 	_mapper->setSize(pos);
 	_mapper->initMap();
-	std::cerr << "ajout en dur" << std::endl;
+	//std::cerr << "ajout en dur" << std::endl;
 	/**/
-	addPlayer(std::make_unique<Graphical::Player>(0, Pos<int>(0, 0), orientation::SOUTH, 1, "lol"));
+	/*addPlayer(std::make_unique<Graphical::Player>(0, Pos<int>(0, 0), orientation::SOUTH, 1, "lol"));
 	_mapper->getCase({0, 0})->addPlayer(0);
 	addPlayer(std::make_unique<Graphical::Player>(1, Pos<int>(0, 0), orientation::SOUTH, 1, "mdr"));
 	_mapper->getCase({0, 0})->addPlayer(1);
 	addPlayer(std::make_unique<Graphical::Player>(2, Pos<int>(0, 1), orientation::SOUTH, 1, "lol"));
-	_mapper->getCase({0, 1})->addPlayer(2);
+	_mapper->getCase({0, 1})->addPlayer(2);*/
 	/*addATeam("lol");
 	addATeam("mdr");*/
 	/**/
@@ -96,6 +96,7 @@ int Graphical::Game::setPlayer(const std::vector<std::string> &array)
 		return 1;
 	}
 	addPlayer(std::make_unique<Player>(id, pos, rotation, level, team));
+	_mapper->getCase(pos)->addPlayer(id);
 	return 0;
 }
 
@@ -110,8 +111,10 @@ int Graphical::Game::setPlayerPosition(const std::vector<std::string> &array)
 		std::cerr << "Player not found" << std::endl;
 		return 1;
 	}
+	_mapper->getCase(player->getPosition())->removePlayer(player->getId());
 	player->setPosition(pos);
 	player->setRotation(rotation);
+	_mapper->getCase(pos)->addPlayer(player->getId());
 	return 0;
 }
 
@@ -250,7 +253,7 @@ int Graphical::Game::setPlayerLaying(const std::vector<std::string> &array)
 int Graphical::Game::setPlayerDeath(const std::vector<std::string> &array)
 {
 	int id = std::stoi(array[0]);
-
+	
 	removePlayer(id);
 	return (0);
 }

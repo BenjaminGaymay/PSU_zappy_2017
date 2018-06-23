@@ -1,3 +1,4 @@
+zappy_server.html
 zappy_server
 zappy_ai
 zappy_graphical
@@ -11,8 +12,7 @@ CMakeCache.txt
 CMakeLists.txt
 cmake_modules
 CMakeFiles/
-bomberman
-bomberman.cbp
+
 *.o
 .vscode/
 peda-session*

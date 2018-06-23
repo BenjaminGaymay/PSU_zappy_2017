@@ -18,13 +18,13 @@ int add_egg(t_server *server, t_client *hen)
 	new->finish_date = time_until_finish(HATCH_TIME, server->opts->freq);
 	new->id = id;
 	new->pos = hen->pos;
+	new->hen = hen;
 	new->team = hen->team;
 	new->next = server->eggs;
 	server->eggs = new;
 	id += 1;
 	return (SUCCESS);
 }
-
 
 void remove_egg(t_server *server, t_egg *egg)
 {
@@ -38,4 +38,15 @@ void remove_egg(t_server *server, t_egg *egg)
 		tmp->next = egg->next;
 	}
 	free(egg);
+}
+
+void remove_all_eggs(t_egg *eggs)
+{
+	t_egg *egg = eggs;
+
+	while (eggs) {
+		egg = eggs->next;
+		free(eggs);
+		eggs = egg;
+	}
 }

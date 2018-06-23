@@ -34,17 +34,18 @@ typedef struct s_client {
 } t_client;
 
 typedef struct s_message {
+	size_t id;
 	t_client *owner;
 	char *request;
 	char *response;
 	char *graphics_message;
-	bool send;
 	long long finish_date;
 	struct s_message *next;
 } t_message;
 
 typedef struct s_egg {
 	size_t id;
+	t_client *hen;
 	t_team *team;
 	t_pos pos;
 	long long finish_date;
@@ -59,6 +60,7 @@ typedef struct s_server {
 	t_graphical_client *graphical_client;
 	t_message *messages;
 	int socket;
+	bool continue_game;
 } t_server;
 
 typedef struct s_time {

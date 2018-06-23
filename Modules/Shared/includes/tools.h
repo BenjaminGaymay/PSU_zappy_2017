@@ -76,3 +76,4 @@ size_t tablen(char **);
 void init_struct_file(t_file *);
 
 int count_substr(const char *, const char *);
+char *replace(char *, const char *, const char *);

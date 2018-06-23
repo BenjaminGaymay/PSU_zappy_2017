@@ -49,7 +49,7 @@ static void check_incantations_state(t_server *server, t_message *messages)
 			if (server->map[tmp->owner->pos.y][tmp->owner->pos.x].incantation &&
 			is_inventory_complete(server, tmp->owner)) {
 				asprintf(&tmp->response,
-				"Elevation underway Current level: %ld",
+				"Current level: %ld",
 				++tmp->owner->level);
 				reset_inventory(tmp->owner);
 				if (tmp->owner->level == MAX_LEVEL)

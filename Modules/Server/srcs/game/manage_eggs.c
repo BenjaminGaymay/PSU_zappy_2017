@@ -26,7 +26,6 @@ int add_egg(t_server *server, t_client *hen)
 	return (SUCCESS);
 }
 
-
 void remove_egg(t_server *server, t_egg *egg)
 {
 	t_egg *tmp = server->eggs;
@@ -39,4 +38,15 @@ void remove_egg(t_server *server, t_egg *egg)
 		tmp->next = egg->next;
 	}
 	free(egg);
+}
+
+void remove_all_eggs(t_egg *eggs)
+{
+	t_egg *egg = eggs;
+
+	while (eggs) {
+		egg = eggs->next;
+		free(eggs);
+		eggs = egg;
+	}
 }

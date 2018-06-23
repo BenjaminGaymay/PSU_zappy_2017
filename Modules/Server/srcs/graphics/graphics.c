@@ -56,3 +56,14 @@ void is_graphical(t_server *server, t_client *client)
 		server->opts->x, server->opts->y);
 	send_map_status(server, g_client->socket);
 }
+
+void remove_all_graphics_clients(t_graphical_client *clients)
+{
+	t_graphical_client *client = clients;
+
+	while (clients) {
+		client = clients->next;
+		free(clients);
+		clients = client;
+	}
+}

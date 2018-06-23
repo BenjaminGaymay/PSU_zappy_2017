@@ -60,6 +60,7 @@ typedef struct s_server {
 	t_graphical_client *graphical_client;
 	t_message *messages;
 	int socket;
+	bool continue_game;
 } t_server;
 
 typedef struct s_time {

@@ -8,6 +8,7 @@
 #include "tools.h"
 #include "server.h"
 #include "manage_time.h"
+#include "communication.h"
 
 static size_t clients_on_cell(t_server *server, t_pos *pos, size_t level)
 {
@@ -52,15 +53,13 @@ bool is_inventory_complete(t_server *server, t_client *player)
 
 char *incantation(t_server *server, t_message *cmd)
 {
-	if (is_inventory_complete(server, cmd->owner)) {
-		cmd->finish_date = time_until_finish(
-			INCANTATION_TIME, server->opts->freq);
-		server->map[cmd->owner->pos.y][
-			cmd->owner->pos.x].incantation = true;
-	} else {
-		cmd->finish_date = 0;
-		server->map[cmd->owner->pos.y][
-			cmd->owner->pos.x].incantation = false;
-	}
+	bool level_up = is_inventory_complete(server, cmd->owner);
+
+	cmd->finish_date = (level_up ? time_until_finish(
+		INCANTATION_TIME, server->opts->freq) : 0);
+	server->map[cmd->owner->pos.y][
+		cmd->owner->pos.x].incantation = (level_up ? true : false);
+	add_special_response(server, cmd->owner, strdup(
+		(level_up ? START_ELEVATION : ELEVATION_FAILED)));
 	return (NULL);
 }

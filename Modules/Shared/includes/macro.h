@@ -67,6 +67,9 @@
 #define SPAWN_PHIRAS 70
 #define SPAWN_THYSTAME 80
 
+#define START_ELEVATION "Elevation underway"
+#define ELEVATION_FAILED "ko"
+
 #define SEND_TEAM "tna %s\n"
 #define SEND_CELL "bct %d %d %ld %ld %ld %ld %ld %ld %ld\n"
 #define SEND_EGG "enw %ld %ld %d %d\n"

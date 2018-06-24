@@ -211,7 +211,7 @@ class Zappy:
 
         if not self.connect.connect_to_serv() or not self.begin_connection():
             return macro.ERROR
-        print(macro.FORK_SUCCESS if self.fork_it == 'ok' else macro.FORK_FAIL)
+        print(macro.FORK_SUCCESS if self.fork_it() else macro.FORK_FAIL)
         signal.signal(signal.SIGINT, signal_handler)
         return self.run()
 

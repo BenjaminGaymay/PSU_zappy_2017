@@ -30,7 +30,7 @@ class Connect:
         try:
             self.socket.connect((self.opt.machine, self.opt.port))
         except (ConnectionError, socket.gaierror) as _err:
-            print('Can\'t connect to the server [{}:{}]'.format(self.opt.machine, self.opt.team))
+            print('Can\'t connect to the server {}:{}'.format(self.opt.machine, self.opt.port))
             return False
         print('[+] Connected to {}:{}\n'.format(self.opt.machine, self.opt.port))
         return True

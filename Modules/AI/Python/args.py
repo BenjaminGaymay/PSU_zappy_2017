@@ -80,8 +80,15 @@ class Args:
         Returns:
             bool: parameters valid or not
         """
-
-        return self.port > 0 or self.machine != None or self.team != None
+        if self.port <= 0:
+            print('Port must be superior to 0.\n')
+            self.usage()
+            return False
+        if self.team == None:
+            print('You must specify a team name.\n')
+            self.usage()
+            return False
+        return True
 
     def parse_args(self):
         """

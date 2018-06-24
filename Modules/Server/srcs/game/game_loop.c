@@ -39,25 +39,27 @@ static void lost_lives(t_server* server, t_client *clients)
 	}
 }
 
-static void check_incantations_state(t_server *server, t_message *messages)
+static void check_incantations_state(t_server *s, t_message *messages)
 {
-	t_message *tmp = messages;
+	t_message *t = messages;
+	char *m = NULL;
 
-	while (tmp) {
-		if (tmp->request && strcmp(tmp->request, "Incantation") == 0 &&
-		!tmp->response && tmp->owner && is_finish(tmp->finish_date)) {
-			if (server->map[tmp->owner->pos.y][
-				tmp->owner->pos.x].incantation &&
-			is_inventory_complete(server, tmp->owner)) {
-				asprintf(&tmp->response, "Current level: %ld",
-				++tmp->owner->level);
-				reset_inventory(tmp->owner);
-				if (tmp->owner->level == MAX_LEVEL)
-					server->continue_game = false;
-			} else
-				asprintf(&tmp->response, "ko");
-		}
-		tmp = tmp->next;
+	while (t) {
+	if (t->request && strcmp(t->request, "Incantation") == 0 &&
+	!t->response && t->owner && is_finish(t->finish_date)) {
+	if (s->map[t->owner->pos.y][t->owner->pos.x].incantation &&
+	is_inventory_complete(s, t->owner)) {
+	asprintf(&t->response, "Current level: %ld",
+	++t->owner->level);
+	reset_inventory(t->owner);
+	asprintf(&m, "plv %li %li", t->owner->player_id, t->owner->level);
+	send_to_graphics(s, m);
+	if (t->owner->level == MAX_LEVEL)
+		s->continue_game = false;
+	} else
+		asprintf(&t->response, "ko");
+	}
+	t = t->next;
 	}
 }
 

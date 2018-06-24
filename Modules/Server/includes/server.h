@@ -77,4 +77,4 @@ bool init_team(t_server *server);
 char *get_map_objects_top_bot(t_server *, char *, t_pos, t_message *cmd);
 char *get_map_objects_left_right(t_server *, char *, t_pos, t_message *cmd);
 
-void spawn_object(t_server *server);
+void spawn_object(t_server *server, bool to_free);

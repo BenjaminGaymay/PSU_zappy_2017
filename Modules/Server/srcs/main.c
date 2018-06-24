@@ -28,6 +28,7 @@ static t_opts *init_opts(void)
 
 static void clear_server(t_server *server)
 {
+	spawn_object(server, true);
 	remove_all_messages(server);
 	remove_all_eggs(server->eggs);
 	remove_all_clients(server->clients);

@@ -55,7 +55,7 @@ t_time *time_creator(t_server *server)
 	return (timing);
 }
 
-void spawn_object(t_server *server)
+void spawn_object(t_server *server, bool to_free)
 {
 	static t_time *timing;
 	static int i = 0;
@@ -63,6 +63,10 @@ void spawn_object(t_server *server)
 	if (i == 0) {
 		timing = time_creator(server);
 		i = 1;
+	}
+	if (to_free == true) {
+		free(timing);
+		return ;
 	}
 	for (int i = 0; i < 7; ++i) {
 		if (is_finish(timing[i].time)) {

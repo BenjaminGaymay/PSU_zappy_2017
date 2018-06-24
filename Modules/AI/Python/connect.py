@@ -4,6 +4,7 @@
  Hold connection with server
 """
 
+import sys
 import socket
 import macro
 from custom_log import Log
@@ -42,7 +43,11 @@ class Connect:
             cmd (str): command to be sent
         """
         self.logger.info('SENT : {}'.format(cmd))
-        self.socket.send(cmd.encode())
+        try:
+            self.socket.send(cmd.encode())
+        except BrokenPipeError as _err:
+            print(macro.CONNECTION_LOST)
+            sys.exit(macro.ERROR)
 
 
     def recv_all(self):
@@ -51,10 +56,14 @@ class Connect:
         """
 
         data = b''
-        while True:
-            tmp = self.socket.recv(macro.BUFF_SIZE)
-            data += tmp
-            if len(tmp) < macro.BUFF_SIZE:
-                break
+        try:
+            while True:
+                tmp = self.socket.recv(macro.BUFF_SIZE)
+                data += tmp
+                if len(tmp) < macro.BUFF_SIZE:
+                    break
+        except BrokenPipeError as _err:
+            print(macro.CONNECTION_LOST)
+            sys.exit(macro.ERROR)
         self.logger.info('RECEIVE : {}'.format(data.decode()))
         return data.decode().rstrip('\n')

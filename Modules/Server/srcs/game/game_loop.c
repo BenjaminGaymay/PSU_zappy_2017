@@ -69,7 +69,7 @@ int game_loop(t_server *server)
 		read_all_messages(server, server->messages);
 		check_incantations_state(server, server->messages);
 		send_responses(server, server->messages);
-		spawn_object(server);
+		spawn_object(server, false);
 	}
 	return (SUCCESS);
 }

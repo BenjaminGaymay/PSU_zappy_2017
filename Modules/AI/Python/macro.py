@@ -11,8 +11,8 @@ BUFF_SIZE = 1024
 INVENTORY = 'Inventory'
 LOOK = 'Look'
 TAKE = 'Take'
-RIGHT = 'Turn right'
-LEFT = 'Turn left'
+RIGHT = 'Right'
+LEFT = 'Left'
 INCANTATION = 'Incantation'
 FORWARD = 'Forward'
 

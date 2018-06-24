@@ -4,7 +4,6 @@
 """
 
 import random
-from pprint import pprint
 import socket
 import signal
 import sys
@@ -30,20 +29,24 @@ class Zappy:
         Start connection with server
         """
         print(self.recv())
-        self.connect.send_cmd('{}\n'.format(self.opt.team))
+        self.send(self.opt.team)
         res = self.recv()
+        if res == 'ko':
+            print(macro.INV_TEAM_NAME)
+            return macro.ERROR
         res = list(filter(None, res.split('\n')))
-        print(len(res))
         try:
             connection_left = int(res[0])
             if connection_left <= 0:
-                print("Too many clients.")
+                print(macro.TOO_MANY_CLIENTS)
                 return False
         except ValueError as err:
             print(err)
             return False
         if len(res) == 1:
             res = self.recv()
+            if res == 'ko':
+                return macro.ERROR
         elif len(res) == 2:
             res = res[1]
         res = res.split(' ')
@@ -164,7 +167,29 @@ class Zappy:
 
     def run(self):
         """
-        Run forerever
+        Run forever
+        """
+        start = time.time()
+        while self.bot.is_alive():
+            time.sleep(0.25)
+            end = time.time()
+            if end - start > 2:
+                self.bot.inventory.pretty_print()
+                start = time.time()
+            self.refresh_invent()
+            self.look_around()
+            if self.bot.inventory.bag['food'] < 10:
+                self.search_food()
+            else:
+                self.search_minerals()
+            if self.bot.check_incantation():
+                self.perform_incantation()
+        return macro.SUCCESS
+
+
+    def launch(self):
+        """
+        Launch the bot
 
         Returns:
             int: Works fine or not
@@ -183,20 +208,12 @@ class Zappy:
             self.connect.socket.close()
             sys.exit(0)
 
+
         if not self.connect.connect_to_serv() or not self.begin_connection():
             return macro.ERROR
+        print(macro.FORK_SUCCESS if self.fork_it == 'ok' else macro.FORK_FAIL)
         signal.signal(signal.SIGINT, signal_handler)
-        while self.bot.is_alive():
-            time.sleep(0.25)
-            self.refresh_invent()
-            self.look_around()
-            if self.bot.inventory.bag['food'] < 10:
-                self.search_food()
-            else:
-                self.search_minerals()
-            if self.bot.check_incantation():
-                self.perform_incantation()
-        return macro.SUCCESS
+        return self.run()
 
 
     def perform_incantation(self):
@@ -205,10 +222,17 @@ class Zappy:
         """
         self.send(macro.INCANTATION)
         res = self.recv()
-        print(res)
+        print(macro.START_INCANT_FAILED if res == 'ko' else macro.INCANT_IN_PROG)
         res = self.recv()
-        print(res)
-        if res == 'ko':
-            print('Incantation failed :(')
-        else:
+        print(macro.INCANT_FAILED if res == 'ko' else macro.INCANT_SUCCESS)
+        if res != 'ok':
             self.bot.level += 1
+            print(res)
+
+
+    def fork_it(self):
+        """
+        Send fork command to server
+        """
+        self.send(macro.FORK)
+        return False if self.recv() == 'ko' else True

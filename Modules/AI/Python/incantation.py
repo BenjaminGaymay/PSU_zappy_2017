@@ -4,6 +4,13 @@ Incantation class
 """
 
 class Incantation:
+    """
+    Incantation class
+
+    Returns:
+        Incantation: class
+    """
+
     def __init__(self):
         self.ressources = [
             [1, 1, 0, 0, 0, 0, 0],

@@ -6,14 +6,7 @@
 
 import socket
 import macro
-
-
-import logging
-
-LOG_FORMAT = '%(levelname)s: (%(asctime)s) [%(relativeCreated)dms]\t-\t%(message)s'
-logging.basicConfig(filename="zappy.log", level=logging.DEBUG, filemode='w', format=LOG_FORMAT)
-LOGGER = logging.getLogger()
-
+from custom_log import Log
 
 class Connect:
     """
@@ -23,6 +16,7 @@ class Connect:
     def __init__(self, opt):
         self.opt = opt
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.logger = Log()
 
     def connect_to_serv(self):
         """
@@ -47,17 +41,9 @@ class Connect:
         Args:
             cmd (str): command to be sent
         """
-        LOGGER.info(cmd)
+        self.logger.info('SENT : {}'.format(cmd))
         self.socket.send(cmd.encode())
 
-    def recv_response(self):
-        """
-        Get server's response
-        """
-        res = self.socket.recv(macro.BUFF_SIZE).decode().split('\n')
-        res = list(filter(None, res))
-        LOGGER.info(res)
-        return res[0] if len(res) == 1 else res
 
     def recv_all(self):
         """
@@ -70,4 +56,5 @@ class Connect:
             data += tmp
             if len(tmp) < macro.BUFF_SIZE:
                 break
-        return data.decode()
+        self.logger.info('RECEIVE : {}'.format(data.decode()))
+        return data.decode().rstrip('\n')

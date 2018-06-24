@@ -42,14 +42,12 @@ class Inventory:
         Args:
             data (string): Data sent by the server
         """
-        print(data)
         data = data.replace('[', '')    \
                    .replace(']', '')    \
                    .replace(', ', ',')  \
                    .replace(' ,', ',')  \
                    .strip()             \
                    .split(',')
-        print(data)
         for elem in data:
             tmp = elem.split(' ')
             try:
@@ -59,3 +57,15 @@ class Inventory:
                 return False
         self.empty = False
         return True
+
+    def pretty_print(self):
+        """
+        Pretty print inventory
+        """
+
+        print('-'*23)
+        print('|  {:<10}| {:<6} |'.format('Item', 'Number'))
+        print('-'*23)
+        for key, value in self.bag.items():
+            print('| {:<11}|  {:<6}|'.format(key, value))
+        print('-'*23)

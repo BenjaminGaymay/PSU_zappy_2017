@@ -15,8 +15,18 @@ RIGHT = 'Right'
 LEFT = 'Left'
 INCANTATION = 'Incantation'
 FORWARD = 'Forward'
+FORK = 'Fork'
 
 AI_LOOK = 0
 AI_INVENTORY = 1
 AI_MOVE = 2
 AI_INCANT = 3
+
+INV_TEAM_NAME = 'Team name is not know on the server.'
+TOO_MANY_CLIENTS = 'Too many clients.'
+START_INCANT_FAILED = 'Start of incantation failed :('
+INCANT_IN_PROG = 'Incantation in progress...'
+INCANT_FAILED = 'Incantation failed :('
+INCANT_SUCCESS = 'Incantation done.'
+FORK_SUCCESS = 'Fork done.'
+FORK_FAIL = 'Fork failed.'

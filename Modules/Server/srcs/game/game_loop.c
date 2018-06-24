@@ -46,7 +46,8 @@ static void check_incantations_state(t_server *server, t_message *messages)
 	while (tmp) {
 		if (tmp->request && strcmp(tmp->request, "Incantation") == 0 &&
 		!tmp->response && tmp->owner && is_finish(tmp->finish_date)) {
-			if (server->map[tmp->owner->pos.y][tmp->owner->pos.x].incantation &&
+			if (server->map[tmp->owner->pos.y][
+				tmp->owner->pos.x].incantation &&
 			is_inventory_complete(server, tmp->owner)) {
 				asprintf(&tmp->response, "Current level: %ld",
 				++tmp->owner->level);

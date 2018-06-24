@@ -63,7 +63,7 @@ class Ai:
         Args:
             data (str): data
         """
-        if not data:
+        if not data or data == 'ko':
             return False
         data = data.replace('[', '') \
                    .replace(']', '') \

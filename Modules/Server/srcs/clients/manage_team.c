@@ -81,7 +81,8 @@ void find_team(t_server *server, t_client *client, const char *name)
 			char *msg = NULL;
 			asprintf(&msg, "pnw %li %i %i %li %li %s", client->player_id, client->pos.x, client->pos.y, client->look, client->level, client->team->name);
 			send_to_graphics(server, msg);
-			break;
+			return;
 		}
 	}
+	add_special_response(server, client, strdup("ko"));
 }

@@ -51,7 +51,7 @@ static void check_incantations_state(t_server *server, t_message *messages)
 				asprintf(&tmp->response, "Current level: %ld",
 				++tmp->owner->level);
 				reset_inventory(tmp->owner);
-				if (tmp->owner->level == 2)//MAX_LEVEL)
+				if (tmp->owner->level == MAX_LEVEL)
 					server->continue_game = false;
 			} else
 				asprintf(&tmp->response, "ko");

@@ -59,30 +59,26 @@ bool find_free_egg(t_server *server, t_team *team)
 	return (false);
 }
 
-void find_team(t_server *server, t_client *client, const char *name)
+void find_team(t_server *s, t_client *c, const char *n)
 {
-	t_team **teams = server->opts->teams;
-	int nb_players;
+	t_team **t = s->opts->teams;
+	char *msg = NULL;
+	int p;
 
-	for (int i = 0 ; teams[i] ; i++) {
-		nb_players = player_in_team(server, teams[i]);
-		if (strcmp(teams[i]->name, name) == 0 &&
-		nb_players < server->opts->max_clients) {
-			if (!find_free_egg(server, teams[i]) &&
-			nb_players != 0)
+	for (int i = 0 ; t[i] ; i++) {
+		p = player_in_team(s, t[i]);
+		if (strcmp(t[i]->name, n) == 0 && p < s->opts->max_clients) {
+			if (!find_free_egg(s, t[i]) && p != 0)
 				break;
-			client->team = teams[i];
-			dprintf(client->socket, "%ld\n",
-				places_in_client_team(server, client));
-			dprintf(client->socket, "%d %d\n",
-				server->opts->x, server->opts->y);
-			client->last_eat = time_until_finish(LIFE_TIME,
-				server->opts->freq);
-			char *msg = NULL;
-			asprintf(&msg, "pnw %li %i %i %li %li %s", client->player_id, client->pos.x, client->pos.y, client->look, client->level, client->team->name);
-			send_to_graphics(server, msg);
-			return;
+		c->team = t[i];
+		dprintf(c->socket, "%ld\n", places_in_client_team(s, c));
+		dprintf(c->socket, "%d %d\n", s->opts->x, s->opts->y);
+		c->last_eat = time_until_finish(LIFE_TIME, s->opts->freq);
+		asprintf(&msg, "pnw %li %i %i %li %li %s", c->player_id,
+		c->pos.x, c->pos.y, c->look, c->level, c->team->name);
+		send_to_graphics(s, msg);
+		return;
 		}
 	}
-	add_special_response(server, client, strdup("ko"));
+	add_special_response(s, c, strdup("ko"));
 }

@@ -36,7 +36,7 @@ static void send_map_status(t_server *server, const int socket)
 		for (int f = 0 ; f < server->opts->x  ; f++) {
 			c = server->map[i][f];
 			dprintf(socket, SEND_CELL, f, i, c.food, c.linemate,
-			c.deraumere, c.sibur, c.mendiane, c.phiras, c.thystame);
+		c.deraumere, c.sibur, c.mendiane, c.phiras, c.thystame);
 			usleep(200);
 		}
 	for (t_egg *egg = server->eggs ; egg ; egg = egg->next)

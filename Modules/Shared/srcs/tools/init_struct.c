@@ -24,6 +24,6 @@ int count_substr(const char *str, const char *sub)
 	if (length == 0)
 		return (0);
 	for (tmp = strstr(str, sub); tmp; tmp = strstr(tmp + length, sub))
-        	++count;
+		++count;
 	return (count);
 }

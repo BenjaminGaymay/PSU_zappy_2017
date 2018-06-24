@@ -43,6 +43,7 @@ SRCS	=	./srcs/main.c					\
 		$(SHARED)/srcs/connection/sockets.c		\
 		$(SHARED)/srcs/tools/array_tools.c		\
 		$(SHARED)/srcs/tools/count_row.c		\
+		$(SHARED)/srcs/tools/string_strip.c		\
 		$(SHARED)/srcs/tools/string_tools.c
 
 OBJS	=	$(SRCS:.c=.o)

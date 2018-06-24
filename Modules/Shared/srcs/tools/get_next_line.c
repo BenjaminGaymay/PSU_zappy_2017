@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2018
 ** PSU_zappy_2017
 ** File description:
-** get_line
+** get_next_line
 */
 
 #include <stdlib.h>
@@ -22,8 +22,8 @@ static char get_next_char(const int fd)
 		size = read(fd, buffer, READ_SIZE);
 		if (size == 0)
 			return ('\0');
-      		i = 0;
-    	}
+		i = 0;
+	}
 	my_char = buffer[i];
 	i++;
 	size--;
@@ -77,5 +77,6 @@ char *get_next_line(const int fd)
 				return (NULL);
 		}
 	}
-	return (line[i] = '\0', my_char == '\0' && line[0] == '\0' ? freell(line) : line);
+	return (line[i] = '\0', my_char == '\0' &&
+		line[0] == '\0' ? freell(line) : line);
 }

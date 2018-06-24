@@ -9,5 +9,5 @@ function ctrl_c {
 }
 
 cd Modules/AI/Python/
-./zappy_ai $@
+./zappy_ai.py $@
 cd $current_dir

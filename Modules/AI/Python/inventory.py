@@ -42,6 +42,8 @@ class Inventory:
         Args:
             data (string): Data sent by the server
         """
+        if not data or data == 'ko':
+            return False
         data = data.replace('[', '')    \
                    .replace(']', '')    \
                    .replace(', ', ',')  \

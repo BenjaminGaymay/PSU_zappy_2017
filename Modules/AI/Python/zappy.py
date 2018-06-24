@@ -33,7 +33,7 @@ class Zappy:
         res = self.recv()
         if res == 'ko':
             print(macro.INV_TEAM_NAME)
-            return macro.ERROR
+            return False
         res = list(filter(None, res.split('\n')))
         try:
             connection_left = int(res[0])
@@ -46,7 +46,7 @@ class Zappy:
         if len(res) == 1:
             res = self.recv()
             if res == 'ko':
-                return macro.ERROR
+                return False
         elif len(res) == 2:
             res = res[1]
         res = res.split(' ')

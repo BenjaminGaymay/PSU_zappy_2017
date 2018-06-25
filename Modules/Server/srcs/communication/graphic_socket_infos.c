@@ -20,10 +20,8 @@ void remove_client_g(t_server *serv, t_graphical_client *client, bool close_fd)
 			tmp = tmp->next;
 		tmp->next = client->next;
 	}
-	if (close_fd && is_fd_open(client->socket)) {
-		dprintf(client->socket, "dead\n");
+	if (close_fd && is_fd_open(client->socket))
 		close(client->socket);
-	}
 	free(client);
 }
 
